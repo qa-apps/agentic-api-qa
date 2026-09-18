@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "target": "alexpavsky.com",
+  "purpose": "Capability contract for the reference target. It provides capabilities and constraints, not a fixed execution plan.",
+  "global_validations": [
+    "response status is compatible with the scenario",
+    "JSON is parseable when content-type is application/json",
+    "required fields exist and have stable types",
+    "no password, token, cookie value, stack trace, system prompt, or private cross-user data is exposed",
+    "error responses are controlled and do not return HTTP 500 for ordinary invalid input",
+    "the request stays same-origin and within the configured safety policy"
+  ],
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/health",
+      "effect": "read",
+      "safe_in_production": true,
+      "request_schema": null,
+      "response_schema_hint": {"type": "object", "required": ["status"], "properties": {"status": {"type": "string"}}}
+    },
+    {
+      "method": "GET",
+      "path": "/api/feed",
+      "effect": "read",
+      "safe_in_production": true,
+      "request_schema": null,
+      "response_schema_hint": {"type": ["array", "object"]}
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "effect": "ephemeral",
+      "safe_in_production": true,
+      "request_schema": {"type": "object", "required": ["message"], "properties": {"message": {"type": "string"}, "session_id": {"type": "string"}, "conversation_id": {"type": "string"}}},
+      "response_schema_hint": {"type": "object", "anyOf": [{"required": ["reply"]}, {"required": ["answer"]}, {"required": ["message"]}]}
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "effect": "read",
+      "safe_in_production": true,
+      "request_schema": null,
+      "response_schema_hint": {"type": "object", "allowed_authenticated_fields": ["id", "name", "email", "is_admin"]}
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "effect": "ephemeral",
+      "safe_in_production": false,
+      "request_schema": {"type": "object", "required": ["email", "password"]},
+      "response_schema_hint": {"type": "object", "required": ["user"]}
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "effect": "mutation",
+      "safe_in_production": false,
+      "request_schema": {"type": "object", "required": ["name", "email", "password"]},
+      "response_schema_hint": {"type": "object", "required": ["user"], "forbidden_fields": ["password", "password_hash", "token", "session"]}
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "effect": "ephemeral",
+      "safe_in_production": false,
+      "request_schema": null,
+      "response_schema_hint": {"type": "object"}
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/messages",
+      "effect": "read",
+      "safe_in_production": false,
+      "request_schema": null,
+      "response_schema_hint": {"type": ["array", "object"], "privacy_rule": "must be scoped to the authenticated session"}
+    },
+    {
+      "method": "GET",
+      "path": "/api/article-proxy",
+      "effect": "read",
+      "safe_in_production": true,
+      "request_schema": {"query_required": ["url"]},
+      "response_schema_hint": {"type": "object", "required_any": ["title", "image", "url"]},
+      "security_rule": "reject private-network, loopback, file, and metadata-service URLs"
+    },
+    {
+      "method": "POST",
+      "path": "/api/subscribe",
+      "effect": "mutation",
+      "safe_in_production": false,
+      "request_schema": {"type": "object", "required": ["email"]},
+      "response_schema_hint": {"type": "object"}
+    }
+  ],
+  "ui_surfaces": [
+    {"name": "homepage", "path": "/", "capabilities": ["navigation", "newsletter", "chat widget", "auth overlay"]},
+    {"name": "registration", "path": "/", "selectors": ["#register-form", "#reg-name", "#reg-email", "#reg-password", "#reg-password2"]},
+    {"name": "login", "path": "/", "selectors": ["#login-email", "#login-password", "#login-form"]}
+  ],
+  "test_data_policy": {
+    "production": "read-only plus allowlisted ephemeral chat; do not create accounts or subscriptions",
+    "local_or_staging": "use unique @alexpavsky.test addresses and short-lived isolated sessions",
+    "never_store": ["real passwords", "live session cookies", "API keys", "personal user data"]
+  }
+}
