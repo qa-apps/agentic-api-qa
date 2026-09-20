@@ -43,6 +43,25 @@ def _serialize(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, default=str)
 
 
+def _normalize_json_body(value: Any) -> Any:
+    """Decode a json_body that arrived as a JSON string.
+
+    An agent routinely emits `json_body` as the *text* of a JSON document
+    rather than as a structure. Handing that string to httpx's ``json=``
+    encodes it a second time, so the target receives a JSON string where an
+    object was intended — which reads downstream as a malformed-input finding
+    against the target instead of a defect in this harness.
+    """
+    if isinstance(value, str):
+        try:
+            decoded = json.loads(value)
+        except (json.JSONDecodeError, ValueError):
+            return value
+        if isinstance(decoded, (dict, list)):
+            return decoded
+    return value
+
+
 def _digest(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8", errors="replace")).hexdigest()
 
@@ -75,7 +94,12 @@ async def execute_request(
         name: "[REDACTED]" if name.lower() in config.redacted_headers else value
         for name, value in request.headers.items()
     }
-    request_body = request.raw_body if request.raw_body is not None else _serialize(_sanitize(request.json_body))
+    json_body = _normalize_json_body(request.json_body)
+    request_body = (
+        request.raw_body
+        if request.raw_body is not None
+        else _serialize(_sanitize(json_body))
+    )
     evidence_request = EvidenceRequest(
         method=request.method,
         url=url,
@@ -98,8 +122,8 @@ async def execute_request(
             }
             if request.raw_body is not None:
                 kwargs["content"] = request.raw_body
-            elif request.json_body is not None:
-                kwargs["json"] = request.json_body
+            elif json_body is not None:
+                kwargs["json"] = json_body
             response = await client.request(request.method, url, **kwargs)
         duration_ms = (time.perf_counter() - started) * 1_000
         content_type = response.headers.get("content-type", "")
