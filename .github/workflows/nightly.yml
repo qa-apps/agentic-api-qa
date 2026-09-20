@@ -65,6 +65,17 @@ jobs:
       QA_PRODUCTION_READ_ONLY: "true"
       QA_REQUIRE_MUTATION_APPROVAL: "true"
       LANGSMITH_PROJECT: agentic-api-qa
+      # A chat turn waits on an upstream LLM, so the 10s default expires against
+      # a healthy endpoint and is recorded as a failed happy path.
+      API_TIMEOUT_SECONDS: "30"
+      # An exhausted budget is a blocking pipeline error by design — a run that
+      # was cut short must not be able to report PASS. So the ceiling has to be
+      # high enough for both agents to decide to finish on their own.
+      QA_EXPLORER_ITERATIONS: "8"
+      QA_ADVERSARY_ITERATIONS: "8"
+      QA_EXPLORER_TOOL_CALLS: "12"
+      QA_ADVERSARY_TOOL_CALLS: "12"
+      QA_TOTAL_TOOL_CALLS: "24"
     steps:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
