@@ -1,0 +1,22 @@
+name: Production smoke
+
+on:
+  workflow_dispatch:
+  deployment_status:
+    types: [success]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: github.event_name == 'workflow_dispatch' || github.event.deployment_status.environment == 'production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PRODUCTION_BASE_URL: ${{ vars.PRODUCTION_BASE_URL || 'https://www.alexpavsky.com' }}
+    steps:
+      - name: Check homepage and health only
+        run: |
+          curl --fail --silent --show-error --retry 3 --max-time 20 "$PRODUCTION_BASE_URL/" | grep -qi "AI Testing"
+          curl --fail --silent --show-error --retry 3 --max-time 20 "$PRODUCTION_BASE_URL/api/health" > /dev/null

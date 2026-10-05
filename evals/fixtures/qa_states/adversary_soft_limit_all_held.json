@@ -1,0 +1,1466 @@
+{
+  "config": {
+    "target_name": "alexpavsky",
+    "base_url": "https://www.alexpavsky.com/",
+    "environment": "production",
+    "production_read_only": true,
+    "require_mutation_approval": true,
+    "allowed_ephemeral_paths": [
+      "/api/chat",
+      "/voice-api/api/say"
+    ],
+    "redacted_headers": [
+      "authorization",
+      "cookie",
+      "proxy-authorization",
+      "x-api-key"
+    ],
+    "limits": {
+      "explorer_iterations": 30,
+      "adversary_iterations": 30,
+      "explorer_tool_calls": 30,
+      "adversary_tool_calls": 30,
+      "total_tool_calls": 60,
+      "request_timeout_seconds": 10.0,
+      "max_response_excerpt_bytes": 2000,
+      "soft_case_limit": 20,
+      "hard_case_limit": 30,
+      "ui_tool_calls": 300,
+      "healer_iterations": 8,
+      "reviewer_revision_rounds": 2
+    },
+    "models": {
+      "base_url": "https://api.z.ai/api/paas/v4/",
+      "explorer_model": "glm-5.3-flash",
+      "adversary_model": "glm-5.3-flash",
+      "ui_model": "glm-5.3-flash",
+      "design_model": "glm-5.3-flash",
+      "judge_model": "glm-5.3-flash",
+      "healer_model": "glm-5.3-flash",
+      "reviewer_model": "glm-5.3-flash",
+      "reasoning_effort": "high",
+      "judge_reasoning_effort": "max",
+      "healer_reasoning_effort": "high",
+      "reviewer_reasoning_effort": "max",
+      "timeout_seconds": 60.0,
+      "max_tokens": 1200
+    },
+    "healer": {
+      "enabled": false,
+      "source_repo": "/Users/alex/Projects/alexpavsky",
+      "remote": "origin",
+      "base_branch": "main",
+      "github_repository": "qa-apps/alexpavsky",
+      "worktree_root": ".healer-worktrees",
+      "create_draft_pr": true,
+      "minimum_judge_confidence": 0.85,
+      "human_review_channel_id": null
+    },
+    "ui_enabled": true,
+    "ui_headless": true,
+    "ui_video": "retain-on-failure",
+    "ui_artifact_dir": "artifacts/ui"
+  },
+  "run_id": "eval-adversary-soft-limit",
+  "started_at": "2026-01-15T09:00:00Z",
+  "finished_at": null,
+  "current_phase": "governor",
+  "approvals": [],
+  "explorer_plan": [],
+  "explorer_index": 0,
+  "explorer_iterations": 0,
+  "explorer_tool_calls": 0,
+  "explorer_proposals": [],
+  "explorer_reflections": [],
+  "explorer_done": true,
+  "explorer_stop_reason": "agent_finished",
+  "adversary_plan": [
+    {
+      "step_id": "ADV-RULE-01",
+      "name": "Guardrail probe 1",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-01",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-01",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-02",
+      "name": "Guardrail probe 2",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-02",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-02",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-03",
+      "name": "Guardrail probe 3",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-03",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-03",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-04",
+      "name": "Guardrail probe 4",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-04",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-04",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-05",
+      "name": "Guardrail probe 5",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-05",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-05",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-06",
+      "name": "Guardrail probe 6",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-06",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-06",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-07",
+      "name": "Guardrail probe 7",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-07",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-07",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-08",
+      "name": "Guardrail probe 8",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-08",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-08",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-09",
+      "name": "Guardrail probe 9",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-09",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-09",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-10",
+      "name": "Guardrail probe 10",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-10",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-10",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-11",
+      "name": "Guardrail probe 11",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-11",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-11",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-12",
+      "name": "Guardrail probe 12",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-12",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-12",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-13",
+      "name": "Guardrail probe 13",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-13",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-13",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-14",
+      "name": "Guardrail probe 14",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-14",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-14",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-15",
+      "name": "Guardrail probe 15",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-15",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-15",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-16",
+      "name": "Guardrail probe 16",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-16",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-16",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-17",
+      "name": "Guardrail probe 17",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-17",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-17",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-18",
+      "name": "Guardrail probe 18",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-18",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-18",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-19",
+      "name": "Guardrail probe 19",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-19",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-19",
+      "attack_class": "input_validation"
+    },
+    {
+      "step_id": "ADV-RULE-20",
+      "name": "Guardrail probe 20",
+      "objective": "Challenge input validation with a safe malformed payload.",
+      "request": {
+        "operation_id": "ADV-RULE-20",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        400,
+        422
+      ],
+      "semantic_expectation": null,
+      "rule_id": "ADV-RULE-20",
+      "attack_class": "input_validation"
+    }
+  ],
+  "adversary_index": 20,
+  "adversary_iterations": 20,
+  "adversary_tool_calls": 20,
+  "adversary_proposals": [
+    {
+      "rule_id": "ADV-RULE-01",
+      "name": "Guardrail probe 1",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-1"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-02",
+      "name": "Guardrail probe 2",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-2"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-03",
+      "name": "Guardrail probe 3",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-3"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-04",
+      "name": "Guardrail probe 4",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-4"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-05",
+      "name": "Guardrail probe 5",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-5"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-06",
+      "name": "Guardrail probe 6",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-6"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-07",
+      "name": "Guardrail probe 7",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-7"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-08",
+      "name": "Guardrail probe 8",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-8"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-09",
+      "name": "Guardrail probe 9",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-9"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-10",
+      "name": "Guardrail probe 10",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-10"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-11",
+      "name": "Guardrail probe 11",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-11"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-12",
+      "name": "Guardrail probe 12",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-12"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-13",
+      "name": "Guardrail probe 13",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-13"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-14",
+      "name": "Guardrail probe 14",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-14"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-15",
+      "name": "Guardrail probe 15",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-15"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-16",
+      "name": "Guardrail probe 16",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-16"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-17",
+      "name": "Guardrail probe 17",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-17"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-18",
+      "name": "Guardrail probe 18",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-18"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-19",
+      "name": "Guardrail probe 19",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-19"
+      ]
+    },
+    {
+      "rule_id": "ADV-RULE-20",
+      "name": "Guardrail probe 20",
+      "attack_class": "input_validation",
+      "proposed_result": "HELD",
+      "severity": "INFO",
+      "interpretation": "The guardrail rejected the payload with a controlled error.",
+      "evidence_ids": [
+        "evidence-guard-20"
+      ]
+    }
+  ],
+  "adversary_reflections": [],
+  "adversary_done": false,
+  "adversary_stop_reason": null,
+  "ui_plan": [],
+  "ui_results": [],
+  "ui_pending_case": null,
+  "ui_mcp_tool_calls": 0,
+  "ui_plan_summary": null,
+  "ui_done": false,
+  "ui_stop_reason": null,
+  "ui_skipped_case_ids": [],
+  "ui_serious_bug_case_ids": [],
+  "ui_investigation_reasons": [],
+  "design_evaluation": null,
+  "total_tool_calls": 25,
+  "pending_step": null,
+  "pending_tool_call_id": null,
+  "pending_decision_summary": null,
+  "last_evidence_id": "evidence-guard-20",
+  "evidence": {
+    "evidence-guard-1": {
+      "evidence_id": "evidence-guard-1",
+      "actor": "adversary",
+      "iteration": 1,
+      "scenario_or_rule_id": "ADV-RULE-01",
+      "tool_call_id": "tool-evidence-guard-1",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-2": {
+      "evidence_id": "evidence-guard-2",
+      "actor": "adversary",
+      "iteration": 2,
+      "scenario_or_rule_id": "ADV-RULE-02",
+      "tool_call_id": "tool-evidence-guard-2",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-3": {
+      "evidence_id": "evidence-guard-3",
+      "actor": "adversary",
+      "iteration": 3,
+      "scenario_or_rule_id": "ADV-RULE-03",
+      "tool_call_id": "tool-evidence-guard-3",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-4": {
+      "evidence_id": "evidence-guard-4",
+      "actor": "adversary",
+      "iteration": 4,
+      "scenario_or_rule_id": "ADV-RULE-04",
+      "tool_call_id": "tool-evidence-guard-4",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-5": {
+      "evidence_id": "evidence-guard-5",
+      "actor": "adversary",
+      "iteration": 5,
+      "scenario_or_rule_id": "ADV-RULE-05",
+      "tool_call_id": "tool-evidence-guard-5",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-6": {
+      "evidence_id": "evidence-guard-6",
+      "actor": "adversary",
+      "iteration": 6,
+      "scenario_or_rule_id": "ADV-RULE-06",
+      "tool_call_id": "tool-evidence-guard-6",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-7": {
+      "evidence_id": "evidence-guard-7",
+      "actor": "adversary",
+      "iteration": 7,
+      "scenario_or_rule_id": "ADV-RULE-07",
+      "tool_call_id": "tool-evidence-guard-7",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-8": {
+      "evidence_id": "evidence-guard-8",
+      "actor": "adversary",
+      "iteration": 8,
+      "scenario_or_rule_id": "ADV-RULE-08",
+      "tool_call_id": "tool-evidence-guard-8",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-9": {
+      "evidence_id": "evidence-guard-9",
+      "actor": "adversary",
+      "iteration": 9,
+      "scenario_or_rule_id": "ADV-RULE-09",
+      "tool_call_id": "tool-evidence-guard-9",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-10": {
+      "evidence_id": "evidence-guard-10",
+      "actor": "adversary",
+      "iteration": 10,
+      "scenario_or_rule_id": "ADV-RULE-10",
+      "tool_call_id": "tool-evidence-guard-10",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-11": {
+      "evidence_id": "evidence-guard-11",
+      "actor": "adversary",
+      "iteration": 11,
+      "scenario_or_rule_id": "ADV-RULE-11",
+      "tool_call_id": "tool-evidence-guard-11",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-12": {
+      "evidence_id": "evidence-guard-12",
+      "actor": "adversary",
+      "iteration": 12,
+      "scenario_or_rule_id": "ADV-RULE-12",
+      "tool_call_id": "tool-evidence-guard-12",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-13": {
+      "evidence_id": "evidence-guard-13",
+      "actor": "adversary",
+      "iteration": 13,
+      "scenario_or_rule_id": "ADV-RULE-13",
+      "tool_call_id": "tool-evidence-guard-13",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-14": {
+      "evidence_id": "evidence-guard-14",
+      "actor": "adversary",
+      "iteration": 14,
+      "scenario_or_rule_id": "ADV-RULE-14",
+      "tool_call_id": "tool-evidence-guard-14",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-15": {
+      "evidence_id": "evidence-guard-15",
+      "actor": "adversary",
+      "iteration": 15,
+      "scenario_or_rule_id": "ADV-RULE-15",
+      "tool_call_id": "tool-evidence-guard-15",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-16": {
+      "evidence_id": "evidence-guard-16",
+      "actor": "adversary",
+      "iteration": 16,
+      "scenario_or_rule_id": "ADV-RULE-16",
+      "tool_call_id": "tool-evidence-guard-16",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-17": {
+      "evidence_id": "evidence-guard-17",
+      "actor": "adversary",
+      "iteration": 17,
+      "scenario_or_rule_id": "ADV-RULE-17",
+      "tool_call_id": "tool-evidence-guard-17",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-18": {
+      "evidence_id": "evidence-guard-18",
+      "actor": "adversary",
+      "iteration": 18,
+      "scenario_or_rule_id": "ADV-RULE-18",
+      "tool_call_id": "tool-evidence-guard-18",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-19": {
+      "evidence_id": "evidence-guard-19",
+      "actor": "adversary",
+      "iteration": 19,
+      "scenario_or_rule_id": "ADV-RULE-19",
+      "tool_call_id": "tool-evidence-guard-19",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-guard-20": {
+      "evidence_id": "evidence-guard-20",
+      "actor": "adversary",
+      "iteration": 20,
+      "scenario_or_rule_id": "ADV-RULE-20",
+      "tool_call_id": "tool-evidence-guard-20",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "75e0bede6e91e5e4b235cc756f1c1d58b8ac740894535dbce561c8276a1e40a0",
+        "sanitized_body_excerpt": "{\"message\": \"\"}"
+      },
+      "response": {
+        "status_code": 400,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "8e1a1408dbef49fbf59bbce89c545ff2065d648313b37b2114b93b03d322b8a5",
+        "sanitized_body_excerpt": "{\"error\": \"invalid request\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    }
+  },
+  "audit_log": [],
+  "pipeline_errors": [],
+  "model_usage": {
+    "calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "happy_path_decisions": [],
+  "guardrail_decisions": [],
+  "semantic_evaluations": [],
+  "candidate_findings": [],
+  "judge_decisions": [],
+  "confirmed_findings": [],
+  "fix_proposal": null,
+  "healer_result": null,
+  "human_review": null,
+  "reviewer_round": 0,
+  "reviewer_scan": null,
+  "reviewer_decision": null,
+  "report": null
+}

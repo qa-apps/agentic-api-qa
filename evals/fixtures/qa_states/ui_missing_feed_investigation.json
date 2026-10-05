@@ -1,0 +1,1039 @@
+{
+  "config": {
+    "target_name": "alexpavsky",
+    "base_url": "https://www.alexpavsky.com/",
+    "environment": "production",
+    "production_read_only": true,
+    "require_mutation_approval": true,
+    "allowed_ephemeral_paths": [
+      "/api/chat",
+      "/voice-api/api/say"
+    ],
+    "redacted_headers": [
+      "authorization",
+      "cookie",
+      "proxy-authorization",
+      "x-api-key"
+    ],
+    "limits": {
+      "explorer_iterations": 30,
+      "adversary_iterations": 30,
+      "explorer_tool_calls": 30,
+      "adversary_tool_calls": 30,
+      "total_tool_calls": 60,
+      "request_timeout_seconds": 10.0,
+      "max_response_excerpt_bytes": 2000,
+      "soft_case_limit": 20,
+      "hard_case_limit": 30,
+      "ui_tool_calls": 300,
+      "healer_iterations": 8,
+      "reviewer_revision_rounds": 2
+    },
+    "models": {
+      "base_url": "https://api.z.ai/api/paas/v4/",
+      "explorer_model": "glm-5.3-flash",
+      "adversary_model": "glm-5.3-flash",
+      "ui_model": "glm-5.3-flash",
+      "design_model": "glm-5.3-flash",
+      "judge_model": "glm-5.3-flash",
+      "healer_model": "glm-5.3-flash",
+      "reviewer_model": "glm-5.3-flash",
+      "reasoning_effort": "high",
+      "judge_reasoning_effort": "max",
+      "healer_reasoning_effort": "high",
+      "reviewer_reasoning_effort": "max",
+      "timeout_seconds": 60.0,
+      "max_tokens": 1200
+    },
+    "healer": {
+      "enabled": false,
+      "source_repo": "/Users/alex/Projects/alexpavsky",
+      "remote": "origin",
+      "base_branch": "main",
+      "github_repository": "qa-apps/alexpavsky",
+      "worktree_root": ".healer-worktrees",
+      "create_draft_pr": true,
+      "minimum_judge_confidence": 0.85,
+      "human_review_channel_id": null
+    },
+    "ui_enabled": true,
+    "ui_headless": true,
+    "ui_video": "retain-on-failure",
+    "ui_artifact_dir": "artifacts/ui"
+  },
+  "run_id": "eval-ui-missing-feed",
+  "started_at": "2026-01-15T09:00:00Z",
+  "finished_at": null,
+  "current_phase": "governor",
+  "approvals": [],
+  "explorer_plan": [],
+  "explorer_index": 0,
+  "explorer_iterations": 0,
+  "explorer_tool_calls": 0,
+  "explorer_proposals": [],
+  "explorer_reflections": [],
+  "explorer_done": true,
+  "explorer_stop_reason": "agent_finished",
+  "adversary_plan": [],
+  "adversary_index": 0,
+  "adversary_iterations": 0,
+  "adversary_tool_calls": 0,
+  "adversary_proposals": [],
+  "adversary_reflections": [],
+  "adversary_done": true,
+  "adversary_stop_reason": "agent_finished",
+  "ui_plan": [
+    {
+      "case_id": "ui-home-desktop",
+      "name": "Desktop homepage renders",
+      "category": "smoke",
+      "objective": "Verify the primary page, title, hero, and main navigation render.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [],
+      "expected_text": [
+        "AI Testing & Integration",
+        "Feed",
+        "Explore",
+        "Tools"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-primary-navigation",
+      "name": "Primary navigation is discoverable",
+      "category": "navigation",
+      "objective": "Verify the core in-page destinations are exposed to users.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [],
+      "expected_text": [
+        "Feed",
+        "Explore",
+        "Tools",
+        "Challenge",
+        "Digest"
+      ],
+      "design_checkpoint": false
+    },
+    {
+      "case_id": "ui-theme-toggle",
+      "name": "Theme toggle responds",
+      "category": "interaction",
+      "objective": "Open the alternate visual theme and capture the resulting state.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#theme-toggle",
+            "element": "theme toggle"
+          }
+        }
+      ],
+      "expected_text": [
+        "Toggle theme"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-mobile-menu",
+      "name": "Mobile navigation opens",
+      "category": "responsive",
+      "objective": "Verify the compact navigation can be opened at a phone viewport.",
+      "viewport_width": 390,
+      "viewport_height": 844,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#nav-menu-btn",
+            "element": "mobile menu button"
+          }
+        }
+      ],
+      "expected_text": [
+        "Feed",
+        "Explore",
+        "Tools"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-login-modal",
+      "name": "Login modal opens",
+      "category": "authentication",
+      "objective": "Verify the unauthenticated login entry point and required controls.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#auth-btn",
+            "element": "login button"
+          }
+        }
+      ],
+      "expected_text": [
+        "Login",
+        "Email",
+        "Password"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-registration-tab",
+      "name": "Registration view opens",
+      "category": "authentication",
+      "objective": "Verify users can switch from login to account registration without submitting data.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#auth-btn",
+            "element": "login button"
+          }
+        },
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#auth-overlay button:has-text('Register')",
+            "element": "register tab"
+          }
+        }
+      ],
+      "expected_text": [
+        "Register",
+        "Name",
+        "Email",
+        "Password"
+      ],
+      "design_checkpoint": false
+    },
+    {
+      "case_id": "ui-registration-fields",
+      "name": "Registration fields accept draft input",
+      "category": "form",
+      "objective": "Verify registration fields accept harmless synthetic draft values; do not submit.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#auth-btn",
+            "element": "login button"
+          }
+        },
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#auth-overlay button:has-text('Register')",
+            "element": "register tab"
+          }
+        },
+        {
+          "tool": "browser_fill_form",
+          "arguments": {
+            "fields": [
+              {
+                "target": "#reg-name",
+                "name": "Name",
+                "type": "textbox",
+                "value": "QA Smoke User"
+              },
+              {
+                "target": "#reg-email",
+                "name": "Email",
+                "type": "textbox",
+                "value": "qa-smoke@example.test"
+              },
+              {
+                "target": "#reg-password",
+                "name": "Password",
+                "type": "textbox",
+                "value": "DraftOnly-123!"
+              },
+              {
+                "target": "#reg-password2",
+                "name": "Confirm password",
+                "type": "textbox",
+                "value": "DraftOnly-123!"
+              }
+            ]
+          }
+        }
+      ],
+      "expected_text": [
+        "Create Account"
+      ],
+      "design_checkpoint": false
+    },
+    {
+      "case_id": "ui-chat-opens",
+      "name": "AI chat opens",
+      "category": "chat",
+      "objective": "Verify the floating AI assistant exposes its consent or conversation surface.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#chat-toggle",
+            "element": "chat toggle"
+          }
+        }
+      ],
+      "expected_text": [
+        "Chat"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-chat-terms",
+      "name": "Chat terms are reachable",
+      "category": "chat",
+      "objective": "Verify consent terms can be opened before a user starts chatting.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#chat-toggle",
+            "element": "chat toggle"
+          }
+        },
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#chat-terms-link",
+            "element": "chat terms link"
+          }
+        }
+      ],
+      "expected_text": [
+        "Terms"
+      ],
+      "design_checkpoint": false
+    },
+    {
+      "case_id": "ui-chat-consent",
+      "name": "Chat consent unlocks input",
+      "category": "chat",
+      "objective": "Verify explicit consent unlocks the chat input without sending a message.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#chat-toggle",
+            "element": "chat toggle"
+          }
+        },
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#chat-consent-cb",
+            "element": "chat consent checkbox"
+          }
+        },
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#chat-consent-btn",
+            "element": "agree and start chat button"
+          }
+        }
+      ],
+      "expected_text": [
+        "Ask"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-feed-section",
+      "name": "Live feed section renders",
+      "category": "content",
+      "objective": "Verify the primary dynamic content section remains discoverable.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/#feed",
+      "actions": [],
+      "expected_text": [
+        "LIVE"
+      ],
+      "design_checkpoint": false
+    },
+    {
+      "case_id": "ui-explore-section",
+      "name": "Explore cards render",
+      "category": "content",
+      "objective": "Verify exploratory QA content and cards render.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/#explore",
+      "actions": [],
+      "expected_text": [
+        "Explore"
+      ],
+      "design_checkpoint": false
+    },
+    {
+      "case_id": "ui-tools-section",
+      "name": "Tools section renders",
+      "category": "content",
+      "objective": "Verify the tools area remains present and readable.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/#tools",
+      "actions": [],
+      "expected_text": [
+        "Tools"
+      ],
+      "design_checkpoint": false
+    },
+    {
+      "case_id": "ui-newsletter-draft",
+      "name": "Newsletter accepts draft email",
+      "category": "form",
+      "objective": "Verify the digest field accepts a synthetic address without submitting.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/#digest",
+      "actions": [
+        {
+          "tool": "browser_fill_form",
+          "arguments": {
+            "fields": [
+              {
+                "target": "#newsletter-email",
+                "name": "Newsletter email",
+                "type": "textbox",
+                "value": "qa-smoke@example.test"
+              }
+            ]
+          }
+        }
+      ],
+      "expected_text": [
+        "Digest"
+      ],
+      "design_checkpoint": false
+    },
+    {
+      "case_id": "ui-keyboard-focus",
+      "name": "Keyboard focus traversal works",
+      "category": "accessibility",
+      "objective": "Verify a keyboard user can advance focus through interactive controls.",
+      "viewport_width": 1440,
+      "viewport_height": 1000,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_press_key",
+          "arguments": {
+            "key": "Tab"
+          }
+        },
+        {
+          "tool": "browser_press_key",
+          "arguments": {
+            "key": "Tab"
+          }
+        },
+        {
+          "tool": "browser_press_key",
+          "arguments": {
+            "key": "Tab"
+          }
+        }
+      ],
+      "expected_text": [
+        "Feed"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-tablet-home",
+      "name": "Tablet homepage renders",
+      "category": "responsive",
+      "objective": "Check the main visual hierarchy at a common tablet viewport.",
+      "viewport_width": 820,
+      "viewport_height": 1180,
+      "path": "/",
+      "actions": [],
+      "expected_text": [
+        "AI Testing & Integration",
+        "Live Feed"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-small-mobile-home",
+      "name": "Small mobile homepage renders",
+      "category": "responsive",
+      "objective": "Check the minimum supported mobile width for clipping and missing content.",
+      "viewport_width": 320,
+      "viewport_height": 700,
+      "path": "/",
+      "actions": [],
+      "expected_text": [
+        "AI Testing & Integration"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-mobile-theme-toggle",
+      "name": "Mobile theme toggle responds",
+      "category": "responsive",
+      "objective": "Verify alternate theme controls remain operable on mobile.",
+      "viewport_width": 390,
+      "viewport_height": 844,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#theme-toggle",
+            "element": "theme toggle"
+          }
+        }
+      ],
+      "expected_text": [
+        "Toggle theme"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-mobile-login-modal",
+      "name": "Mobile login modal opens",
+      "category": "authentication",
+      "objective": "Verify the login modal remains usable at phone width.",
+      "viewport_width": 390,
+      "viewport_height": 844,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#auth-btn",
+            "element": "login button"
+          }
+        }
+      ],
+      "expected_text": [
+        "Login",
+        "Email",
+        "Password"
+      ],
+      "design_checkpoint": true
+    },
+    {
+      "case_id": "ui-mobile-registration-tab",
+      "name": "Mobile registration view opens",
+      "category": "authentication",
+      "objective": "Verify registration controls remain available on mobile.",
+      "viewport_width": 390,
+      "viewport_height": 844,
+      "path": "/",
+      "actions": [
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#auth-btn",
+            "element": "login button"
+          }
+        },
+        {
+          "tool": "browser_click",
+          "arguments": {
+            "target": "#auth-overlay button:has-text('Register')",
+            "element": "register tab"
+          }
+        }
+      ],
+      "expected_text": [
+        "Register",
+        "Create Account"
+      ],
+      "design_checkpoint": true
+    }
+  ],
+  "ui_results": [
+    {
+      "case_id": "ui-home-desktop",
+      "name": "Desktop homepage renders",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-home-desktop.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-primary-navigation",
+      "name": "Primary navigation is discoverable",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-primary-navigation.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-theme-toggle",
+      "name": "Theme toggle responds",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-theme-toggle.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-mobile-menu",
+      "name": "Mobile navigation opens",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-mobile-menu.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-login-modal",
+      "name": "Login modal opens",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-login-modal.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-registration-tab",
+      "name": "Registration view opens",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-registration-tab.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-registration-fields",
+      "name": "Registration fields accept draft input",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-registration-fields.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-chat-opens",
+      "name": "AI chat opens",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-chat-opens.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-chat-terms",
+      "name": "Chat terms are reachable",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-chat-terms.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-chat-consent",
+      "name": "Chat consent unlocks input",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-chat-consent.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-feed-section",
+      "name": "Live feed section renders",
+      "category": "smoke",
+      "passed": false,
+      "reason": "The live feed section rendered no items and the expected LIVE marker was absent from the accessibility snapshot.",
+      "screenshot_path": "artifacts/ui/eval/ui-feed-section.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "CRITICAL",
+      "investigation_required": true,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-explore-section",
+      "name": "Explore cards render",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-explore-section.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-tools-section",
+      "name": "Tools section renders",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-tools-section.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-newsletter-draft",
+      "name": "Newsletter accepts draft email",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-newsletter-draft.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-keyboard-focus",
+      "name": "Keyboard focus traversal works",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-keyboard-focus.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-tablet-home",
+      "name": "Tablet homepage renders",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-tablet-home.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-small-mobile-home",
+      "name": "Small mobile homepage renders",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-small-mobile-home.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-mobile-theme-toggle",
+      "name": "Mobile theme toggle responds",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-mobile-theme-toggle.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-mobile-login-modal",
+      "name": "Mobile login modal opens",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-mobile-login-modal.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    },
+    {
+      "case_id": "ui-mobile-registration-tab",
+      "name": "Mobile registration view opens",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Expected content and controls were visible without console errors.",
+      "screenshot_path": "artifacts/ui/eval/ui-mobile-registration-tab.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "heading 'AI Testing & Integration'",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_take_screenshot"
+      ],
+      "duration_ms": 2400.0
+    }
+  ],
+  "ui_pending_case": null,
+  "ui_mcp_tool_calls": 96,
+  "ui_plan_summary": null,
+  "ui_done": false,
+  "ui_stop_reason": null,
+  "ui_skipped_case_ids": [],
+  "ui_serious_bug_case_ids": [
+    "ui-feed-section"
+  ],
+  "ui_investigation_reasons": [],
+  "design_evaluation": null,
+  "total_tool_calls": 0,
+  "pending_step": null,
+  "pending_tool_call_id": null,
+  "pending_decision_summary": null,
+  "last_evidence_id": null,
+  "evidence": {},
+  "audit_log": [],
+  "pipeline_errors": [],
+  "model_usage": {
+    "calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "happy_path_decisions": [],
+  "guardrail_decisions": [],
+  "semantic_evaluations": [],
+  "candidate_findings": [],
+  "judge_decisions": [],
+  "confirmed_findings": [],
+  "fix_proposal": null,
+  "healer_result": null,
+  "human_review": null,
+  "reviewer_round": 0,
+  "reviewer_scan": null,
+  "reviewer_decision": null,
+  "report": null
+}

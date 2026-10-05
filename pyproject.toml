@@ -11,21 +11,29 @@ requires-python = ">=3.11,<3.12"
 dependencies = [
     "httpx>=0.27,<1",
     "langgraph>=0.2.60,<2",
+    "langfuse>=4.15,<5",
     "langsmith>=0.1.147,<1",
+    "mcp>=2.2,<3",
     "pydantic>=2.9,<3",
     "python-dotenv>=1,<2",
 ]
 
 [project.scripts]
 agentic-api-qa = "agentic_api_qa.runner:main"
+agentic-api-qa-report = "agentic_api_qa.report_server:main"
 
 [project.optional-dependencies]
 test = [
+    "bandit>=1.7,<2",
+    "pip-audit>=2.7,<3",
     "pytest>=8,<10",
     "pytest-asyncio>=0.24,<2",
 ]
 dev = [
     "langgraph-cli[inmem]>=0.4.31,<1",
+]
+evals = [
+    "deepeval>=4.2.2,<4.3",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -34,5 +42,9 @@ packages = ["src/agentic_api_qa"]
 [tool.pytest.ini_options]
 addopts = "-q"
 asyncio_mode = "auto"
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 testpaths = ["tests"]
+markers = [
+    "evals: paid LLM evaluation; excluded from the fast pytest suite",
+    "seeded_bugs: end-to-end seeded-bug detection against the local test site",
+]

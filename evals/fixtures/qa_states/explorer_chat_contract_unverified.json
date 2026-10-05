@@ -1,0 +1,329 @@
+{
+  "config": {
+    "target_name": "alexpavsky",
+    "base_url": "https://www.alexpavsky.com/",
+    "environment": "production",
+    "production_read_only": true,
+    "require_mutation_approval": true,
+    "allowed_ephemeral_paths": [
+      "/api/chat",
+      "/voice-api/api/say"
+    ],
+    "redacted_headers": [
+      "authorization",
+      "cookie",
+      "proxy-authorization",
+      "x-api-key"
+    ],
+    "limits": {
+      "explorer_iterations": 30,
+      "adversary_iterations": 30,
+      "explorer_tool_calls": 30,
+      "adversary_tool_calls": 30,
+      "total_tool_calls": 60,
+      "request_timeout_seconds": 10.0,
+      "max_response_excerpt_bytes": 2000,
+      "soft_case_limit": 20,
+      "hard_case_limit": 30,
+      "ui_tool_calls": 300,
+      "healer_iterations": 8,
+      "reviewer_revision_rounds": 2
+    },
+    "models": {
+      "base_url": "https://api.z.ai/api/paas/v4/",
+      "explorer_model": "glm-5.3-flash",
+      "adversary_model": "glm-5.3-flash",
+      "ui_model": "glm-5.3-flash",
+      "design_model": "glm-5.3-flash",
+      "judge_model": "glm-5.3-flash",
+      "healer_model": "glm-5.3-flash",
+      "reviewer_model": "glm-5.3-flash",
+      "reasoning_effort": "high",
+      "judge_reasoning_effort": "max",
+      "healer_reasoning_effort": "high",
+      "reviewer_reasoning_effort": "max",
+      "timeout_seconds": 60.0,
+      "max_tokens": 1200
+    },
+    "healer": {
+      "enabled": false,
+      "source_repo": "/Users/alex/Projects/alexpavsky",
+      "remote": "origin",
+      "base_branch": "main",
+      "github_repository": "qa-apps/alexpavsky",
+      "worktree_root": ".healer-worktrees",
+      "create_draft_pr": true,
+      "minimum_judge_confidence": 0.85,
+      "human_review_channel_id": null
+    },
+    "ui_enabled": true,
+    "ui_headless": true,
+    "ui_video": "retain-on-failure",
+    "ui_artifact_dir": "artifacts/ui"
+  },
+  "run_id": "eval-explorer-chat",
+  "started_at": "2026-01-15T09:00:00Z",
+  "finished_at": null,
+  "current_phase": "governor",
+  "approvals": [],
+  "explorer_plan": [
+    {
+      "step_id": "health-probe",
+      "name": "Health endpoint responds",
+      "objective": "Confirm the service reports healthy status.",
+      "request": {
+        "operation_id": "health-probe",
+        "method": "GET",
+        "path": "/api/health",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "feed-listing",
+      "name": "Feed listing returns items",
+      "objective": "Confirm the public feed returns a usable collection.",
+      "request": {
+        "operation_id": "feed-listing",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "anonymous-session",
+      "name": "Anonymous session is reported",
+      "objective": "Confirm the identity endpoint answers for an anonymous caller.",
+      "request": {
+        "operation_id": "anonymous-session",
+        "method": "GET",
+        "path": "/api/auth/me",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200,
+        401
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    }
+  ],
+  "explorer_index": 3,
+  "explorer_iterations": 3,
+  "explorer_tool_calls": 3,
+  "explorer_proposals": [
+    {
+      "step_id": "health-probe",
+      "proposed_result": "PASS",
+      "interpretation": "Health is reported correctly.",
+      "evidence_ids": [
+        "evidence-health-1"
+      ]
+    },
+    {
+      "step_id": "feed-listing",
+      "proposed_result": "PASS",
+      "interpretation": "Feed returns one item with stable fields.",
+      "evidence_ids": [
+        "evidence-feed-1"
+      ]
+    },
+    {
+      "step_id": "anonymous-session",
+      "proposed_result": "PASS",
+      "interpretation": "Anonymous callers receive a controlled 401 instead of data.",
+      "evidence_ids": [
+        "evidence-me-1"
+      ]
+    }
+  ],
+  "explorer_reflections": [
+    {
+      "actor": "explorer",
+      "iteration": 3,
+      "scenario_or_rule_id": "anonymous-session",
+      "result": "PASS",
+      "interpretation": "Read surfaces behave. The documented POST /api/chat capability is the only core product behavior still without evidence.",
+      "adaptation": "Select the next highest-information check from the remaining surface.",
+      "continue_testing": true,
+      "evidence_id": "evidence-me-1"
+    }
+  ],
+  "explorer_done": false,
+  "explorer_stop_reason": null,
+  "adversary_plan": [],
+  "adversary_index": 0,
+  "adversary_iterations": 0,
+  "adversary_tool_calls": 0,
+  "adversary_proposals": [],
+  "adversary_reflections": [],
+  "adversary_done": false,
+  "adversary_stop_reason": null,
+  "ui_plan": [],
+  "ui_results": [],
+  "ui_pending_case": null,
+  "ui_mcp_tool_calls": 0,
+  "ui_plan_summary": null,
+  "ui_done": false,
+  "ui_stop_reason": null,
+  "ui_skipped_case_ids": [],
+  "ui_serious_bug_case_ids": [],
+  "ui_investigation_reasons": [],
+  "design_evaluation": null,
+  "total_tool_calls": 3,
+  "pending_step": null,
+  "pending_tool_call_id": null,
+  "pending_decision_summary": null,
+  "last_evidence_id": "evidence-me-1",
+  "evidence": {
+    "evidence-health-1": {
+      "evidence_id": "evidence-health-1",
+      "actor": "explorer",
+      "iteration": 1,
+      "scenario_or_rule_id": "health-probe",
+      "tool_call_id": "tool-evidence-health-1",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/health",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e83eba6a52cc12f3c06c67c3a8c7e3c4f60decdc4935c2f575249e5d023564bf",
+        "sanitized_body_excerpt": "{\"ok\": true, \"status\": \"healthy\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "ok",
+          "status"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-feed-1": {
+      "evidence_id": "evidence-feed-1",
+      "actor": "explorer",
+      "iteration": 2,
+      "scenario_or_rule_id": "feed-listing",
+      "tool_call_id": "tool-evidence-feed-1",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "551f98a233ee558a52b976864ed6c28782029a79ebe2d3141f55df7bece8c9f5",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\", \"title\": \"AI QA weekly\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-me-1": {
+      "evidence_id": "evidence-me-1",
+      "actor": "explorer",
+      "iteration": 3,
+      "scenario_or_rule_id": "anonymous-session",
+      "tool_call_id": "tool-evidence-me-1",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/auth/me",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 401,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "9e774e543b5f6ba5a1efcc870c525ec06d8d7e8e054debd65cf515e7db900fde",
+        "sanitized_body_excerpt": "{\"error\": \"unauthenticated\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    }
+  },
+  "audit_log": [],
+  "pipeline_errors": [],
+  "model_usage": {
+    "calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "happy_path_decisions": [],
+  "guardrail_decisions": [],
+  "semantic_evaluations": [],
+  "candidate_findings": [],
+  "judge_decisions": [],
+  "confirmed_findings": [],
+  "fix_proposal": null,
+  "healer_result": null,
+  "human_review": null,
+  "reviewer_round": 0,
+  "reviewer_scan": null,
+  "reviewer_decision": null,
+  "report": null
+}

@@ -36,7 +36,13 @@ class PipelinePhase(StrEnum):
     GOVERNOR = "governor"
     EXPLORER = "explorer"
     ADVERSARY = "adversary"
+    UI_EXPLORER = "ui_explorer"
+    DESIGN_EVALUATOR = "design_evaluator"
     JUDGE = "judge"
+    HEALER = "healer"
+    PR_PUBLISHER = "pr_publisher"
+    REVIEWER = "reviewer"
+    HUMAN_REVIEW = "human_review"
     REPORTER = "reporter"
     COMPLETE = "complete"
     FAILED = "failed"
@@ -46,7 +52,13 @@ class Actor(StrEnum):
     GOVERNOR = "governor"
     EXPLORER = "explorer"
     ADVERSARY = "adversary"
+    UI_EXPLORER = "ui_explorer"
+    DESIGN_EVALUATOR = "design_evaluator"
     JUDGE = "judge"
+    HEALER = "healer"
+    PR_PUBLISHER = "pr_publisher"
+    REVIEWER = "reviewer"
+    HUMAN_REVIEW = "human_review"
     REPORTER = "reporter"
 
 
@@ -82,14 +94,53 @@ class Severity(StrEnum):
     CRITICAL = "CRITICAL"
 
 
+class FindingKind(StrEnum):
+    API = "api"
+    UI = "ui"
+    DESIGN = "design"
+
+
+class JudgeVerdict(StrEnum):
+    CONFIRMED = "CONFIRMED"
+    REJECTED = "REJECTED"
+    INCONCLUSIVE = "INCONCLUSIVE"
+
+
+class HealerStatus(StrEnum):
+    NOT_REQUESTED = "NOT_REQUESTED"
+    PLANNED = "PLANNED"
+    BLOCKED = "BLOCKED"
+    ESCALATED = "ESCALATED"
+    PATCHED = "PATCHED"
+    VALIDATED = "VALIDATED"
+    DRAFT_PR_CREATED = "DRAFT_PR_CREATED"
+
+
+class ReviewerVerdict(StrEnum):
+    APPROVE = "APPROVE"
+    CHANGES_REQUESTED = "CHANGES_REQUESTED"
+    ESCALATE = "ESCALATE"
+
+
 class SafetyLimits(QAModel):
-    explorer_iterations: int = Field(default=4, ge=1, le=20)
-    adversary_iterations: int = Field(default=6, ge=1, le=20)
-    explorer_tool_calls: int = Field(default=6, ge=1, le=50)
-    adversary_tool_calls: int = Field(default=10, ge=1, le=50)
-    total_tool_calls: int = Field(default=16, ge=1, le=100)
+    explorer_iterations: int = Field(default=30, ge=1, le=30)
+    adversary_iterations: int = Field(default=30, ge=1, le=30)
+    explorer_tool_calls: int = Field(default=30, ge=1, le=30)
+    adversary_tool_calls: int = Field(default=30, ge=1, le=30)
+    total_tool_calls: int = Field(default=60, ge=1, le=90)
     request_timeout_seconds: float = Field(default=10.0, gt=0, le=120)
     max_response_excerpt_bytes: int = Field(default=2_000, ge=100, le=20_000)
+    soft_case_limit: int = Field(default=20, ge=1, le=30)
+    hard_case_limit: int = Field(default=30, ge=1, le=30)
+    ui_tool_calls: int = Field(default=300, ge=5, le=500)
+    healer_iterations: int = Field(default=8, ge=1, le=12)
+    reviewer_revision_rounds: int = Field(default=2, ge=0, le=3)
+
+    @model_validator(mode="after")
+    def soft_limit_must_not_exceed_hard_limit(self) -> "SafetyLimits":
+        if self.soft_case_limit > self.hard_case_limit:
+            raise ValueError("soft_case_limit must be <= hard_case_limit")
+        return self
 
 
 class AgentModelConfig(QAModel):
@@ -98,9 +149,31 @@ class AgentModelConfig(QAModel):
     base_url: str = "https://api.z.ai/api/paas/v4/"
     explorer_model: str = "glm-5.3-flash"
     adversary_model: str = "glm-5.3-flash"
+    ui_model: str = "glm-5.3-flash"
+    design_model: str = "glm-5.3-flash"
+    judge_model: str = "glm-5.3-flash"
+    healer_model: str = "glm-5.3-flash"
+    reviewer_model: str = "glm-5.3-flash"
     reasoning_effort: Literal["low", "high", "max"] = "high"
+    judge_reasoning_effort: Literal["low", "high", "max"] = "max"
+    healer_reasoning_effort: Literal["low", "high", "max"] = "high"
+    reviewer_reasoning_effort: Literal["low", "high", "max"] = "max"
     timeout_seconds: float = Field(default=60, gt=0, le=300)
     max_tokens: int = Field(default=1_200, ge=128, le=16_384)
+
+
+class HealerConfig(QAModel):
+    """Fail-closed source-repair settings; secrets never enter graph state."""
+
+    enabled: bool = False
+    source_repo: str = "/Users/alex/Projects/alexpavsky"
+    remote: str = "origin"
+    base_branch: str = "main"
+    github_repository: str = "qa-apps/alexpavsky"
+    worktree_root: str = ".healer-worktrees"
+    create_draft_pr: bool = True
+    minimum_judge_confidence: float = Field(default=0.85, ge=0, le=1)
+    human_review_channel_id: str | None = None
 
 
 class RunConfig(QAModel):
@@ -122,6 +195,11 @@ class RunConfig(QAModel):
     )
     limits: SafetyLimits = Field(default_factory=SafetyLimits)
     models: AgentModelConfig = Field(default_factory=AgentModelConfig)
+    healer: HealerConfig = Field(default_factory=HealerConfig)
+    ui_enabled: bool = True
+    ui_headless: bool = True
+    ui_video: Literal["off", "retain-on-failure", "on"] = "retain-on-failure"
+    ui_artifact_dir: str = "artifacts/ui"
 
 
 class Approval(QAModel):
@@ -282,6 +360,145 @@ class SemanticEvaluation(QAModel):
     evidence_ids: list[str]
 
 
+class UISmokeCase(QAModel):
+    case_id: str
+    name: str
+    category: str
+    objective: str
+    viewport_width: int = Field(default=1440, ge=320, le=3840)
+    viewport_height: int = Field(default=1000, ge=480, le=2160)
+    path: str = "/"
+    actions: list[dict[str, Any]] = Field(default_factory=list)
+    expected_text: list[str] = Field(default_factory=list)
+    design_checkpoint: bool = False
+
+
+class UICaseResult(QAModel):
+    case_id: str
+    name: str
+    category: str
+    passed: bool
+    reason: str
+    screenshot_path: str | None = None
+    screenshot_captured: bool = False
+    video_path: str | None = None
+    video_captured: bool = False
+    severity: Severity = Severity.INFO
+    investigation_required: bool = False
+    snapshot_excerpt: str = ""
+    console_errors: list[str] = Field(default_factory=list)
+    mcp_tools: list[str] = Field(default_factory=list)
+    duration_ms: float = Field(default=0, ge=0)
+
+
+class DesignScore(QAModel):
+    visual_hierarchy: int = Field(ge=1, le=5)
+    readability: int = Field(ge=1, le=5)
+    consistency: int = Field(ge=1, le=5)
+    responsive_layout: int = Field(ge=1, le=5)
+    accessibility_cues: int = Field(ge=1, le=5)
+    interaction_clarity: int = Field(ge=1, le=5)
+    summary: str
+    strengths: list[str] = Field(default_factory=list)
+    issues: list[str] = Field(default_factory=list)
+    screenshot_paths: list[str] = Field(default_factory=list)
+
+
+class CandidateFinding(QAModel):
+    finding_id: str = Field(default_factory=lambda: new_id("finding"))
+    source: Actor
+    kind: FindingKind
+    severity: Severity
+    title: str
+    expected: str
+    actual: str
+    reproduction_steps: list[str] = Field(default_factory=list)
+    evidence_ids: list[str] = Field(default_factory=list)
+    screenshot_paths: list[str] = Field(default_factory=list)
+    api_evidence: dict[str, Any] = Field(default_factory=dict)
+    design_only: bool = False
+
+
+class JudgeDecision(QAModel):
+    finding_id: str
+    verdict: JudgeVerdict
+    confidence: float = Field(ge=0, le=1)
+    skeptical_challenge: str
+    evidence_for: list[str] = Field(default_factory=list)
+    evidence_against: list[str] = Field(default_factory=list)
+    reasoning_summary: str
+    investigation_reason: str
+    healer_eligible: bool = False
+
+
+class FixProposal(QAModel):
+    finding_id: str
+    root_cause: str
+    proposed_fix: str
+    unified_diff: str
+    files_to_change: list[str] = Field(default_factory=list)
+    validation_profiles: list[Literal["compile", "api", "ui"]] = Field(
+        default_factory=lambda: ["compile"]
+    )
+    risks: list[str] = Field(default_factory=list)
+    rollback: str
+
+
+class HealerResult(QAModel):
+    status: HealerStatus = HealerStatus.NOT_REQUESTED
+    finding_id: str | None = None
+    investigation_reason: str = ""
+    investigation_result: str = ""
+    proposed_fix: str = ""
+    source_repo: str | None = None
+    worktree_path: str | None = None
+    branch: str | None = None
+    commit_sha: str | None = None
+    pr_url: str | None = None
+    validation_commands: list[str] = Field(default_factory=list)
+    validation_output: list[str] = Field(default_factory=list)
+    before_screenshots: list[str] = Field(default_factory=list)
+    after_screenshots: list[str] = Field(default_factory=list)
+    api_evidence: dict[str, Any] = Field(default_factory=dict)
+    error: str | None = None
+
+
+class HumanReviewRequest(QAModel):
+    required: bool = False
+    reason: str = ""
+    finding_ids: list[str] = Field(default_factory=list)
+    pr_url: str | None = None
+    slack_channel_id: str | None = None
+    slack_message_ts: str | None = None
+    evidence_paths: list[str] = Field(default_factory=list)
+    notification_error: str | None = None
+
+
+class SecurityScanReport(QAModel):
+    secret_scan_passed: bool
+    static_scan_passed: bool
+    dependency_scan_passed: bool
+    deletion_guard_passed: bool
+    additions: int = Field(default=0, ge=0)
+    deletions: int = Field(default=0, ge=0)
+    deletion_ratio: float = Field(default=0, ge=0, le=1)
+    deleted_files: list[str] = Field(default_factory=list)
+    findings: list[str] = Field(default_factory=list)
+    commands: list[str] = Field(default_factory=list)
+    outputs: list[str] = Field(default_factory=list)
+
+
+class ReviewerDecision(QAModel):
+    verdict: ReviewerVerdict
+    confidence: float = Field(ge=0, le=1)
+    summary: str
+    security_assessment: str
+    deletion_assessment: str
+    quality_assessment: str
+    required_changes: list[str] = Field(default_factory=list)
+    approved_commit_sha: str | None = None
+
+
 class ReportRun(QAModel):
     run_id: str
     target: str
@@ -309,6 +526,12 @@ class ReportMetrics(QAModel):
     llm_prompt_tokens: int = Field(default=0, ge=0)
     llm_completion_tokens: int = Field(default=0, ge=0)
     llm_total_tokens: int = Field(default=0, ge=0)
+    ui_cases_passed: int = Field(default=0, ge=0)
+    ui_cases_failed: int = Field(default=0, ge=0)
+    ui_mcp_tool_calls: int = Field(default=0, ge=0)
+    ui_screenshots: int = Field(default=0, ge=0)
+    ui_videos: int = Field(default=0, ge=0)
+    ui_investigation_cases: int = Field(default=0, ge=0)
 
 
 class FinalReport(QAModel):
@@ -321,6 +544,14 @@ class FinalReport(QAModel):
     evidence: list[EvidenceRecord]
     audit_log: list[AuditEvent]
     pipeline_errors: list[PipelineError]
+    ui_smoke: list[UICaseResult] = Field(default_factory=list)
+    design_evaluation: DesignScore | None = None
+    candidate_findings: list[CandidateFinding] = Field(default_factory=list)
+    judge_decisions: list[JudgeDecision] = Field(default_factory=list)
+    healer_result: HealerResult | None = None
+    human_review: HumanReviewRequest | None = None
+    reviewer_scan: SecurityScanReport | None = None
+    reviewer_decision: ReviewerDecision | None = None
 
 
 class QAState(QAModel):
@@ -351,6 +582,18 @@ class QAState(QAModel):
     adversary_done: bool = False
     adversary_stop_reason: str | None = None
 
+    ui_plan: list[UISmokeCase] = Field(default_factory=list)
+    ui_results: list[UICaseResult] = Field(default_factory=list)
+    ui_pending_case: UISmokeCase | None = None
+    ui_mcp_tool_calls: int = Field(default=0, ge=0)
+    ui_plan_summary: str | None = None
+    ui_done: bool = False
+    ui_stop_reason: str | None = None
+    ui_skipped_case_ids: list[str] = Field(default_factory=list)
+    ui_serious_bug_case_ids: list[str] = Field(default_factory=list)
+    ui_investigation_reasons: list[str] = Field(default_factory=list)
+    design_evaluation: DesignScore | None = None
+
     total_tool_calls: int = Field(default=0, ge=0)
     pending_step: PlannedStep | None = None
     pending_tool_call_id: str | None = None
@@ -364,4 +607,13 @@ class QAState(QAModel):
     happy_path_decisions: list[HappyPathStepDecision] = Field(default_factory=list)
     guardrail_decisions: list[GuardrailDecision] = Field(default_factory=list)
     semantic_evaluations: list[SemanticEvaluation] = Field(default_factory=list)
+    candidate_findings: list[CandidateFinding] = Field(default_factory=list)
+    judge_decisions: list[JudgeDecision] = Field(default_factory=list)
+    confirmed_findings: list[CandidateFinding] = Field(default_factory=list)
+    fix_proposal: FixProposal | None = None
+    healer_result: HealerResult | None = None
+    human_review: HumanReviewRequest | None = None
+    reviewer_round: int = Field(default=0, ge=0, le=3)
+    reviewer_scan: SecurityScanReport | None = None
+    reviewer_decision: ReviewerDecision | None = None
     report: FinalReport | None = None

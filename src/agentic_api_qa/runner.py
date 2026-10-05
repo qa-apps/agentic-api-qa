@@ -9,12 +9,34 @@ from pathlib import Path
 from agentic_api_qa.config import load_run_config
 from agentic_api_qa.graph import graph
 from agentic_api_qa.models import Environment, QAState
+from agentic_api_qa.observability import (
+    flush_langfuse,
+    langfuse_trace_url,
+    score_completed_run,
+    workflow_observation,
+)
+from agentic_api_qa.reporting import publish_latest_report, render_html_report
 
 
 async def run_workflow(state: QAState | None = None) -> QAState:
     initial = state or QAState(config=load_run_config())
-    result = await graph.ainvoke(initial)
-    return QAState.model_validate(result)
+    try:
+        with workflow_observation(initial) as observation:
+            result = await graph.ainvoke(initial)
+            completed = QAState.model_validate(result)
+            if completed.report is not None:
+                observation.update(
+                    output={
+                        "run_id": completed.run_id,
+                        "overall_result": completed.report.run.overall_result.value,
+                        "summary": completed.report.summary,
+                        "metrics": completed.report.metrics.model_dump(mode="json"),
+                    }
+                )
+                score_completed_run(completed)
+            return completed
+    finally:
+        flush_langfuse()
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -45,8 +67,15 @@ async def _main() -> int:
     output = args.output or Path("reports") / f"qa-report-{state.run_id}.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(state.report.model_dump_json(indent=2), encoding="utf-8")
+    html_output = render_html_report(state.report, output.with_suffix(".html"))
+    latest_output = publish_latest_report(html_output, output)
     print(state.report.summary)
-    print(f"Report: {output.resolve()}")
+    print(f"JSON report: {output.resolve()}")
+    print(f"Visual report: {html_output}")
+    print(f"Open latest report: {latest_output.as_uri()}")
+    trace_url = langfuse_trace_url(state.run_id)
+    if trace_url:
+        print(f"Langfuse trace: {trace_url}")
     return 0 if state.report.run.overall_result.value == "PASS" else 1
 
 
@@ -56,4 +85,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

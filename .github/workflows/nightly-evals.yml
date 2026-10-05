@@ -1,0 +1,112 @@
+name: Nightly agent evaluations
+
+on:
+  workflow_dispatch:
+    inputs:
+      mutation_seed:
+        description: Reproducible random mutation seed
+        required: false
+        default: "1337"
+  schedule:
+    - cron: "43 9 * * *"
+
+concurrency:
+  group: ap-agent-nightly-evals
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+      ZAI_BASE_URL: https://api.z.ai/api/paas/v4/
+      QA_EVAL_JUDGE_MODEL: glm-5.3
+      QA_EVAL_SITE_SOURCE: ${{ github.workspace }}/_source/alexpavsky
+      QA_EVAL_SLACK_CHANNEL_ID: C0BPQTUS2DR
+      QA_EVAL_MUTATION_SEED: ${{ inputs.mutation_seed || '1337' }}
+      QA_EVAL_MUTATION_COUNT: "3"
+      QA_REPORT_SERVER_ENABLED: "false"
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+      LANGFUSE_BASE_URL: https://us.cloud.langfuse.com
+      LANGFUSE_TRACING_ENABLED: "true"
+      LANGFUSE_TRACING_ENVIRONMENT: nightly
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+    steps:
+      - name: Checkout agent framework
+        uses: actions/checkout@v4
+
+      - name: Checkout isolated application copy
+        uses: actions/checkout@v4
+        with:
+          repository: qa-apps/alexpavsky
+          ref: main
+          path: _source/alexpavsky
+          token: ${{ secrets.HEALER_GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install tests and evaluation dependencies
+        run: python -m pip install -e '.[test,evals]'
+
+      - name: Run fast deterministic gates
+        run: pytest
+
+      - name: Verify Chrome for Playwright MCP
+        run: google-chrome --version
+
+      - name: Start local Postgres, Qdrant, and RAG API
+        working-directory: _source/alexpavsky
+        env:
+          DB_PASSWORD: nightly-local-only
+        run: docker compose up -d --build postgres qdrant rag-api
+
+      - name: Wait for the local Docker stack
+        run: |
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:8001/api/health > /dev/null; then
+              exit 0
+            fi
+            sleep 5
+          done
+          docker compose -f _source/alexpavsky/docker-compose.yml logs rag-api postgres qdrant
+          exit 1
+
+      - name: Run fixed and reproducible evaluations
+        run: python -m evals.run_evals --suite all --mutations 3 --seed "$QA_EVAL_MUTATION_SEED"
+
+      - name: Collect Docker logs on failure
+        if: failure()
+        working-directory: _source/alexpavsky
+        env:
+          DB_PASSWORD: nightly-local-only
+        run: |
+          mkdir -p ../../reports/evals
+          docker compose logs --no-color rag-api postgres qdrant > ../../reports/evals/docker-stack.log
+
+      - name: Stop local Docker stack
+        if: always()
+        working-directory: _source/alexpavsky
+        env:
+          DB_PASSWORD: nightly-local-only
+        run: docker compose down --volumes
+
+      - name: Upload evaluation reports and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ap-agent-evals-${{ github.run_id }}
+          path: |
+            reports/evals/
+            artifacts/evals/
+          if-no-files-found: warn
+          retention-days: 30
