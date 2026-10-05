@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "target": "alexpavsky.com",
-  "purpose": "Capability contract for the reference target. It provides capabilities and constraints, not a fixed execution plan.",
+  "purpose": "Rehearsal contract discovered from the local PW_alexpavsky repository. It provides capabilities and constraints, not a fixed execution plan.",
   "global_validations": [
     "response status is compatible with the scenario",
     "JSON is parseable when content-type is application/json",

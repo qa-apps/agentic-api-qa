@@ -15,6 +15,7 @@ from agentic_api_qa.models import (
     Severity,
 )
 from agentic_api_qa.profiles import alexpavsky_adversary_plan, alexpavsky_explorer_plan
+from agentic_api_qa.nodes import explorer_agent
 from agentic_api_qa.runner import run_workflow
 
 
@@ -73,7 +74,8 @@ def install_fake_agents(monkeypatch, *, always_continue: bool = False) -> None:
 
 
 @pytest.mark.asyncio
-async def test_complete_graph_emits_agentic_eci_shaped_report(monkeypatch) -> None:
+async def test_complete_graph_emits_agentic_eci_shaped_report(monkeypatch, tmp_path) -> None:
+    monkeypatch.setenv("QA_REPORT_DIR", str(tmp_path / "reports"))
     install_fake_agents(monkeypatch)
 
     async def execute(**kwargs):
@@ -92,7 +94,7 @@ async def test_complete_graph_emits_agentic_eci_shaped_report(monkeypatch) -> No
         return fake_evidence(actor, kwargs["iteration"], case_id, status, body)
 
     monkeypatch.setattr("agentic_api_qa.nodes.execute_request", execute)
-    state = await run_workflow(QAState(config=RunConfig()))
+    state = await run_workflow(QAState(config=RunConfig(ui_enabled=False)))
 
     assert state.report is not None
     assert state.report.run.overall_result == OverallResult.PASS
@@ -107,7 +109,8 @@ async def test_complete_graph_emits_agentic_eci_shaped_report(monkeypatch) -> No
 
 
 @pytest.mark.asyncio
-async def test_budget_exhaustion_is_not_reported_as_pass(monkeypatch) -> None:
+async def test_budget_exhaustion_is_not_reported_as_pass(monkeypatch, tmp_path) -> None:
+    monkeypatch.setenv("QA_REPORT_DIR", str(tmp_path / "reports"))
     install_fake_agents(monkeypatch, always_continue=True)
 
     async def execute(**kwargs):
@@ -117,6 +120,7 @@ async def test_budget_exhaustion_is_not_reported_as_pass(monkeypatch) -> None:
 
     monkeypatch.setattr("agentic_api_qa.nodes.execute_request", execute)
     config = RunConfig(
+        ui_enabled=False,
         limits=SafetyLimits(
             explorer_iterations=1,
             explorer_tool_calls=1,
@@ -133,3 +137,42 @@ async def test_budget_exhaustion_is_not_reported_as_pass(monkeypatch) -> None:
         "EXPLORER_BUDGET_EXHAUSTED",
         "ADVERSARY_BUDGET_EXHAUSTED",
     }
+
+
+@pytest.mark.asyncio
+async def test_api_agent_cannot_expand_past_soft_limit_without_cited_bug(monkeypatch) -> None:
+    evidence = {
+        f"evidence-{index}": fake_evidence(
+            Actor.EXPLORER,
+            index + 1,
+            "serious-health-bug" if index == 0 else f"case-{index}",
+            500 if index == 0 else 200,
+            {"status": "error" if index == 0 else "ok"},
+        )
+        for index in range(20)
+    }
+    state = QAState(
+        config=RunConfig(ui_enabled=False),
+        explorer_iterations=20,
+        explorer_tool_calls=20,
+        total_tool_calls=20,
+        evidence=evidence,
+    )
+    step = alexpavsky_explorer_plan(state.run_id)[0]
+
+    async def choose(*_args, **_kwargs):
+        return AgentChoice(
+            action="execute",
+            summary="Run another check.",
+            tool_call_id="call-over-soft-limit",
+            step=step,
+            investigation_reason=None,
+        )
+
+    monkeypatch.setattr("agentic_api_qa.nodes.choose_next_action", choose)
+    update = await explorer_agent(state)
+
+    assert update["explorer_done"] is True
+    assert update["explorer_stop_reason"] == (
+        "soft_limit_reached_without_investigation_justification"
+    )

@@ -10,4 +10,12 @@ dist/
 build/
 *.egg-info/
 reports/*.json
-!reports/sample-report.json
+reports/evals/
+reports/videos/
+artifacts/
+.healer-worktrees/
+reports/*.html
+reports/*.log
+.playwright-mcp/
+.vscode/
+/*.png

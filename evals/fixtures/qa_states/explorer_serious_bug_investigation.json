@@ -1,0 +1,1419 @@
+{
+  "config": {
+    "target_name": "alexpavsky",
+    "base_url": "https://www.alexpavsky.com/",
+    "environment": "production",
+    "production_read_only": true,
+    "require_mutation_approval": true,
+    "allowed_ephemeral_paths": [
+      "/api/chat",
+      "/voice-api/api/say"
+    ],
+    "redacted_headers": [
+      "authorization",
+      "cookie",
+      "proxy-authorization",
+      "x-api-key"
+    ],
+    "limits": {
+      "explorer_iterations": 30,
+      "adversary_iterations": 30,
+      "explorer_tool_calls": 30,
+      "adversary_tool_calls": 30,
+      "total_tool_calls": 60,
+      "request_timeout_seconds": 10.0,
+      "max_response_excerpt_bytes": 2000,
+      "soft_case_limit": 20,
+      "hard_case_limit": 30,
+      "ui_tool_calls": 300,
+      "healer_iterations": 8,
+      "reviewer_revision_rounds": 2
+    },
+    "models": {
+      "base_url": "https://api.z.ai/api/paas/v4/",
+      "explorer_model": "glm-5.3-flash",
+      "adversary_model": "glm-5.3-flash",
+      "ui_model": "glm-5.3-flash",
+      "design_model": "glm-5.3-flash",
+      "judge_model": "glm-5.3-flash",
+      "healer_model": "glm-5.3-flash",
+      "reviewer_model": "glm-5.3-flash",
+      "reasoning_effort": "high",
+      "judge_reasoning_effort": "max",
+      "healer_reasoning_effort": "high",
+      "reviewer_reasoning_effort": "max",
+      "timeout_seconds": 60.0,
+      "max_tokens": 1200
+    },
+    "healer": {
+      "enabled": false,
+      "source_repo": "/Users/alex/Projects/alexpavsky",
+      "remote": "origin",
+      "base_branch": "main",
+      "github_repository": "qa-apps/alexpavsky",
+      "worktree_root": ".healer-worktrees",
+      "create_draft_pr": true,
+      "minimum_judge_confidence": 0.85,
+      "human_review_channel_id": null
+    },
+    "ui_enabled": true,
+    "ui_headless": true,
+    "ui_video": "retain-on-failure",
+    "ui_artifact_dir": "artifacts/ui"
+  },
+  "run_id": "eval-explorer-serious",
+  "started_at": "2026-01-15T09:00:00Z",
+  "finished_at": null,
+  "current_phase": "governor",
+  "approvals": [],
+  "explorer_plan": [
+    {
+      "step_id": "read-probe-1",
+      "name": "Read probe 1",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-1",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-2",
+      "name": "Read probe 2",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-2",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-3",
+      "name": "Read probe 3",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-3",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-4",
+      "name": "Read probe 4",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-4",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-5",
+      "name": "Read probe 5",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-5",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-6",
+      "name": "Read probe 6",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-6",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-7",
+      "name": "Read probe 7",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-7",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-8",
+      "name": "Read probe 8",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-8",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-9",
+      "name": "Read probe 9",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-9",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-10",
+      "name": "Read probe 10",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-10",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-11",
+      "name": "Read probe 11",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-11",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-12",
+      "name": "Read probe 12",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-12",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-13",
+      "name": "Read probe 13",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-13",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-14",
+      "name": "Read probe 14",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-14",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-15",
+      "name": "Read probe 15",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-15",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-16",
+      "name": "Read probe 16",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-16",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-17",
+      "name": "Read probe 17",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-17",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-18",
+      "name": "Read probe 18",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-18",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "read-probe-19",
+      "name": "Read probe 19",
+      "objective": "Exercise a documented read surface.",
+      "request": {
+        "operation_id": "read-probe-19",
+        "method": "GET",
+        "path": "/api/feed",
+        "headers": {},
+        "query": {},
+        "json_body": null,
+        "raw_body": null,
+        "effect": "read"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": null,
+      "rule_id": null,
+      "attack_class": null
+    },
+    {
+      "step_id": "chat-happy-path",
+      "name": "Chat answers a simple product question",
+      "objective": "Confirm the assistant answers an ordinary question.",
+      "request": {
+        "operation_id": "chat-happy-path",
+        "method": "POST",
+        "path": "/api/chat",
+        "headers": {},
+        "query": {},
+        "json_body": {
+          "message": "Hello, what do you do?"
+        },
+        "raw_body": null,
+        "effect": "ephemeral"
+      },
+      "expected_status_codes": [
+        200
+      ],
+      "semantic_expectation": "Returns a grounded assistant reply without server errors.",
+      "rule_id": null,
+      "attack_class": null
+    }
+  ],
+  "explorer_index": 20,
+  "explorer_iterations": 20,
+  "explorer_tool_calls": 20,
+  "explorer_proposals": [
+    {
+      "step_id": "read-probe-1",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-1"
+      ]
+    },
+    {
+      "step_id": "read-probe-2",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-2"
+      ]
+    },
+    {
+      "step_id": "read-probe-3",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-3"
+      ]
+    },
+    {
+      "step_id": "read-probe-4",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-4"
+      ]
+    },
+    {
+      "step_id": "read-probe-5",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-5"
+      ]
+    },
+    {
+      "step_id": "read-probe-6",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-6"
+      ]
+    },
+    {
+      "step_id": "read-probe-7",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-7"
+      ]
+    },
+    {
+      "step_id": "read-probe-8",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-8"
+      ]
+    },
+    {
+      "step_id": "read-probe-9",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-9"
+      ]
+    },
+    {
+      "step_id": "read-probe-10",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-10"
+      ]
+    },
+    {
+      "step_id": "read-probe-11",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-11"
+      ]
+    },
+    {
+      "step_id": "read-probe-12",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-12"
+      ]
+    },
+    {
+      "step_id": "read-probe-13",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-13"
+      ]
+    },
+    {
+      "step_id": "read-probe-14",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-14"
+      ]
+    },
+    {
+      "step_id": "read-probe-15",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-15"
+      ]
+    },
+    {
+      "step_id": "read-probe-16",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-16"
+      ]
+    },
+    {
+      "step_id": "read-probe-17",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-17"
+      ]
+    },
+    {
+      "step_id": "read-probe-18",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-18"
+      ]
+    },
+    {
+      "step_id": "read-probe-19",
+      "proposed_result": "PASS",
+      "interpretation": "Documented read behavior held.",
+      "evidence_ids": [
+        "evidence-read-19"
+      ]
+    },
+    {
+      "step_id": "chat-happy-path",
+      "proposed_result": "FAIL",
+      "interpretation": "POST /api/chat returned HTTP 500 for a valid minimal request.",
+      "evidence_ids": [
+        "evidence-chat-500"
+      ]
+    }
+  ],
+  "explorer_reflections": [
+    {
+      "actor": "explorer",
+      "iteration": 20,
+      "scenario_or_rule_id": "chat-happy-path",
+      "result": "FAIL",
+      "interpretation": "A valid chat request produced HTTP 500; the defect needs scoping.",
+      "adaptation": "Select the next highest-information check from the remaining surface.",
+      "continue_testing": true,
+      "evidence_id": "evidence-chat-500"
+    }
+  ],
+  "explorer_done": false,
+  "explorer_stop_reason": null,
+  "adversary_plan": [],
+  "adversary_index": 0,
+  "adversary_iterations": 0,
+  "adversary_tool_calls": 0,
+  "adversary_proposals": [],
+  "adversary_reflections": [],
+  "adversary_done": false,
+  "adversary_stop_reason": null,
+  "ui_plan": [],
+  "ui_results": [],
+  "ui_pending_case": null,
+  "ui_mcp_tool_calls": 0,
+  "ui_plan_summary": null,
+  "ui_done": false,
+  "ui_stop_reason": null,
+  "ui_skipped_case_ids": [],
+  "ui_serious_bug_case_ids": [],
+  "ui_investigation_reasons": [],
+  "design_evaluation": null,
+  "total_tool_calls": 20,
+  "pending_step": null,
+  "pending_tool_call_id": null,
+  "pending_decision_summary": null,
+  "last_evidence_id": "evidence-chat-500",
+  "evidence": {
+    "evidence-read-1": {
+      "evidence_id": "evidence-read-1",
+      "actor": "explorer",
+      "iteration": 1,
+      "scenario_or_rule_id": "read-probe-1",
+      "tool_call_id": "tool-evidence-read-1",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-2": {
+      "evidence_id": "evidence-read-2",
+      "actor": "explorer",
+      "iteration": 2,
+      "scenario_or_rule_id": "read-probe-2",
+      "tool_call_id": "tool-evidence-read-2",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-3": {
+      "evidence_id": "evidence-read-3",
+      "actor": "explorer",
+      "iteration": 3,
+      "scenario_or_rule_id": "read-probe-3",
+      "tool_call_id": "tool-evidence-read-3",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-4": {
+      "evidence_id": "evidence-read-4",
+      "actor": "explorer",
+      "iteration": 4,
+      "scenario_or_rule_id": "read-probe-4",
+      "tool_call_id": "tool-evidence-read-4",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-5": {
+      "evidence_id": "evidence-read-5",
+      "actor": "explorer",
+      "iteration": 5,
+      "scenario_or_rule_id": "read-probe-5",
+      "tool_call_id": "tool-evidence-read-5",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-6": {
+      "evidence_id": "evidence-read-6",
+      "actor": "explorer",
+      "iteration": 6,
+      "scenario_or_rule_id": "read-probe-6",
+      "tool_call_id": "tool-evidence-read-6",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-7": {
+      "evidence_id": "evidence-read-7",
+      "actor": "explorer",
+      "iteration": 7,
+      "scenario_or_rule_id": "read-probe-7",
+      "tool_call_id": "tool-evidence-read-7",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-8": {
+      "evidence_id": "evidence-read-8",
+      "actor": "explorer",
+      "iteration": 8,
+      "scenario_or_rule_id": "read-probe-8",
+      "tool_call_id": "tool-evidence-read-8",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-9": {
+      "evidence_id": "evidence-read-9",
+      "actor": "explorer",
+      "iteration": 9,
+      "scenario_or_rule_id": "read-probe-9",
+      "tool_call_id": "tool-evidence-read-9",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-10": {
+      "evidence_id": "evidence-read-10",
+      "actor": "explorer",
+      "iteration": 10,
+      "scenario_or_rule_id": "read-probe-10",
+      "tool_call_id": "tool-evidence-read-10",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-11": {
+      "evidence_id": "evidence-read-11",
+      "actor": "explorer",
+      "iteration": 11,
+      "scenario_or_rule_id": "read-probe-11",
+      "tool_call_id": "tool-evidence-read-11",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-12": {
+      "evidence_id": "evidence-read-12",
+      "actor": "explorer",
+      "iteration": 12,
+      "scenario_or_rule_id": "read-probe-12",
+      "tool_call_id": "tool-evidence-read-12",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-13": {
+      "evidence_id": "evidence-read-13",
+      "actor": "explorer",
+      "iteration": 13,
+      "scenario_or_rule_id": "read-probe-13",
+      "tool_call_id": "tool-evidence-read-13",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-14": {
+      "evidence_id": "evidence-read-14",
+      "actor": "explorer",
+      "iteration": 14,
+      "scenario_or_rule_id": "read-probe-14",
+      "tool_call_id": "tool-evidence-read-14",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-15": {
+      "evidence_id": "evidence-read-15",
+      "actor": "explorer",
+      "iteration": 15,
+      "scenario_or_rule_id": "read-probe-15",
+      "tool_call_id": "tool-evidence-read-15",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-16": {
+      "evidence_id": "evidence-read-16",
+      "actor": "explorer",
+      "iteration": 16,
+      "scenario_or_rule_id": "read-probe-16",
+      "tool_call_id": "tool-evidence-read-16",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-17": {
+      "evidence_id": "evidence-read-17",
+      "actor": "explorer",
+      "iteration": 17,
+      "scenario_or_rule_id": "read-probe-17",
+      "tool_call_id": "tool-evidence-read-17",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-18": {
+      "evidence_id": "evidence-read-18",
+      "actor": "explorer",
+      "iteration": 18,
+      "scenario_or_rule_id": "read-probe-18",
+      "tool_call_id": "tool-evidence-read-18",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-read-19": {
+      "evidence_id": "evidence-read-19",
+      "actor": "explorer",
+      "iteration": 19,
+      "scenario_or_rule_id": "read-probe-19",
+      "tool_call_id": "tool-evidence-read-19",
+      "request": {
+        "method": "GET",
+        "url": "https://www.alexpavsky.com/api/feed",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sanitized_body_excerpt": ""
+      },
+      "response": {
+        "status_code": 200,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "12289143889506152ada38d63ca8e126614677de39c6de97a147ee200b55359a",
+        "sanitized_body_excerpt": "{\"items\": [{\"id\": \"n-1\"}], \"count\": 1}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "count",
+          "items"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    },
+    "evidence-chat-500": {
+      "evidence_id": "evidence-chat-500",
+      "actor": "explorer",
+      "iteration": 20,
+      "scenario_or_rule_id": "chat-happy-path",
+      "tool_call_id": "tool-evidence-chat-500",
+      "request": {
+        "method": "POST",
+        "url": "https://www.alexpavsky.com/api/chat",
+        "redacted_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "9dd3d974df50f41c775919c614746411d62c82a56a1d2369c4776e0baf562421",
+        "sanitized_body_excerpt": "{\"message\": \"Hello, what do you do?\"}"
+      },
+      "response": {
+        "status_code": 500,
+        "selected_headers": {
+          "content-type": "application/json"
+        },
+        "body_sha256": "3f4ccffbf5da243bc1f1146907bf8007e42b2c459afef80662e7a5d43e46c394",
+        "sanitized_body_excerpt": "{\"error\": \"internal server error\", \"trace_id\": \"6f1c\"}",
+        "body_truncated": false,
+        "json_parseable": true,
+        "json_type": "object",
+        "json_top_level_keys": [
+          "error",
+          "trace_id"
+        ],
+        "duration_ms": 120.0,
+        "transport_error": null
+      },
+      "observed_at": "2026-01-15T09:00:00Z",
+      "langsmith_trace_id": null
+    }
+  },
+  "audit_log": [],
+  "pipeline_errors": [],
+  "model_usage": {
+    "calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "happy_path_decisions": [],
+  "guardrail_decisions": [],
+  "semantic_evaluations": [],
+  "candidate_findings": [],
+  "judge_decisions": [],
+  "confirmed_findings": [],
+  "fix_proposal": null,
+  "healer_result": null,
+  "human_review": null,
+  "reviewer_round": 0,
+  "reviewer_scan": null,
+  "reviewer_decision": null,
+  "report": null
+}

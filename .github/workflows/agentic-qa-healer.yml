@@ -1,0 +1,87 @@
+name: AP Agentic QA Healer
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ap-agentic-qa-healer
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  qa-healer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout agent framework
+        uses: actions/checkout@v4
+
+      - name: Require cross-repository Healer token
+        env:
+          HEALER_GITHUB_TOKEN: ${{ secrets.HEALER_GITHUB_TOKEN }}
+        run: |
+          if [ -z "$HEALER_GITHUB_TOKEN" ]; then
+            echo "HEALER_GITHUB_TOKEN is required to clone, push, and open a draft PR in qa-apps/alexpavsky."
+            exit 1
+          fi
+
+      - name: Checkout application source
+        uses: actions/checkout@v4
+        with:
+          repository: qa-apps/alexpavsky
+          ref: main
+          path: _source/alexpavsky
+          token: ${{ secrets.HEALER_GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install framework
+        run: python -m pip install -e '.[test]'
+
+      - name: Run unit safety gates
+        run: pytest
+
+      - name: Run Agentic QA workflow
+        env:
+          API_BASE_URL: https://www.alexpavsky.com
+          QA_ENVIRONMENT: production
+          QA_PRODUCTION_READ_ONLY: "true"
+          QA_REQUIRE_MUTATION_APPROVAL: "true"
+          QA_HEALER_ENABLED: "true"
+          QA_HEALER_SOURCE_REPO: ${{ github.workspace }}/_source/alexpavsky
+          QA_HEALER_GITHUB_REPOSITORY: qa-apps/alexpavsky
+          QA_HEALER_BASE_BRANCH: main
+          QA_HEALER_DRAFT_PR: "true"
+          QA_REVIEWER_MODEL: glm-5.3-flash
+          QA_REVIEWER_REASONING_EFFORT: max
+          QA_REVIEWER_REVISION_ROUNDS: "2"
+          QA_HUMAN_REVIEW_CHANNEL_ID: ${{ secrets.HUMAN_REVIEW_CHANNEL_ID }}
+          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+          LANGSMITH_TRACING: "true"
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+          LANGSMITH_PROJECT: ap-agents-production
+          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+          LANGFUSE_BASE_URL: https://us.cloud.langfuse.com
+          LANGFUSE_TRACING_ENABLED: "true"
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          GH_TOKEN: ${{ secrets.HEALER_GITHUB_TOKEN }}
+        run: agentic-api-qa --output reports/ci-agentic-qa.json
+
+      - name: Upload reports and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ap-agentic-qa-${{ github.run_id }}
+          path: |
+            reports/
+            artifacts/
+          if-no-files-found: warn
+          retention-days: 30
