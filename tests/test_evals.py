@@ -1,7 +1,10 @@
+from pathlib import Path
+
 import httpx
+import pytest
 
 from agentic_api_qa.models import CandidateFinding, FindingKind, Severity
-from evals.config import load_eval_config
+from evals.config import EvalConfig, load_eval_config
 from evals.dataset import load_decision_scenarios, load_seeded_profiles
 from evals.metrics import matches_profile
 from evals.seeded_site import serve_profile
@@ -18,8 +21,25 @@ def test_evaluation_datasets_and_fixtures_are_valid() -> None:
     assert any(item.control for item in profiles)
 
 
-def test_seeded_site_keeps_the_manifest_hidden_and_applies_api_bugs() -> None:
-    config = load_eval_config()
+@pytest.fixture
+def site_config(tmp_path: Path) -> EvalConfig:
+    """A minimal site checkout, so the API contract tests run without the real app."""
+
+    (tmp_path / "index.html").write_text(
+        "<!doctype html><html><head><title>Test site</title>"
+        '<link rel="stylesheet" href="/style.css"></head>'
+        '<body><main id="feed"></main><script src="/script.js"></script></body></html>',
+        encoding="utf-8",
+    )
+    (tmp_path / "style.css").write_text("body { margin: 0; }", encoding="utf-8")
+    (tmp_path / "script.js").write_text("console.log('ready');", encoding="utf-8")
+    return load_eval_config().model_copy(update={"site_source": tmp_path})
+
+
+def test_seeded_site_keeps_the_manifest_hidden_and_applies_api_bugs(
+    site_config: EvalConfig,
+) -> None:
+    config = site_config
     profiles = {item.profile_id: item for item in load_seeded_profiles()}
 
     with serve_profile(profiles["chat-api-500"], config) as site:
@@ -33,8 +53,10 @@ def test_seeded_site_keeps_the_manifest_hidden_and_applies_api_bugs() -> None:
     assert "seeded_bugs" not in homepage.text
 
 
-def test_clean_control_copy_returns_healthy_contract_responses() -> None:
-    config = load_eval_config()
+def test_clean_control_copy_returns_healthy_contract_responses(
+    site_config: EvalConfig,
+) -> None:
+    config = site_config
     control = next(item for item in load_seeded_profiles() if item.control)
 
     with serve_profile(control, config) as site:
