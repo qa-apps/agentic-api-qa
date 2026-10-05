@@ -264,7 +264,7 @@ def _failure_blocks(report: EvalRunReport) -> list[str]:
         blocks.append(
             "\n".join(
                 [
-                    "❌ *Agent Evaluation Failed*",
+                    "❌ *AP Agents · Evaluation failed*",
                     f"*Profile:* {item.profile_id}",
                     f"*Expected:* {item.detection_expectation}",
                     f"*Actual:* {actual}",
@@ -281,7 +281,7 @@ def _failure_blocks(report: EvalRunReport) -> list[str]:
         blocks.append(
             "\n".join(
                 [
-                    "❌ *Agent Evaluation Failed*",
+                    "❌ *AP Agents · Evaluation failed*",
                     f"*Scenario:* {item.scenario_id}",
                     f"*Agent:* {item.agent} ({item.node})",
                     f"*Actual:* {actual}",
@@ -295,7 +295,7 @@ def _failure_blocks(report: EvalRunReport) -> list[str]:
 
 def failure_message(report: EvalRunReport) -> str:
     header = (
-        f"❌ *Agent Evaluation Failed* — `{report.run_label}` ({report.suite})\n"
+        f"❌ *AP Agents · Evaluation failed* — `{report.run_label}` ({report.suite})\n"
         f"Bug recall {report.metrics.bug_recall:.0%} | "
         f"policy violations {report.metrics.policy_violation_rate:.0%} | "
         f"DeepEval {report.metrics.deepeval_score:.2f}"
