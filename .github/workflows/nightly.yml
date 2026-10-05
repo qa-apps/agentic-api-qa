@@ -23,7 +23,8 @@ on:
     - cron: "0 8 * * *"
 
 permissions:
-  contents: read
+  # gh-pages: each run publishes its full HTML report under runs/<run number>/.
+  contents: write
 
 concurrency:
   group: nightly-scan-${{ github.ref }}
@@ -58,7 +59,7 @@ jobs:
     needs: schedule-gate
     if: needs.schedule-gate.outputs.should_run == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       API_BASE_URL: ${{ inputs.base_url || 'https://www.alexpavsky.com' }}
       QA_ENVIRONMENT: ${{ inputs.environment || 'production' }}
@@ -76,6 +77,15 @@ jobs:
       QA_EXPLORER_TOOL_CALLS: "12"
       QA_ADVERSARY_TOOL_CALLS: "12"
       QA_TOTAL_TOOL_CALLS: "24"
+      # The Healer opens fix PRs, so it stays in its manual-only workflow.
+      QA_HEALER_ENABLED: "false"
+      QA_REPORT_SERVER_ENABLED: "false"
+      LANGFUSE_TRACING_ENABLED: ${{ secrets.LANGFUSE_PUBLIC_KEY != '' }}
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+      LANGFUSE_BASE_URL: https://us.cloud.langfuse.com
+      # #alexpavsky-daily-audit, shared with the Playwright reporters for the site.
+      QA_SLACK_SUMMARY_CHANNEL_ID: C0BPQTUS2DR
     steps:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -118,9 +128,78 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: qa-report-${{ github.run_number }}
-          path: reports/nightly-*.json
+          path: |
+            reports/nightly-*.json
+            reports/nightly-*.html
+            reports/videos/
           if-no-files-found: warn
           retention-days: 30
+
+      - name: Build the full report page
+        id: site
+        if: always() && steps.creds.outputs.present == 'true'
+        shell: bash
+        run: |
+          report=$(ls -1 reports/nightly-*.html 2>/dev/null | head -1 || true)
+          if [ -z "$report" ]; then
+            echo "The scan produced no HTML report to publish."
+            exit 0
+          fi
+          dest="site/runs/${GITHUB_RUN_NUMBER}"
+          mkdir -p "$dest"
+          cp "$report" "$dest/index.html"
+          cp "${report%.html}.json" "$dest/report.json"
+          if [ -d reports/videos ]; then cp -R reports/videos "$dest/"; fi
+          # The site root always opens the latest run.
+          printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=runs/%s/"><title>AP Agents report</title><a href="runs/%s/">Latest AP Agents report</a>\n' \
+            "$GITHUB_RUN_NUMBER" "$GITHUB_RUN_NUMBER" > site/index.html
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the full report to GitHub Pages
+        id: publish
+        if: always() && steps.site.outputs.ready == 'true'
+        # Reporting, not verification: a failed publish must not change the
+        # verdict. Slack then links the GitHub run only.
+        continue-on-error: true
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./site
+          keep_files: true
+          enable_jekyll: false
+          commit_message: "AP agents report: run #${{ github.run_number }}"
+
+      - name: Post the run summary to Slack
+        if: always() && steps.creds.outputs.present == 'true'
+        continue-on-error: true
+        shell: bash
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          REPORT_PUBLISHED: ${{ steps.publish.outcome == 'success' }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          report=$(ls -1 reports/nightly-*.json 2>/dev/null | head -1 || true)
+          if [ -z "$report" ]; then
+            echo "The scan produced no report; nothing to summarize."
+            exit 0
+          fi
+          report_url=""
+          if [ "$REPORT_PUBLISHED" = "true" ]; then
+            owner_lc="$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')"
+            report_url="https://${owner_lc}.github.io/${GITHUB_REPOSITORY#*/}/runs/${GITHUB_RUN_NUMBER}/"
+            # Pages deploys shortly after the push; wait so the Slack button
+            # works on the first click.
+            for attempt in $(seq 1 30); do
+              curl --fail --silent --output /dev/null "$report_url" && break
+              sleep 5
+            done
+          fi
+          python -m agentic_api_qa.slack_summary \
+            --report "$report" \
+            --channel "$QA_SLACK_SUMMARY_CHANNEL_ID" \
+            --report-url "$report_url" \
+            --run-url "$RUN_URL"
 
       - name: Summarize the verdict
         if: always() && steps.creds.outputs.present == 'true'

@@ -44,10 +44,10 @@ jobs:
       - name: Checkout isolated application copy
         uses: actions/checkout@v4
         with:
+          # Public repository: the default token can read it.
           repository: qa-apps/alexpavsky
           ref: main
           path: _source/alexpavsky
-          token: ${{ secrets.HEALER_GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
