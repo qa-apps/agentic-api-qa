@@ -341,7 +341,7 @@ async def evaluate_candidate_findings(
             }
         )
     models = state.config.models
-    data = await _chat_completion(
+    request = dict(
         model_config=models.model_copy(
             update={
                 "max_tokens": max(models.max_tokens, models.judge_max_tokens),
@@ -394,7 +394,23 @@ async def evaluate_candidate_findings(
         ],
         response_format={"type": "json_object"},
     )
-    body = _json_content(data)
+    # glm-5.3-flash on OpenCode Go occasionally returns malformed or empty JSON; one
+    # retry is cheaper than failing every finding closed for the whole run.
+    usage = UsageDelta()
+    for attempt in range(2):
+        data = await _chat_completion(**request)
+        reply = _usage(data)
+        usage = UsageDelta(
+            prompt_tokens=usage.prompt_tokens + reply.prompt_tokens,
+            completion_tokens=usage.completion_tokens + reply.completion_tokens,
+            total_tokens=usage.total_tokens + reply.total_tokens,
+        )
+        try:
+            body = _json_content(data)
+            break
+        except AgentLLMError:
+            if attempt:
+                raise
     raw_decisions = body.get("decisions")
     if not isinstance(raw_decisions, list):
         raise AgentLLMError("Judge response did not contain a decisions array")
@@ -432,7 +448,7 @@ async def evaluate_candidate_findings(
         for finding_id in by_id
         if finding_id not in seen
     )
-    return JudgeEvaluationChoice(decisions=decisions, usage=_usage(data))
+    return JudgeEvaluationChoice(decisions=decisions, usage=usage)
 
 
 async def propose_healer_fix(

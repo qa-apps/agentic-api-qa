@@ -209,3 +209,40 @@ async def test_judge_keeps_returned_verdicts_when_it_skips_a_finding(monkeypatch
     assert verdicts[judged.finding_id].verdict.value == "CONFIRMED"
     assert verdicts[skipped.finding_id].verdict.value == "INCONCLUSIVE"
     assert not verdicts[skipped.finding_id].healer_eligible
+
+
+@pytest.mark.asyncio
+async def test_judge_retries_once_after_malformed_json(monkeypatch) -> None:
+    finding = CandidateFinding(
+        source="explorer",
+        kind=FindingKind.UI,
+        severity=Severity.HIGH,
+        title="Desktop homepage renders",
+        expected="The hero heading is visible.",
+        actual="Expected visible text not found.",
+    )
+    decision = {
+        "finding_id": finding.finding_id,
+        "verdict": "CONFIRMED",
+        "confidence": 0.9,
+        "skeptical_challenge": "Could be a slow render.",
+        "evidence_for": [],
+        "evidence_against": [],
+        "reasoning_summary": "Heading is missing.",
+        "investigation_reason": "Product defect.",
+        "healer_eligible": False,
+    }
+    replies = ['{"decisions": [', json.dumps({"decisions": [decision]})]
+
+    async def completion(**kwargs):
+        return {
+            "message": {"content": replies.pop(0), "tool_calls": []},
+            "usage": {"total_tokens": 5},
+        }
+
+    monkeypatch.setattr("agentic_api_qa.llm._chat_completion", completion)
+
+    result = await evaluate_candidate_findings(QAState(), [finding])
+
+    assert result.decisions[0].verdict.value == "CONFIRMED"
+    assert result.usage.total_tokens == 10
