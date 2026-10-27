@@ -299,12 +299,12 @@ def generation_observation(
     ]
     client = get_client()
     with client.start_as_current_observation(
-        name="zai_chat_completion",
+        name="chat_completion",
         as_type="generation",
         model=model,
         input={"messages": _message_summary(messages), "tools": tool_names},
         model_parameters={"reasoning_effort": reasoning_effort},
-        metadata={"provider": "z.ai", "hidden_reasoning_recorded": False},
+        metadata={"hidden_reasoning_recorded": False},
     ) as observation:
         try:
             yield observation

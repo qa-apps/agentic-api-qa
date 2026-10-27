@@ -63,7 +63,8 @@ jobs:
           QA_REVIEWER_REASONING_EFFORT: max
           QA_REVIEWER_REVISION_ROUNDS: "2"
           QA_HUMAN_REVIEW_CHANNEL_ID: ${{ secrets.HUMAN_REVIEW_CHANNEL_ID }}
-          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+          LLM_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
+          LLM_BASE_URL: https://opencode.ai/zen/go/v1
           LANGSMITH_TRACING: "true"
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
           LANGSMITH_PROJECT: ap-agents-production

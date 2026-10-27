@@ -146,7 +146,7 @@ class SafetyLimits(QAModel):
 class AgentModelConfig(QAModel):
     """Public model settings. The API key is read from the environment, never state."""
 
-    base_url: str = "https://api.z.ai/api/paas/v4/"
+    base_url: str = "https://opencode.ai/zen/go/v1"
     explorer_model: str = "glm-5.3-flash"
     adversary_model: str = "glm-5.3-flash"
     ui_model: str = "glm-5.3-flash"

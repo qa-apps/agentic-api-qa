@@ -8,6 +8,8 @@ on:
         required: false
         default: "1337"
   schedule:
+    # Every third day (gate below). A full run is ~0.9M tokens of the OpenCode Go
+    # quota; every night added cost, not signal.
     - cron: "43 9 * * *"
 
 concurrency:
@@ -18,13 +20,33 @@ permissions:
   contents: read
 
 jobs:
+  schedule-gate:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.gate.outputs.should_run }}
+    steps:
+      - name: Run every third day
+        id: gate
+        shell: bash
+        run: |
+          # Same days as the nightly scan: (days since epoch) % 3 == 0.
+          # Plain cron */3 restarts each month (31st, then 1st).
+          if [[ "${{ github.event_name }}" != "schedule" ]] || (( $(date -u +%s) / 86400 % 3 == 0 )); then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
   evaluate:
+    needs: schedule-gate
+    if: needs.schedule-gate.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
-      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
-      ZAI_BASE_URL: https://api.z.ai/api/paas/v4/
-      QA_EVAL_JUDGE_MODEL: glm-5.3
+      LLM_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
+      LLM_BASE_URL: https://opencode.ai/zen/go/v1
+      # Agents run on glm-5.3-flash; the judge is another model family.
+      QA_EVAL_JUDGE_MODEL: qwen3.8-flash
       QA_EVAL_SITE_SOURCE: ${{ github.workspace }}/_source/alexpavsky
       QA_EVAL_SLACK_CHANNEL_ID: C0BPQTUS2DR
       QA_EVAL_MUTATION_SEED: ${{ inputs.mutation_seed || '1337' }}

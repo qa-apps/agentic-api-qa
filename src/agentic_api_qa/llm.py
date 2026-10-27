@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from langsmith import traceable
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
+from agentic_api_qa.config import llm_api_key, llm_headers
 from agentic_api_qa.knowledge import agent_knowledge
 from agentic_api_qa.observability import generation_observation
 from agentic_api_qa.models import (
@@ -201,10 +202,9 @@ async def _chat_completion(
     response_format: dict[str, Any] | None = None,
     reasoning_effort: Literal["low", "high", "max"] | None = None,
 ) -> dict[str, Any]:
-    load_dotenv()
-    api_key = os.getenv("ZAI_API_KEY")
+    api_key = llm_api_key()
     if not api_key:
-        raise AgentLLMError("ZAI_API_KEY is not configured")
+        raise AgentLLMError("LLM_API_KEY is not configured")
 
     effort = reasoning_effort or model_config.reasoning_effort
     payload: dict[str, Any] = {
@@ -237,7 +237,7 @@ async def _chat_completion(
             async with httpx.AsyncClient(timeout=model_config.timeout_seconds) as client:
                 response = await client.post(
                     endpoint,
-                    headers={"Authorization": f"Bearer {api_key}"},
+                    headers=llm_headers(api_key, model_config.base_url),
                     json=payload,
                 )
             response.raise_for_status()
@@ -276,7 +276,7 @@ async def _chat_completion(
                 "total_tokens": int(usage.get("total_tokens") or 0),
             },
             metadata={
-                "provider": "z.ai",
+                "provider": httpx.URL(model_config.base_url).host,
                 "provider_request_id": result["id"],
                 "reasoning_effort": effort,
                 "hidden_reasoning_recorded": False,
