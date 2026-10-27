@@ -1,7 +1,7 @@
-"""DeepEval judge backed by Z.AI, running a different model than the agents.
+"""DeepEval judge on the OpenAI-compatible provider, running a different model than the agents.
 
-DeepEval defaults to OpenAI. This project only carries a Z.AI key, so the judge is a
-custom ``DeepEvalBaseLLM`` pinned to a stronger GLM model than the ``glm-5.3-flash`` the
+DeepEval defaults to OpenAI. This project carries one provider key, so the judge is a
+custom ``DeepEvalBaseLLM`` pinned to a stronger model than the ``deepseek-flash`` the
 Explorer, Adversary, and UI agents decide with. Using the model under test as its own
 judge would make the evaluation self-confirming, so that is refused by default.
 """
@@ -13,6 +13,8 @@ import os
 from typing import Any
 
 import httpx
+
+from agentic_api_qa.config import llm_api_key
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
@@ -74,7 +76,7 @@ class ZaiJudgeModel:
         return self
 
     def get_model_name(self) -> str:
-        return f"z.ai/{self.name}"
+        return f"{httpx.URL(self.config.judge_base_url).host}/{self.name}"
 
     def generate(self, prompt: str, schema: type[BaseModel] | None = None) -> Any:
         return self._parse(self._request(prompt, schema is not None), schema)
@@ -115,9 +117,9 @@ class ZaiJudgeModel:
         return f"{self.config.judge_base_url.rstrip('/')}/chat/completions"
 
     def _headers(self) -> dict[str, str]:
-        api_key = os.getenv("ZAI_API_KEY")
+        api_key = llm_api_key()
         if not api_key:
-            raise EvalJudgeError("ZAI_API_KEY is not configured for the eval judge")
+            raise EvalJudgeError("LLM_API_KEY is not configured for the eval judge")
         return {"Authorization": f"Bearer {api_key}"}
 
     def _request(self, prompt: str, json_mode: bool) -> str:

@@ -17,10 +17,11 @@ on:
           - local
         default: production
   schedule:
-    # 3:00 AM America/New_York. Both UTC slots cover daylight-saving time;
-    # the gate below starts only the matching slot.
-    - cron: "0 7 * * *"
-    - cron: "0 8 * * *"
+    # 3:00 AM America/New_York on Mondays and Thursdays; nothing changes on the
+    # site often enough to need a daily scan. Both UTC slots cover daylight-saving
+    # time; the gate below starts only the matching slot.
+    - cron: "0 7 * * 1,4"
+    - cron: "0 8 * * 1,4"
 
 permissions:
   # gh-pages: each run publishes its full HTML report under runs/<run number>/.
@@ -49,7 +50,7 @@ jobs:
           # fired rather than by the current hour.
           ny_tz="$(TZ=America/New_York date +%Z)"
           case "${{ github.event.schedule }}|$ny_tz" in
-            "0 7 * * *|EDT"|"0 8 * * *|EST") should_run=true ;;
+            "0 7 * * 1,4|EDT"|"0 8 * * 1,4|EST") should_run=true ;;
             *) should_run=false ;;
           esac
           echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
@@ -66,6 +67,7 @@ jobs:
       QA_PRODUCTION_READ_ONLY: "true"
       QA_REQUIRE_MUTATION_APPROVAL: "true"
       LANGSMITH_PROJECT: agentic-api-qa
+      LLM_BASE_URL: https://api.deepseek.com
       # A chat turn waits on an upstream LLM, so the 10s default expires against
       # a healthy endpoint and is recorded as a failed happy path.
       API_TIMEOUT_SECONDS: "30"
@@ -94,13 +96,13 @@ jobs:
         id: creds
         shell: bash
         env:
-          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+          LLM_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
-          if [ -n "$ZAI_API_KEY" ]; then
+          if [ -n "$LLM_API_KEY" ]; then
             echo "present=true" >> "$GITHUB_OUTPUT"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::ZAI_API_KEY is not configured; the live scan is skipped and this run stays green."
+            echo "::notice::DEEPSEEK_API_KEY is not configured; the live scan is skipped and this run stays green."
           fi
 
       - name: Setup Python
@@ -118,7 +120,7 @@ jobs:
         if: steps.creds.outputs.present == 'true'
         continue-on-error: true
         env:
-          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+          LLM_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
           LANGSMITH_TRACING: ${{ secrets.LANGSMITH_API_KEY != '' }}
         run: agentic-api-qa --output "reports/nightly-${GITHUB_RUN_ID}.json"

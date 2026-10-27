@@ -15,6 +15,24 @@ from agentic_api_qa.models import (
 )
 
 
+DEFAULT_LLM_BASE_URL = "https://api.deepseek.com"
+DEFAULT_AGENT_MODEL = "deepseek-flash"
+
+
+def llm_api_key() -> str | None:
+    """Key for the OpenAI-compatible model provider.
+
+    ``ZAI_API_KEY`` is still read so existing .env files keep working.
+    """
+    load_dotenv()
+    return os.getenv("LLM_API_KEY") or os.getenv("ZAI_API_KEY")
+
+
+def llm_base_url() -> str:
+    load_dotenv()
+    return os.getenv("LLM_BASE_URL") or os.getenv("ZAI_BASE_URL") or DEFAULT_LLM_BASE_URL
+
+
 def _as_bool(value: str | None, default: bool) -> bool:
     if value is None:
         return default
@@ -47,14 +65,14 @@ def load_run_config() -> RunConfig:
             ),
         ),
         models=AgentModelConfig(
-            base_url=os.getenv("ZAI_BASE_URL", "https://api.z.ai/api/paas/v4/"),
-            explorer_model=os.getenv("QA_EXPLORER_MODEL", "glm-5.3-flash"),
-            adversary_model=os.getenv("QA_ADVERSARY_MODEL", "glm-5.3-flash"),
-            ui_model=os.getenv("QA_UI_MODEL", "glm-5.3-flash"),
-            design_model=os.getenv("QA_DESIGN_MODEL", "glm-5.3-flash"),
-            judge_model=os.getenv("QA_JUDGE_MODEL", "glm-5.3-flash"),
-            healer_model=os.getenv("QA_HEALER_MODEL", "glm-5.3-flash"),
-            reviewer_model=os.getenv("QA_REVIEWER_MODEL", "glm-5.3-flash"),
+            base_url=llm_base_url(),
+            explorer_model=os.getenv("QA_EXPLORER_MODEL", DEFAULT_AGENT_MODEL),
+            adversary_model=os.getenv("QA_ADVERSARY_MODEL", DEFAULT_AGENT_MODEL),
+            ui_model=os.getenv("QA_UI_MODEL", DEFAULT_AGENT_MODEL),
+            design_model=os.getenv("QA_DESIGN_MODEL", DEFAULT_AGENT_MODEL),
+            judge_model=os.getenv("QA_JUDGE_MODEL", DEFAULT_AGENT_MODEL),
+            healer_model=os.getenv("QA_HEALER_MODEL", DEFAULT_AGENT_MODEL),
+            reviewer_model=os.getenv("QA_REVIEWER_MODEL", DEFAULT_AGENT_MODEL),
             reasoning_effort=os.getenv("QA_AGENT_REASONING_EFFORT", "high"),
             judge_reasoning_effort=os.getenv("QA_JUDGE_REASONING_EFFORT", "max"),
             healer_reasoning_effort=os.getenv("QA_HEALER_REASONING_EFFORT", "high"),

@@ -1,7 +1,7 @@
 """Environment-backed settings for the evaluation layer.
 
 The evaluation judge must not be the model under test, so ``judge_model`` defaults to
-a stronger Z.AI model than the ``glm-5.3-flash`` the agents run on.
+a stronger model than the ``deepseek-flash`` the agents run on.
 """
 
 from __future__ import annotations
@@ -11,6 +11,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from pydantic import BaseModel, ConfigDict, Field
+
+from agentic_api_qa.config import llm_api_key, llm_base_url
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -33,8 +35,8 @@ class EvalConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    judge_model: str = "glm-5.3"
-    judge_base_url: str = "https://api.z.ai/api/paas/v4/"
+    judge_model: str = "deepseek-v4-pro"
+    judge_base_url: str = "https://api.deepseek.com"
     judge_reasoning_effort: str = "high"
     judge_max_tokens: int = Field(default=2_000, ge=256, le=16_384)
     judge_timeout_seconds: float = Field(default=120, gt=0, le=600)
@@ -66,11 +68,8 @@ class EvalConfig(BaseModel):
 def load_eval_config() -> EvalConfig:
     load_dotenv()
     return EvalConfig(
-        judge_model=os.getenv("QA_EVAL_JUDGE_MODEL", "glm-5.3"),
-        judge_base_url=os.getenv(
-            "QA_EVAL_JUDGE_BASE_URL",
-            os.getenv("ZAI_BASE_URL", "https://api.z.ai/api/paas/v4/"),
-        ),
+        judge_model=os.getenv("QA_EVAL_JUDGE_MODEL", "deepseek-v4-pro"),
+        judge_base_url=os.getenv("QA_EVAL_JUDGE_BASE_URL") or llm_base_url(),
         judge_reasoning_effort=os.getenv("QA_EVAL_JUDGE_REASONING_EFFORT", "high"),
         judge_max_tokens=int(os.getenv("QA_EVAL_JUDGE_MAX_TOKENS", "2000")),
         judge_timeout_seconds=float(os.getenv("QA_EVAL_JUDGE_TIMEOUT_SECONDS", "120")),
@@ -106,5 +105,4 @@ def load_eval_config() -> EvalConfig:
 
 
 def agent_api_key_available() -> bool:
-    load_dotenv()
-    return bool(os.getenv("ZAI_API_KEY"))
+    return bool(llm_api_key())

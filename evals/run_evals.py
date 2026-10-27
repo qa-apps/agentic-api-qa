@@ -125,7 +125,7 @@ async def _main() -> int:
     if args.seed is not None:
         settings = settings.model_copy(update={"mutation_seed": args.seed})
     if not agent_api_key_available():
-        print("ZAI_API_KEY is not configured; real agents cannot be evaluated.")
+        print("LLM_API_KEY is not configured; real agents cannot be evaluated.")
         return 2
 
     judge = None

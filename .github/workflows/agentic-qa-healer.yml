@@ -59,11 +59,12 @@ jobs:
           QA_HEALER_GITHUB_REPOSITORY: qa-apps/alexpavsky
           QA_HEALER_BASE_BRANCH: main
           QA_HEALER_DRAFT_PR: "true"
-          QA_REVIEWER_MODEL: glm-5.3-flash
+          QA_REVIEWER_MODEL: deepseek-flash
           QA_REVIEWER_REASONING_EFFORT: max
           QA_REVIEWER_REVISION_ROUNDS: "2"
           QA_HUMAN_REVIEW_CHANNEL_ID: ${{ secrets.HUMAN_REVIEW_CHANNEL_ID }}
-          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+          LLM_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          LLM_BASE_URL: https://api.deepseek.com
           LANGSMITH_TRACING: "true"
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
           LANGSMITH_PROJECT: ap-agents-production

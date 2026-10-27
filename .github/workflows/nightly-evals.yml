@@ -8,7 +8,9 @@ on:
         required: false
         default: "1337"
   schedule:
-    - cron: "43 9 * * *"
+    # Mondays and Thursdays. A full run costs ~0.9M tokens; nightly added cost,
+    # not signal.
+    - cron: "43 9 * * 1,4"
 
 concurrency:
   group: ap-agent-nightly-evals
@@ -22,9 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
-      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
-      ZAI_BASE_URL: https://api.z.ai/api/paas/v4/
-      QA_EVAL_JUDGE_MODEL: glm-5.3
+      LLM_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      LLM_BASE_URL: https://api.deepseek.com
+      # Agents run on deepseek-flash; the judge must be a different, stronger model.
+      QA_EVAL_JUDGE_MODEL: deepseek-v4-pro
       QA_EVAL_SITE_SOURCE: ${{ github.workspace }}/_source/alexpavsky
       QA_EVAL_SLACK_CHANNEL_ID: C0BPQTUS2DR
       QA_EVAL_MUTATION_SEED: ${{ inputs.mutation_seed || '1337' }}
