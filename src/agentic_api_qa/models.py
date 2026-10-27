@@ -155,11 +155,16 @@ class AgentModelConfig(QAModel):
     healer_model: str = "glm-5.3-flash"
     reviewer_model: str = "glm-5.3-flash"
     reasoning_effort: Literal["low", "high", "max"] = "high"
-    judge_reasoning_effort: Literal["low", "high", "max"] = "max"
+    judge_reasoning_effort: Literal["low", "high", "max"] = "high"
     healer_reasoning_effort: Literal["low", "high", "max"] = "high"
     reviewer_reasoning_effort: Literal["low", "high", "max"] = "max"
     timeout_seconds: float = Field(default=60, gt=0, le=300)
     max_tokens: int = Field(default=1_200, ge=128, le=16_384)
+    # Reasoning tokens count against max_tokens. On six findings the Judge reasons for
+    # ~4.8k tokens and ~100 s at "high" effort, but ~14k tokens and ~300 s at "max",
+    # which outran the shared 1.2k-token, 60 s agent budget on every eval run.
+    judge_max_tokens: int = Field(default=16_000, ge=1_024, le=32_768)
+    judge_timeout_seconds: float = Field(default=300, gt=0, le=900)
 
 
 class HealerConfig(QAModel):

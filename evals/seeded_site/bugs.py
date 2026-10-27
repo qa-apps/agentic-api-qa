@@ -59,6 +59,8 @@ MUTATIONS: dict[str, Mutation] = {
         detection_agent="ui_explorer",
         expected_kinds=("ui",),
         match_any=("feed", "live", "news"),
+        # The page fills #feed-grid from /api/feed, so the API must return no articles too.
+        api={"empty_feed": True},
         html=(
             (
                 _FEED_SECTION.pattern,

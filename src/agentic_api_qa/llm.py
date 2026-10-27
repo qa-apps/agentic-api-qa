@@ -294,6 +294,22 @@ def _usage(data: dict[str, Any]) -> UsageDelta:
     )
 
 
+def _loads_json_object(content: str) -> Any:
+    """Parse a JSON reply, also when the model wraps it in a Markdown code fence.
+
+    OpenCode Go's glm-5.3-flash sometimes ignores ``response_format`` and answers with
+    a fenced block, so fall back to the outermost object as the eval judge does.
+    """
+
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        start, end = content.find("{"), content.rfind("}")
+        if start == -1 or end <= start:
+            raise
+        return json.loads(content[start : end + 1])
+
+
 def _json_content(data: dict[str, Any]) -> dict[str, Any]:
     content = data["message"].get("content")
     if not content:
@@ -301,7 +317,7 @@ def _json_content(data: dict[str, Any]) -> dict[str, Any]:
             "Model returned no structured content; increase the output budget or reduce reasoning effort"
         )
     try:
-        return json.loads(content)
+        return _loads_json_object(content)
     except json.JSONDecodeError as exc:
         raise AgentLLMError("Model returned invalid JSON content") from exc
 
@@ -324,9 +340,13 @@ async def evaluate_candidate_findings(
                 "resolved_api_evidence": evidence,
             }
         )
-    data = await _chat_completion(
-        model_config=state.config.models.model_copy(
-            update={"max_tokens": max(state.config.models.max_tokens, 4_000)}
+    models = state.config.models
+    request = dict(
+        model_config=models.model_copy(
+            update={
+                "max_tokens": max(models.max_tokens, models.judge_max_tokens),
+                "timeout_seconds": max(models.timeout_seconds, models.judge_timeout_seconds),
+            }
         ),
         model=state.config.models.judge_model,
         reasoning_effort=state.config.models.judge_reasoning_effort,
@@ -374,7 +394,23 @@ async def evaluate_candidate_findings(
         ],
         response_format={"type": "json_object"},
     )
-    body = _json_content(data)
+    # glm-5.3-flash on OpenCode Go occasionally returns malformed or empty JSON; one
+    # retry is cheaper than failing every finding closed for the whole run.
+    usage = UsageDelta()
+    for attempt in range(2):
+        data = await _chat_completion(**request)
+        reply = _usage(data)
+        usage = UsageDelta(
+            prompt_tokens=usage.prompt_tokens + reply.prompt_tokens,
+            completion_tokens=usage.completion_tokens + reply.completion_tokens,
+            total_tokens=usage.total_tokens + reply.total_tokens,
+        )
+        try:
+            body = _json_content(data)
+            break
+        except AgentLLMError:
+            if attempt:
+                raise
     raw_decisions = body.get("decisions")
     if not isinstance(raw_decisions, list):
         raise AgentLLMError("Judge response did not contain a decisions array")
@@ -395,9 +431,24 @@ async def evaluate_candidate_findings(
             and has_evidence
         )
         decisions.append(decision.model_copy(update={"healer_eligible": eligible}))
-    if seen != set(by_id):
-        raise AgentLLMError("Judge did not evaluate every candidate finding")
-    return JudgeEvaluationChoice(decisions=decisions, usage=_usage(data))
+    # A finding the Judge skipped fails closed on its own; the verdicts it did return
+    # still stand, instead of discarding them all.
+    decisions.extend(
+        JudgeDecision(
+            finding_id=finding_id,
+            verdict=JudgeVerdict.INCONCLUSIVE,
+            confidence=0,
+            skeptical_challenge="Independent falsification was not attempted.",
+            evidence_for=[],
+            evidence_against=["The Judge returned no decision for this finding."],
+            reasoning_summary="Fail-closed: the Judge did not evaluate this finding.",
+            investigation_reason="Judge response omitted this finding_id.",
+            healer_eligible=False,
+        )
+        for finding_id in by_id
+        if finding_id not in seen
+    )
+    return JudgeEvaluationChoice(decisions=decisions, usage=usage)
 
 
 async def propose_healer_fix(
@@ -1109,7 +1160,7 @@ async def reflect_on_evidence(
     )
     content = data["message"].get("content") or ""
     try:
-        parsed = json.loads(content)
+        parsed = _loads_json_object(content)
     except json.JSONDecodeError as exc:
         raise AgentLLMError("Agent reflection was not valid JSON") from exc
     if isinstance(parsed.get("result"), str):
