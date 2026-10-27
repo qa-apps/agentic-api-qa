@@ -192,6 +192,17 @@ def test_clean_control_copy_remembers_each_chat_session(site_config: EvalConfig)
     assert "Explain flaky tests" not in other.json()["reply"]
 
 
+def test_clean_control_copy_rejects_a_non_string_chat_message(site_config: EvalConfig) -> None:
+    control = next(item for item in load_seeded_profiles() if item.control)
+
+    with serve_profile(control, site_config) as site:
+        response = httpx.post(
+            f"{site.base_url}/api/chat", json={"message": {"text": "hi"}}, timeout=5
+        )
+
+    assert response.status_code == 400
+
+
 def test_missing_news_feed_profile_also_empties_the_feed_api(site_config: EvalConfig) -> None:
     profile = next(
         item for item in load_seeded_profiles() if item.profile_id == "missing-news-feed"

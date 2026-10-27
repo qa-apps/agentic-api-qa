@@ -168,3 +168,44 @@ async def test_judge_gets_its_own_reasoning_budget(monkeypatch) -> None:
     assert calls[0]["reasoning_effort"] == "high"
     assert budget.max_tokens >= 16_000
     assert budget.timeout_seconds >= 300
+
+
+@pytest.mark.asyncio
+async def test_judge_keeps_returned_verdicts_when_it_skips_a_finding(monkeypatch) -> None:
+    def finding(title: str) -> CandidateFinding:
+        return CandidateFinding(
+            source="explorer",
+            kind=FindingKind.API,
+            severity=Severity.HIGH,
+            title=title,
+            expected="A valid chat request returns a reply.",
+            actual="POST /api/chat returned an internal server error.",
+        )
+
+    judged, skipped = finding("Chat API returned HTTP 500"), finding("Chat reply was empty")
+
+    async def completion(**kwargs):
+        decision = {
+            "finding_id": judged.finding_id,
+            "verdict": "CONFIRMED",
+            "confidence": 0.9,
+            "skeptical_challenge": "Could be a harness error.",
+            "evidence_for": [],
+            "evidence_against": [],
+            "reasoning_summary": "Reproducible 500.",
+            "investigation_reason": "Product defect.",
+            "healer_eligible": True,
+        }
+        return {
+            "message": {"content": json.dumps({"decisions": [decision]}), "tool_calls": []},
+            "usage": {"total_tokens": 1},
+        }
+
+    monkeypatch.setattr("agentic_api_qa.llm._chat_completion", completion)
+
+    result = await evaluate_candidate_findings(QAState(), [judged, skipped])
+
+    verdicts = {item.finding_id: item for item in result.decisions}
+    assert verdicts[judged.finding_id].verdict.value == "CONFIRMED"
+    assert verdicts[skipped.finding_id].verdict.value == "INCONCLUSIVE"
+    assert not verdicts[skipped.finding_id].healer_eligible

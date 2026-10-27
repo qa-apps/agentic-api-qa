@@ -464,7 +464,9 @@ def _build_handler(
         def _chat(self, body: Any) -> None:
             message = ""
             if isinstance(body, dict):
-                message = str(body.get("message") or body.get("prompt") or "")
+                # Like the application, a non-string message counts as empty.
+                value = body.get("message") or body.get("prompt")
+                message = value if isinstance(value, str) else ""
             if chat_status >= 500:
                 return self._json(
                     chat_status,
@@ -484,7 +486,8 @@ def _build_handler(
                         "model": "seeded-assistant",
                     },
                 )
-            session_id = str(body.get("session_id") or "") if isinstance(body, dict) else ""
+            session_id = body.get("session_id") if isinstance(body, dict) else None
+            session_id = session_id if isinstance(session_id, str) else ""
             with chat_lock:
                 history = chat_history.setdefault(session_id, []) if session_id else []
                 previous = history[-1] if history else None

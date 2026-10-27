@@ -415,8 +415,23 @@ async def evaluate_candidate_findings(
             and has_evidence
         )
         decisions.append(decision.model_copy(update={"healer_eligible": eligible}))
-    if seen != set(by_id):
-        raise AgentLLMError("Judge did not evaluate every candidate finding")
+    # A finding the Judge skipped fails closed on its own; the verdicts it did return
+    # still stand, instead of discarding them all.
+    decisions.extend(
+        JudgeDecision(
+            finding_id=finding_id,
+            verdict=JudgeVerdict.INCONCLUSIVE,
+            confidence=0,
+            skeptical_challenge="Independent falsification was not attempted.",
+            evidence_for=[],
+            evidence_against=["The Judge returned no decision for this finding."],
+            reasoning_summary="Fail-closed: the Judge did not evaluate this finding.",
+            investigation_reason="Judge response omitted this finding_id.",
+            healer_eligible=False,
+        )
+        for finding_id in by_id
+        if finding_id not in seen
+    )
     return JudgeEvaluationChoice(decisions=decisions, usage=_usage(data))
 
 
