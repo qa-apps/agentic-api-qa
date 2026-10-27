@@ -117,9 +117,10 @@ class ZaiJudgeModel:
         return f"{self.config.judge_base_url.rstrip('/')}/chat/completions"
 
     def _headers(self) -> dict[str, str]:
-        api_key = llm_api_key()
+        # The judge may sit on a different provider than the agents, with its own key.
+        api_key = os.getenv("QA_EVAL_JUDGE_API_KEY") or llm_api_key()
         if not api_key:
-            raise EvalJudgeError("LLM_API_KEY is not configured for the eval judge")
+            raise EvalJudgeError("QA_EVAL_JUDGE_API_KEY / LLM_API_KEY is not configured for the eval judge")
         return {"Authorization": f"Bearer {api_key}"}
 
     def _request(self, prompt: str, json_mode: bool) -> str:
