@@ -294,6 +294,22 @@ def _usage(data: dict[str, Any]) -> UsageDelta:
     )
 
 
+def _loads_json_object(content: str) -> Any:
+    """Parse a JSON reply, also when the model wraps it in a Markdown code fence.
+
+    OpenCode Go's glm-5.3-flash sometimes ignores ``response_format`` and answers with
+    a fenced block, so fall back to the outermost object as the eval judge does.
+    """
+
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        start, end = content.find("{"), content.rfind("}")
+        if start == -1 or end <= start:
+            raise
+        return json.loads(content[start : end + 1])
+
+
 def _json_content(data: dict[str, Any]) -> dict[str, Any]:
     content = data["message"].get("content")
     if not content:
@@ -301,7 +317,7 @@ def _json_content(data: dict[str, Any]) -> dict[str, Any]:
             "Model returned no structured content; increase the output budget or reduce reasoning effort"
         )
     try:
-        return json.loads(content)
+        return _loads_json_object(content)
     except json.JSONDecodeError as exc:
         raise AgentLLMError("Model returned invalid JSON content") from exc
 
@@ -324,9 +340,13 @@ async def evaluate_candidate_findings(
                 "resolved_api_evidence": evidence,
             }
         )
+    models = state.config.models
     data = await _chat_completion(
-        model_config=state.config.models.model_copy(
-            update={"max_tokens": max(state.config.models.max_tokens, 4_000)}
+        model_config=models.model_copy(
+            update={
+                "max_tokens": max(models.max_tokens, models.judge_max_tokens),
+                "timeout_seconds": max(models.timeout_seconds, models.judge_timeout_seconds),
+            }
         ),
         model=state.config.models.judge_model,
         reasoning_effort=state.config.models.judge_reasoning_effort,
@@ -1109,7 +1129,7 @@ async def reflect_on_evidence(
     )
     content = data["message"].get("content") or ""
     try:
-        parsed = json.loads(content)
+        parsed = _loads_json_object(content)
     except json.JSONDecodeError as exc:
         raise AgentLLMError("Agent reflection was not valid JSON") from exc
     if isinstance(parsed.get("result"), str):

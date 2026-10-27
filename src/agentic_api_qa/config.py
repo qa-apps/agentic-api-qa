@@ -87,13 +87,15 @@ def load_run_config() -> RunConfig:
             healer_model=os.getenv("QA_HEALER_MODEL", DEFAULT_AGENT_MODEL),
             reviewer_model=os.getenv("QA_REVIEWER_MODEL", DEFAULT_AGENT_MODEL),
             reasoning_effort=os.getenv("QA_AGENT_REASONING_EFFORT", "high"),
-            judge_reasoning_effort=os.getenv("QA_JUDGE_REASONING_EFFORT", "max"),
+            judge_reasoning_effort=os.getenv("QA_JUDGE_REASONING_EFFORT", "high"),
             healer_reasoning_effort=os.getenv("QA_HEALER_REASONING_EFFORT", "high"),
             reviewer_reasoning_effort=os.getenv(
                 "QA_REVIEWER_REASONING_EFFORT", "max"
             ),
             timeout_seconds=float(os.getenv("QA_LLM_TIMEOUT_SECONDS", "60")),
             max_tokens=int(os.getenv("QA_LLM_MAX_TOKENS", "1200")),
+            judge_max_tokens=int(os.getenv("QA_JUDGE_MAX_TOKENS", "16000")),
+            judge_timeout_seconds=float(os.getenv("QA_JUDGE_TIMEOUT_SECONDS", "300")),
         ),
         healer=HealerConfig(
             enabled=_as_bool(os.getenv("QA_HEALER_ENABLED"), True),

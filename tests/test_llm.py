@@ -2,9 +2,16 @@ import json
 
 import pytest
 
-from agentic_api_qa.llm import choose_next_action, reflect_on_evidence
+from agentic_api_qa.llm import (
+    choose_next_action,
+    evaluate_candidate_findings,
+    reflect_on_evidence,
+)
 from agentic_api_qa.models import (
     Actor,
+    CandidateFinding,
+    Environment,
+    FindingKind,
     EvidenceRecord,
     EvidenceRequest,
     EvidenceResponse,
@@ -17,7 +24,10 @@ from agentic_api_qa.models import (
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("provider_value", ["info", "NONE", None])
-async def test_reflection_normalizes_provider_severity(monkeypatch, provider_value) -> None:
+@pytest.mark.parametrize("fence", ["{}", "```json\n{}\n```"])
+async def test_reflection_normalizes_provider_severity(
+    monkeypatch, provider_value, fence
+) -> None:
     async def completion(**kwargs):
         body = {
             "result": "pass",
@@ -27,7 +37,11 @@ async def test_reflection_normalizes_provider_severity(monkeypatch, provider_val
             "severity": provider_value,
         }
         return {
-            "message": {"content": json.dumps(body), "tool_calls": []},
+            # OpenCode Go models sometimes fence the JSON despite response_format.
+            "message": {
+                "content": fence.replace("{}", json.dumps(body)),
+                "tool_calls": [],
+            },
             "usage": {"total_tokens": 10},
         }
 
@@ -114,3 +128,43 @@ async def test_planner_self_corrects_an_incomplete_tool_call(monkeypatch) -> Non
     assert choice.step is not None
     assert choice.step.request.path == "/api/health"
     assert choice.usage.total_tokens == 10
+
+
+@pytest.mark.asyncio
+async def test_judge_gets_its_own_reasoning_budget(monkeypatch) -> None:
+    calls: list[dict] = []
+    finding = CandidateFinding(
+        source="explorer",
+        kind=FindingKind.API,
+        severity=Severity.HIGH,
+        title="Chat API returned HTTP 500",
+        expected="A valid chat request returns a reply.",
+        actual="POST /api/chat returned an internal server error.",
+    )
+
+    async def completion(**kwargs):
+        calls.append(kwargs)
+        decision = {
+            "finding_id": finding.finding_id,
+            "verdict": "CONFIRMED",
+            "confidence": 0.9,
+            "skeptical_challenge": "Could be a harness error.",
+            "evidence_for": [],
+            "evidence_against": [],
+            "reasoning_summary": "Reproducible 500.",
+            "investigation_reason": "Product defect.",
+            "healer_eligible": False,
+        }
+        return {
+            "message": {"content": json.dumps({"decisions": [decision]}), "tool_calls": []},
+            "usage": {"total_tokens": 1},
+        }
+
+    monkeypatch.setattr("agentic_api_qa.llm._chat_completion", completion)
+
+    await evaluate_candidate_findings(QAState(), [finding])
+
+    budget = calls[0]["model_config"]
+    assert calls[0]["reasoning_effort"] == "high"
+    assert budget.max_tokens >= 16_000
+    assert budget.timeout_seconds >= 300
