@@ -17,10 +17,11 @@ on:
           - local
         default: production
   schedule:
-    # 3:00 AM America/New_York on Monday, Wednesday and Friday. Both UTC slots
-    # cover daylight-saving time; the gate below starts only the matching slot.
-    - cron: "0 7 * * 1,3,5"
-    - cron: "0 8 * * 1,3,5"
+    # 3:00 AM America/New_York, every third day. Both UTC slots cover
+    # daylight-saving time; the gate below starts only the matching slot, and
+    # only on days where (days since epoch) % 3 == 0 — the same days as the evals.
+    - cron: "0 7 * * *"
+    - cron: "0 8 * * *"
 
 permissions:
   # gh-pages: each run publishes its full HTML report under runs/<run number>/.
@@ -49,9 +50,11 @@ jobs:
           # fired rather than by the current hour.
           ny_tz="$(TZ=America/New_York date +%Z)"
           case "${{ github.event.schedule }}|$ny_tz" in
-            "0 7 * * 1,3,5|EDT"|"0 8 * * 1,3,5|EST") should_run=true ;;
+            "0 7 * * *|EDT"|"0 8 * * *|EST") should_run=true ;;
             *) should_run=false ;;
           esac
+          # Every third day. Plain cron */3 restarts each month (31st, then 1st).
+          if (( $(date -u +%s) / 86400 % 3 != 0 )); then should_run=false; fi
           echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
 
   scan:
