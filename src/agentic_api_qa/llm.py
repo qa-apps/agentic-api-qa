@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from langsmith import traceable
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from agentic_api_qa.config import llm_api_key
+from agentic_api_qa.config import llm_api_key, llm_headers
 from agentic_api_qa.knowledge import agent_knowledge
 from agentic_api_qa.observability import generation_observation
 from agentic_api_qa.models import (
@@ -237,7 +237,7 @@ async def _chat_completion(
             async with httpx.AsyncClient(timeout=model_config.timeout_seconds) as client:
                 response = await client.post(
                     endpoint,
-                    headers={"Authorization": f"Bearer {api_key}"},
+                    headers=llm_headers(api_key, model_config.base_url),
                     json=payload,
                 )
             response.raise_for_status()

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import uuid
 
 from dotenv import load_dotenv
 
@@ -15,8 +16,9 @@ from agentic_api_qa.models import (
 )
 
 
-DEFAULT_LLM_BASE_URL = "https://api.deepseek.com"
-DEFAULT_AGENT_MODEL = "deepseek-flash"
+# OpenCode Go: a flat monthly subscription, so runs cost quota rather than per-token money.
+DEFAULT_LLM_BASE_URL = "https://opencode.ai/zen/go/v1"
+DEFAULT_AGENT_MODEL = "glm-5.3-flash"
 
 
 def llm_api_key() -> str | None:
@@ -31,6 +33,17 @@ def llm_api_key() -> str | None:
 def llm_base_url() -> str:
     load_dotenv()
     return os.getenv("LLM_BASE_URL") or os.getenv("ZAI_BASE_URL") or DEFAULT_LLM_BASE_URL
+
+
+_SESSION_ID = os.getenv("LLM_SESSION_ID") or f"agentic-api-qa-{os.getenv('GITHUB_RUN_ID') or uuid.uuid4().hex[:12]}"
+
+
+def llm_headers(api_key: str, base_url: str) -> dict[str, str]:
+    """Auth plus, for OpenCode Go, the session id it requires to route a request."""
+    headers = {"Authorization": f"Bearer {api_key}"}
+    if "opencode.ai" in base_url:
+        headers["x-opencode-session"] = _SESSION_ID
+    return headers
 
 
 def _as_bool(value: str | None, default: bool) -> bool:

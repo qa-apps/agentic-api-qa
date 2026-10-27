@@ -1,7 +1,7 @@
 """Environment-backed settings for the evaluation layer.
 
 The evaluation judge must not be the model under test, so ``judge_model`` defaults to
-a stronger model than the ``deepseek-flash`` the agents run on.
+a different model family than the ``glm-5.3-flash`` the agents run on.
 """
 
 from __future__ import annotations
@@ -35,8 +35,8 @@ class EvalConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    judge_model: str = "deepseek-v4-pro"
-    judge_base_url: str = "https://api.deepseek.com"
+    judge_model: str = "qwen3.8-flash"
+    judge_base_url: str = "https://opencode.ai/zen/go/v1"
     judge_reasoning_effort: str = "high"
     judge_max_tokens: int = Field(default=2_000, ge=256, le=16_384)
     judge_timeout_seconds: float = Field(default=120, gt=0, le=600)
@@ -68,7 +68,7 @@ class EvalConfig(BaseModel):
 def load_eval_config() -> EvalConfig:
     load_dotenv()
     return EvalConfig(
-        judge_model=os.getenv("QA_EVAL_JUDGE_MODEL", "deepseek-v4-pro"),
+        judge_model=os.getenv("QA_EVAL_JUDGE_MODEL", "qwen3.8-flash"),
         judge_base_url=os.getenv("QA_EVAL_JUDGE_BASE_URL") or llm_base_url(),
         judge_reasoning_effort=os.getenv("QA_EVAL_JUDGE_REASONING_EFFORT", "high"),
         judge_max_tokens=int(os.getenv("QA_EVAL_JUDGE_MAX_TOKENS", "2000")),
