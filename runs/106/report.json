@@ -1,0 +1,1836 @@
+{
+  "schema_version": "1.0",
+  "run": {
+    "run_id": "run-9dee2512390f",
+    "target": "https://www.alexpavsky.com/",
+    "environment": "production",
+    "started_at": "2026-11-10T16:19:37.329363Z",
+    "finished_at": "2026-11-10T16:21:26.913589Z",
+    "duration_ms": 109584.226,
+    "overall_result": "ERROR",
+    "production_read_only": true
+  },
+  "happy_path": {
+    "status": "PASS",
+    "steps": []
+  },
+  "adversarial": [],
+  "summary": "Happy path: 0 passed, 0 failed. Guardrails: 0 held, 0 breached, 0 inconclusive. UI smoke: 20 passed, 0 failed. Screenshots: 20/20. Failure videos: 0. Judge: 0 confirmed of 0 candidates. Healer: not requested. LLM calls: 0.",
+  "metrics": {
+    "happy_path_passed": 0,
+    "happy_path_failed": 0,
+    "guardrails_held": 0,
+    "guardrails_breached": 0,
+    "guardrails_inconclusive": 0,
+    "pipeline_errors": 23,
+    "explorer_iterations": 0,
+    "adversary_iterations": 0,
+    "explorer_tool_calls": 0,
+    "adversary_tool_calls": 0,
+    "total_tool_calls": 0,
+    "llm_calls": 0,
+    "llm_prompt_tokens": 0,
+    "llm_completion_tokens": 0,
+    "llm_total_tokens": 0,
+    "ui_cases_passed": 20,
+    "ui_cases_failed": 0,
+    "ui_mcp_tool_calls": 162,
+    "ui_screenshots": 20,
+    "ui_videos": 0,
+    "ui_investigation_cases": 0
+  },
+  "evidence": [],
+  "audit_log": [
+    {
+      "event_id": "event-5e9c27d2c59e",
+      "timestamp": "2026-11-10T16:19:37.342390Z",
+      "actor": "governor",
+      "event_type": "RUN_INITIALIZED",
+      "iteration": 0,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": null,
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "target": "alexpavsky",
+        "environment": "production",
+        "production_read_only": true,
+        "explorer_model": "glm-5.3-flash",
+        "adversary_model": "glm-5.3-flash"
+      }
+    },
+    {
+      "event_id": "event-412d893ea442",
+      "timestamp": "2026-11-10T16:19:37.880254Z",
+      "actor": "explorer",
+      "event_type": "LLM_DECISION_FAILED",
+      "iteration": 0,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": null,
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "error": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}"
+      }
+    },
+    {
+      "event_id": "event-f6d6a0e77cef",
+      "timestamp": "2026-11-10T16:19:38.142951Z",
+      "actor": "adversary",
+      "event_type": "LLM_DECISION_FAILED",
+      "iteration": 0,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": null,
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "error": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}"
+      }
+    },
+    {
+      "event_id": "event-d73217074f11",
+      "timestamp": "2026-11-10T16:19:38.481156Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 1,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-home-desktop",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-5225f10dfd92",
+      "timestamp": "2026-11-10T16:20:03.432872Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 1,
+      "tool_call_count": 7,
+      "scenario_or_rule_id": "ui-home-desktop",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-home-desktop.png"
+      }
+    },
+    {
+      "event_id": "event-4aa9ccca57ee",
+      "timestamp": "2026-11-10T16:20:03.434380Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 1,
+      "tool_call_count": 7,
+      "scenario_or_rule_id": "ui-home-desktop",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-1fdfce45df23",
+      "timestamp": "2026-11-10T16:20:03.870297Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 2,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-primary-navigation",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-cf0d77e8ac85",
+      "timestamp": "2026-11-10T16:20:06.979864Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 2,
+      "tool_call_count": 14,
+      "scenario_or_rule_id": "ui-primary-navigation",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-primary-navigation.png"
+      }
+    },
+    {
+      "event_id": "event-6867420dcf3f",
+      "timestamp": "2026-11-10T16:20:06.981337Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 2,
+      "tool_call_count": 14,
+      "scenario_or_rule_id": "ui-primary-navigation",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-183cb079675b",
+      "timestamp": "2026-11-10T16:20:07.254507Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 3,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-theme-toggle",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-1272541c4b09",
+      "timestamp": "2026-11-10T16:20:11.916039Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 3,
+      "tool_call_count": 22,
+      "scenario_or_rule_id": "ui-theme-toggle",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-theme-toggle.png"
+      }
+    },
+    {
+      "event_id": "event-84e12138f525",
+      "timestamp": "2026-11-10T16:20:11.917698Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 3,
+      "tool_call_count": 22,
+      "scenario_or_rule_id": "ui-theme-toggle",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-a99262884080",
+      "timestamp": "2026-11-10T16:20:12.188473Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 4,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-mobile-menu",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-6ccfb52b34a3",
+      "timestamp": "2026-11-10T16:20:16.241210Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 4,
+      "tool_call_count": 30,
+      "scenario_or_rule_id": "ui-mobile-menu",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-mobile-menu.png"
+      }
+    },
+    {
+      "event_id": "event-6034fed1cb8e",
+      "timestamp": "2026-11-10T16:20:16.242830Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 4,
+      "tool_call_count": 30,
+      "scenario_or_rule_id": "ui-mobile-menu",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-c52c259c5396",
+      "timestamp": "2026-11-10T16:20:16.613991Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 5,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-login-modal",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-6b463fb2840d",
+      "timestamp": "2026-11-10T16:20:20.537714Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 5,
+      "tool_call_count": 38,
+      "scenario_or_rule_id": "ui-login-modal",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-login-modal.png"
+      }
+    },
+    {
+      "event_id": "event-fc7bc7ed1fa5",
+      "timestamp": "2026-11-10T16:20:20.539303Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 5,
+      "tool_call_count": 38,
+      "scenario_or_rule_id": "ui-login-modal",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-ca0cc8dbcae5",
+      "timestamp": "2026-11-10T16:20:20.799400Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 6,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-registration-tab",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-fce5e3b1926c",
+      "timestamp": "2026-11-10T16:20:26.074641Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 6,
+      "tool_call_count": 47,
+      "scenario_or_rule_id": "ui-registration-tab",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-registration-tab.png"
+      }
+    },
+    {
+      "event_id": "event-965a1e1cbbc2",
+      "timestamp": "2026-11-10T16:20:26.076330Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 6,
+      "tool_call_count": 47,
+      "scenario_or_rule_id": "ui-registration-tab",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-f41c627a4bf4",
+      "timestamp": "2026-11-10T16:20:26.333133Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 7,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-registration-fields",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-89dc235fd854",
+      "timestamp": "2026-11-10T16:20:31.914594Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 7,
+      "tool_call_count": 57,
+      "scenario_or_rule_id": "ui-registration-fields",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-registration-fields.png"
+      }
+    },
+    {
+      "event_id": "event-4ef6c6905218",
+      "timestamp": "2026-11-10T16:20:31.916417Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 7,
+      "tool_call_count": 57,
+      "scenario_or_rule_id": "ui-registration-fields",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-670af4c9b0db",
+      "timestamp": "2026-11-10T16:20:32.346017Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 8,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-chat-opens",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-9baa2ff097c9",
+      "timestamp": "2026-11-10T16:20:36.611719Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 8,
+      "tool_call_count": 65,
+      "scenario_or_rule_id": "ui-chat-opens",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-chat-opens.png"
+      }
+    },
+    {
+      "event_id": "event-7aa9f5c2bfd8",
+      "timestamp": "2026-11-10T16:20:36.613583Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 8,
+      "tool_call_count": 65,
+      "scenario_or_rule_id": "ui-chat-opens",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-a317884e5a3c",
+      "timestamp": "2026-11-10T16:20:36.888350Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 9,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-chat-terms",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-236d4afaa24b",
+      "timestamp": "2026-11-10T16:20:41.976390Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 9,
+      "tool_call_count": 74,
+      "scenario_or_rule_id": "ui-chat-terms",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-chat-terms.png"
+      }
+    },
+    {
+      "event_id": "event-f110228ee679",
+      "timestamp": "2026-11-10T16:20:41.978253Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 9,
+      "tool_call_count": 74,
+      "scenario_or_rule_id": "ui-chat-terms",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-2ef22c3aa861",
+      "timestamp": "2026-11-10T16:20:42.235216Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 10,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-chat-consent",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-1a22c43a60a4",
+      "timestamp": "2026-11-10T16:20:47.858689Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 10,
+      "tool_call_count": 84,
+      "scenario_or_rule_id": "ui-chat-consent",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-chat-consent.png"
+      }
+    },
+    {
+      "event_id": "event-1e550f26b06e",
+      "timestamp": "2026-11-10T16:20:47.860564Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 10,
+      "tool_call_count": 84,
+      "scenario_or_rule_id": "ui-chat-consent",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-40ab4d00e9b0",
+      "timestamp": "2026-11-10T16:20:48.343479Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 11,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-feed-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-c48329b5464b",
+      "timestamp": "2026-11-10T16:20:51.471853Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 11,
+      "tool_call_count": 91,
+      "scenario_or_rule_id": "ui-feed-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-feed-section.png"
+      }
+    },
+    {
+      "event_id": "event-aed589641261",
+      "timestamp": "2026-11-10T16:20:51.473759Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 11,
+      "tool_call_count": 91,
+      "scenario_or_rule_id": "ui-feed-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-7d12a7f9467b",
+      "timestamp": "2026-11-10T16:20:51.718857Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 12,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-explore-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-aadca019712d",
+      "timestamp": "2026-11-10T16:20:54.811839Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 12,
+      "tool_call_count": 98,
+      "scenario_or_rule_id": "ui-explore-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-explore-section.png"
+      }
+    },
+    {
+      "event_id": "event-187107939f82",
+      "timestamp": "2026-11-10T16:20:54.813949Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 12,
+      "tool_call_count": 98,
+      "scenario_or_rule_id": "ui-explore-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-19348472c49c",
+      "timestamp": "2026-11-10T16:20:55.072184Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 13,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-tools-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-18c47ed7bbba",
+      "timestamp": "2026-11-10T16:20:58.102344Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 13,
+      "tool_call_count": 105,
+      "scenario_or_rule_id": "ui-tools-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-tools-section.png"
+      }
+    },
+    {
+      "event_id": "event-d0943a9557d6",
+      "timestamp": "2026-11-10T16:20:58.104309Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 13,
+      "tool_call_count": 105,
+      "scenario_or_rule_id": "ui-tools-section",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-84fb294ec401",
+      "timestamp": "2026-11-10T16:20:58.438370Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 14,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-newsletter-draft",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-6f8fa809d9d5",
+      "timestamp": "2026-11-10T16:21:01.869043Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 14,
+      "tool_call_count": 113,
+      "scenario_or_rule_id": "ui-newsletter-draft",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-newsletter-draft.png"
+      }
+    },
+    {
+      "event_id": "event-ad8175da9d72",
+      "timestamp": "2026-11-10T16:21:01.871093Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 14,
+      "tool_call_count": 113,
+      "scenario_or_rule_id": "ui-newsletter-draft",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-1f33b42a9e0c",
+      "timestamp": "2026-11-10T16:21:02.145440Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 15,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-keyboard-focus",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-d0247c5d5df0",
+      "timestamp": "2026-11-10T16:21:05.388455Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 15,
+      "tool_call_count": 123,
+      "scenario_or_rule_id": "ui-keyboard-focus",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-keyboard-focus.png"
+      }
+    },
+    {
+      "event_id": "event-d33f1ca725e4",
+      "timestamp": "2026-11-10T16:21:05.390612Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 15,
+      "tool_call_count": 123,
+      "scenario_or_rule_id": "ui-keyboard-focus",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-5cd74e11291f",
+      "timestamp": "2026-11-10T16:21:05.650558Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 16,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-tablet-home",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-5d2cbd66c9dd",
+      "timestamp": "2026-11-10T16:21:08.770978Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 16,
+      "tool_call_count": 130,
+      "scenario_or_rule_id": "ui-tablet-home",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-tablet-home.png"
+      }
+    },
+    {
+      "event_id": "event-eb4746d4f22d",
+      "timestamp": "2026-11-10T16:21:08.773142Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 16,
+      "tool_call_count": 130,
+      "scenario_or_rule_id": "ui-tablet-home",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-6460725c3016",
+      "timestamp": "2026-11-10T16:21:09.079126Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 17,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-small-mobile-home",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-a59f520907a5",
+      "timestamp": "2026-11-10T16:21:12.027376Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 17,
+      "tool_call_count": 137,
+      "scenario_or_rule_id": "ui-small-mobile-home",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-small-mobile-home.png"
+      }
+    },
+    {
+      "event_id": "event-25c2f5a9d24e",
+      "timestamp": "2026-11-10T16:21:12.029697Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 17,
+      "tool_call_count": 137,
+      "scenario_or_rule_id": "ui-small-mobile-home",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-b6429d1c2d0a",
+      "timestamp": "2026-11-10T16:21:12.276828Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 18,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-mobile-theme-toggle",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-e77c0cd04c03",
+      "timestamp": "2026-11-10T16:21:16.430241Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 18,
+      "tool_call_count": 145,
+      "scenario_or_rule_id": "ui-mobile-theme-toggle",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-mobile-theme-toggle.png"
+      }
+    },
+    {
+      "event_id": "event-92c55a7accdd",
+      "timestamp": "2026-11-10T16:21:16.432469Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 18,
+      "tool_call_count": 145,
+      "scenario_or_rule_id": "ui-mobile-theme-toggle",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-1803b6b804e2",
+      "timestamp": "2026-11-10T16:21:16.681495Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 19,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-mobile-login-modal",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-b52bf591e5e3",
+      "timestamp": "2026-11-10T16:21:20.661207Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 19,
+      "tool_call_count": 153,
+      "scenario_or_rule_id": "ui-mobile-login-modal",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-mobile-login-modal.png"
+      }
+    },
+    {
+      "event_id": "event-407402e11b2c",
+      "timestamp": "2026-11-10T16:21:20.663465Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 19,
+      "tool_call_count": 153,
+      "scenario_or_rule_id": "ui-mobile-login-modal",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-eab390220e82",
+      "timestamp": "2026-11-10T16:21:21.192140Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_CASE_SELECTED",
+      "iteration": 20,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": "ui-mobile-registration-tab",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "summary": "UI decision failed; safe fallback applied.",
+        "beyond_soft_limit": false,
+        "investigation_reason": null
+      }
+    },
+    {
+      "event_id": "event-25c680b0b659",
+      "timestamp": "2026-11-10T16:21:25.882201Z",
+      "actor": "ui_explorer",
+      "event_type": "PLAYWRIGHT_MCP_CASE_COMPLETED",
+      "iteration": 20,
+      "tool_call_count": 162,
+      "scenario_or_rule_id": "ui-mobile-registration-tab",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "screenshot_captured": true,
+        "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-mobile-registration-tab.png"
+      }
+    },
+    {
+      "event_id": "event-bbcbb301d4e5",
+      "timestamp": "2026-11-10T16:21:25.884597Z",
+      "actor": "ui_explorer",
+      "event_type": "UI_EVIDENCE_OBSERVED",
+      "iteration": 20,
+      "tool_call_count": 162,
+      "scenario_or_rule_id": "ui-mobile-registration-tab",
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "passed": true,
+        "severity": "INFO",
+        "serious_bug_case_ids": [],
+        "next_action": "return_to_ui_agent"
+      }
+    },
+    {
+      "event_id": "event-938b0366de8c",
+      "timestamp": "2026-11-10T16:21:26.907789Z",
+      "actor": "design_evaluator",
+      "event_type": "DESIGN_EVALUATION_FAILED",
+      "iteration": 0,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": null,
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "screenshots": 0
+      }
+    },
+    {
+      "event_id": "event-477bac05f3ae",
+      "timestamp": "2026-11-10T16:21:26.909884Z",
+      "actor": "judge",
+      "event_type": "INDEPENDENT_DECISIONS_FINALIZED",
+      "iteration": 0,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": null,
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "happy_path_decisions": 0,
+        "guardrail_decisions": 0,
+        "pipeline_errors": 23,
+        "ui_cases": 20,
+        "ui_failures": 0,
+        "candidate_findings": 0,
+        "confirmed_findings": 0,
+        "rejected_findings": 0,
+        "inconclusive_findings": 0,
+        "model": "glm-5.3-flash"
+      }
+    },
+    {
+      "event_id": "event-8696312eff90",
+      "timestamp": "2026-11-10T16:21:26.913665Z",
+      "actor": "reporter",
+      "event_type": "REPORT_GENERATED",
+      "iteration": 0,
+      "tool_call_count": 0,
+      "scenario_or_rule_id": null,
+      "evidence_ids": [],
+      "approval_id": null,
+      "redacted_details": {
+        "overall_result": "ERROR"
+      }
+    }
+  ],
+  "pipeline_errors": [
+    {
+      "phase": "explorer",
+      "code": "EXPLORER_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": false,
+      "blocking": true
+    },
+    {
+      "phase": "adversary",
+      "code": "ADVERSARY_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": false,
+      "blocking": true
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "ui_explorer",
+      "code": "UI_DECISION_LLM_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    },
+    {
+      "phase": "design_evaluator",
+      "code": "DESIGN_EVALUATOR_ERROR",
+      "message": "Z.AI returned HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"Insufficient balance or no resource package. Please recharge.\"}}",
+      "recoverable": true,
+      "blocking": false
+    }
+  ],
+  "ui_smoke": [
+    {
+      "case_id": "ui-home-desktop",
+      "name": "Desktop homepage renders",
+      "category": "smoke",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-home-desktop.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [active] [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"5\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]:\n            - generic [ref=e52]: $ npx playwright test --headed --workers=4\n            - generic [ref=e53]: ↳ Running 36 tests on 3 browsers...\n            - generic [ref=e672]: ✓ [chromium] login-flow.spec.ts 1.2s\n        - generic [ref=e54]:\n          - generic [ref=e55]:\n            - generic [ref=e56]: AI Test Result\n            - generic [ref=e57]: PASS\n          - generic [ref=e58]:\n            - generic [ref=e63]:\n              - generic [ref=e64]: \"82\"\n              - generic [ref=e65]: Safety\n            - generic [ref=e66]:\n              - generic [ref=e67]:\n                - generic [ref=e68]: \n                - generic [ref=e69]: Prompt Injection\n                - generic [ref=e70]: Passed\n              - generic [ref=e71]:\n                - generic [ref=e72]: \n                - generic [ref=e73]: RAG Grounding\n                - generic [ref=e74]: Passed\n              - generic [ref=e75]:\n                - generic [ref=e76]: \n                - generic [ref=e77]: Hallucination\n                - generic [ref=e78]: Warning\n              - generic [ref=e79]:\n                - generic [ref=e80]: \n                - generic [ref=e81]: Toxicity\n                - generic [ref=e82]: Passed\n    - generic [ref=e87]:\n      - generic [ref=e88]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e89] [cursor=pointer]:\n          - generic [ref=e90]: \n          - generic [ref=e92]:\n            - generic [ref=e93]: Adversarial Simulation\n            - generic [ref=e94]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e95]: Explore →\n        - button \" Injection Ris",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 17976.73277200002
+    },
+    {
+      "case_id": "ui-primary-navigation",
+      "name": "Primary navigation is discoverable",
+      "category": "navigation",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-primary-navigation.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [active] [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"4\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]: $ npx playwright test --headed --workers=4\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]:\n          - generic [ref=e89]: \n          - generic [ref=e91]:\n            - generic [ref=e92]: Adversarial Simulation\n            - generic [ref=e93]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e94]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e95] [cursor=pointer]:\n          - generic [ref=e96]: \n          - generic [ref=e98]:\n         ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 2404.759360999975
+    },
+    {
+      "case_id": "ui-theme-toggle",
+      "name": "Theme toggle responds",
+      "category": "interaction",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-theme-toggle.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [active] [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"53\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]:\n            - generic [ref=e52]: $ npx playwright test --headed --workers=4\n            - generic [ref=e671]: ↳ Running 36 tests on 3 browsers...\n            - generic [ref=e672]: ✓ [chromium] login-flow.spec.ts 1.2s\n            - generic [ref=e673]: ✓ [chromium] api-endpoints.spec.ts 0.8s\n            - generic [ref=e674]: ✓ [chromium] chat-widget.spec.ts 2.1s\n            - generic [ref=e675]: ✓ [firefox] login-flow.spec.ts 1.5s\n            - generic [ref=e676]: ✓ [firefox] api-endpoints.spec.ts 0.9s\n            - generic [ref=e677]: ✓ [webkit] visual-regression.spec.ts 3.2s\n            - generic [ref=e678]: \"✓ Screenshots: 0 diffs detected\"\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      -",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 3924.933094000011
+    },
+    {
+      "case_id": "ui-mobile-menu",
+      "name": "Mobile navigation opens",
+      "category": "responsive",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-mobile-menu.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - text: \n      - generic [ref=e8]:\n        - button \"Toggle theme\" [ref=e9] [cursor=pointer]:\n          - generic [ref=e10]: \n        - button \"Login\" [ref=e11] [cursor=pointer]:\n          - generic [ref=e12]: \n        - text:    \n        - button \"Menu\" [active] [ref=e14] [cursor=pointer]:\n          - generic [ref=e15]: \n  - generic [ref=e458]:\n    - link \"Feed\" [ref=e459] [cursor=pointer]:\n      - /url: \"#feed\"\n    - link \"Explore\" [ref=e460] [cursor=pointer]:\n      - /url: \"#explore\"\n    - link \"Tools\" [ref=e461] [cursor=pointer]:\n      - /url: \"#tools\"\n    - link \"Challenge\" [ref=e462] [cursor=pointer]:\n      - /url: \"#challenge\"\n    - link \"Digest\" [ref=e463] [cursor=pointer]:\n      - /url: \"#digest\"\n    - link \" Break it\" [ref=e464] [cursor=pointer]:\n      - /url: \"#challenge\"\n      - generic [ref=e465]: \n      - text: Break it\n  - banner [ref=e16]:\n    - generic [ref=e17]:\n      - generic [ref=e18]:\n        - generic [ref=e19]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e21]\n        - paragraph [ref=e22]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e23]:\n          - generic [ref=e24]:\n            - generic [ref=e25]: \"53\"\n            - text: Articles today\n          - generic [ref=e27]:\n            - generic [ref=e28]: \"7\"\n            - text: RSS sources\n          - generic [ref=e30]:\n            - generic [ref=e31]: 24/7\n            - text: Auto-updated\n        - generic [ref=e32]:\n          - link \" Live Feed\" [ref=e33] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e34]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e35] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e36]: \n            - text: AI Lab\n      - text:    \n    - generic [ref=e38]:\n      - generic [ref=e39]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e40] [cursor=pointer]:\n          - generic [ref=e41]: \n          - generic [ref=e43]:\n            - generic [ref=e44]: Adversarial Simulation\n            - generic [ref=e45]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e46]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e47] [cursor=pointer]:\n          - generic [ref=e48]: \n          - generic [ref=e50]:\n            - generic [ref=e51]: Injection Risk Scanner\n            - generic [ref=e52]: Check if prompts are vulnerable to hidden injections.\n          - generic [ref=e53]: Scan →\n        - button \" Grounding & Retrieval QA See if RAG answers stay connected to source docs. Verify →\" [ref=e54] [cursor=pointer]:\n          - generic [ref=e55]: \n          - generic [ref=e57]:\n            - generic [ref=e58]: Grounding & Retrieval QA\n            - generic [ref=e59]: See if RAG answers stay connected to source docs.\n          - generic [ref=e60]: Verify →\n        - button \" Reliability & Fact Check Flag hallucinations and unsupported AI claims. Check →\" [ref=e61] [cursor=pointer]:\n          - generic [ref=e62]: \n          - generic [ref=e64]:\n            - generic [ref=e65]: Reliability & Fact Check\n            - generic [ref=e66]: Flag hallucinations and unsupported AI claims.\n          - generic [ref=e67]: Check →\n      - paragraph [ref=e68]:\n        - text: Explore detailed tools in the\n        - link \"AI Lab\" [ref=e69] [cursor=pointer]:\n          - /url: \"#lab\"\n        - text: below ↓\n  - generic [ref=e72]:\n    -",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 3325.3527239999985
+    },
+    {
+      "case_id": "ui-login-modal",
+      "name": "Login modal opens",
+      "category": "authentication",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-login-modal.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [active] [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"38\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]:\n            - generic [ref=e52]: $ npx playwright test --headed --workers=4\n            - generic [ref=e505]: ↳ Running 36 tests on 3 browsers...\n            - generic [ref=e506]: ✓ [chromium] login-flow.spec.ts 1.2s\n            - generic [ref=e507]: ✓ [chromium] api-endpoints.spec.ts 0.8s\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]:\n          - generic [ref=e89]: \n          - generic [ref=e91]:\n            - generic [ref=e92]: Adversarial Simulation\n            - generic [ref=e93]: Stress-test your AI with realistic attack scenarios",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 3147.405733999989
+    },
+    {
+      "case_id": "ui-registration-tab",
+      "name": "Registration view opens",
+      "category": "authentication",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-registration-tab.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"53\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]:\n            - generic [ref=e52]: $ npx playwright test --headed --workers=4\n            - generic [ref=e671]: ↳ Running 36 tests on 3 browsers...\n            - generic [ref=e672]: ✓ [chromium] login-flow.spec.ts 1.2s\n            - generic [ref=e673]: ✓ [chromium] api-endpoints.spec.ts 0.8s\n            - generic [ref=e674]: ✓ [chromium] chat-widget.spec.ts 2.1s\n            - generic [ref=e675]: ✓ [firefox] login-flow.spec.ts 1.5s\n            - generic [ref=e676]: ✓ [firefox] api-endpoints.spec.ts 0.9s\n            - generic [ref=e695]: ✓ [webkit] visual-regression.spec.ts 3.2s\n            - generic [ref=e696]: \"✓ Screenshots: 0 diffs detected\"\n            - generic [ref=e697]: ✓ 36 passed · 0 failed · 0 skipped (18s)\n            - generic [ref=e698]: $ _\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 4538.136359999981
+    },
+    {
+      "case_id": "ui-registration-fields",
+      "name": "Registration fields accept draft input",
+      "category": "form",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-registration-fields.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"53\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]:\n            - generic [ref=e52]: $ npx playwright test --headed --workers=4\n            - generic [ref=e505]: ↳ Running 36 tests on 3 browsers...\n            - generic [ref=e506]: ✓ [chromium] login-flow.spec.ts 1.2s\n            - generic [ref=e507]: ✓ [chromium] api-endpoints.spec.ts 0.8s\n            - generic [ref=e508]: ✓ [chromium] chat-widget.spec.ts 2.1s\n            - generic [ref=e509]: ✓ [firefox] login-flow.spec.ts 1.5s\n            - generic [ref=e510]: ✓ [firefox] api-endpoints.spec.ts 0.9s\n            - generic [ref=e733]: ✓ [webkit] visual-regression.spec.ts 3.2s\n            - generic [ref=e734]: \"✓ Screenshots: 0 diffs detected\"\n            - generic [ref=e735]: ✓ 36 passed · 0 failed · 0 skipped (18s)\n            - generic [ref=e736]: $ _\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_click",
+        "browser_fill_form",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 4852.9914519999975
+    },
+    {
+      "case_id": "ui-chat-opens",
+      "name": "AI chat opens",
+      "category": "chat",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-chat-opens.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"53\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]:\n            - generic [ref=e52]: $ npx playwright test --headed --workers=4\n            - generic [ref=e505]: ↳ Running 36 tests on 3 browsers...\n            - generic [ref=e506]: ✓ [chromium] login-flow.spec.ts 1.2s\n            - generic [ref=e507]: ✓ [chromium] api-endpoints.spec.ts 0.8s\n            - generic [ref=e508]: ✓ [chromium] chat-widget.spec.ts 2.1s\n            - generic [ref=e509]: ✓ [firefox] login-flow.spec.ts 1.5s\n            - generic [ref=e510]: ✓ [firefox] api-endpoints.spec.ts 0.9s\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 3558.1701680000037
+    },
+    {
+      "case_id": "ui-chat-terms",
+      "name": "Chat terms are reachable",
+      "category": "chat",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-chat-terms.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"53\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]:\n            - generic [ref=e52]: $ npx playwright test --headed --workers=4\n            - generic [ref=e505]: ↳ Running 36 tests on 3 browsers...\n            - generic [ref=e506]: ✓ [chromium] login-flow.spec.ts 1.2s\n            - generic [ref=e507]: ✓ [chromium] api-endpoints.spec.ts 0.8s\n            - generic [ref=e508]: ✓ [chromium] chat-widget.spec.ts 2.1s\n            - generic [ref=e509]: ✓ [firefox] login-flow.spec.ts 1.5s\n            - generic [ref=e510]: ✓ [firefox] api-endpoints.spec.ts 0.9s\n            - generic [ref=e764]: ✓ [webkit] visual-regression.spec.ts 3.2s\n            - generic [ref=e765]: \"✓ Screenshots: 0 diffs detected\"\n            - generic [ref=e766]: ✓ 36 passed · 0 failed · 0 skipped (18s)\n            - generic [ref=e767]: $ _\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 4366.317178000003
+    },
+    {
+      "case_id": "ui-chat-consent",
+      "name": "Chat consent unlocks input",
+      "category": "chat",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-chat-consent.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"53\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]:\n            - generic [ref=e52]: $ npx playwright test --headed --workers=4\n            - generic [ref=e671]: ↳ Running 36 tests on 3 browsers...\n            - generic [ref=e672]: ✓ [chromium] login-flow.spec.ts 1.2s\n            - generic [ref=e673]: ✓ [chromium] api-endpoints.spec.ts 0.8s\n            - generic [ref=e674]: ✓ [chromium] chat-widget.spec.ts 2.1s\n            - generic [ref=e675]: ✓ [firefox] login-flow.spec.ts 1.5s\n            - generic [ref=e676]: ✓ [firefox] api-endpoints.spec.ts 0.9s\n            - generic [ref=e726]: ✓ [webkit] visual-regression.spec.ts 3.2s\n            - generic [ref=e727]: \"✓ Screenshots: 0 diffs detected\"\n            - generic [ref=e728]: ✓ 36 passed · 0 failed · 0 skipped (18s)\n            - generic [ref=e729]: $ _\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_click",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 4910.959845000008
+    },
+    {
+      "case_id": "ui-feed-section",
+      "name": "Live feed section renders",
+      "category": "content",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-feed-section.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/#feed\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [active] [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"5\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]: $ npx playwright test --headed --workers=4\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]:\n          - generic [ref=e89]: \n          - generic [ref=e91]:\n            - generic [ref=e92]: Adversarial Simulation\n            - generic [ref=e93]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e94]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e95] [cursor=pointer]:\n          - generic [ref=e96]: \n          - generic [ref=e98]:\n    ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 2418.0550949999997
+    },
+    {
+      "case_id": "ui-explore-section",
+      "name": "Explore cards render",
+      "category": "content",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-explore-section.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/#explore\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [active] [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"3\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]: $ npx playwright test --headed --workers=4\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]:\n          - generic [ref=e89]: \n          - generic [ref=e91]:\n            - generic [ref=e92]: Adversarial Simulation\n            - generic [ref=e93]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e94]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e95] [cursor=pointer]:\n          - generic [ref=e96]: \n          - generic [ref=e98]:\n ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 2348.21804500001
+    },
+    {
+      "case_id": "ui-tools-section",
+      "name": "Tools section renders",
+      "category": "content",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-tools-section.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/#tools\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [active] [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"3\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]: $ npx playwright test --headed --workers=4\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]:\n          - generic [ref=e89]: \n          - generic [ref=e91]:\n            - generic [ref=e92]: Adversarial Simulation\n            - generic [ref=e93]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e94]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e95] [cursor=pointer]:\n          - generic [ref=e96]: \n          - generic [ref=e98]:\n   ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 2271.7016099999796
+    },
+    {
+      "case_id": "ui-newsletter-draft",
+      "name": "Newsletter accepts draft email",
+      "category": "form",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-newsletter-draft.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/#digest\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"6\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]: $ npx playwright test --headed --workers=4\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]:\n          - generic [ref=e89]: \n          - generic [ref=e91]:\n            - generic [ref=e92]: Adversarial Simulation\n            - generic [ref=e93]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e94]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e95] [cursor=pointer]:\n          - generic [ref=e96]: \n          - generic [ref=e98]:\n           ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_fill_form",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 2574.111748000007
+    },
+    {
+      "case_id": "ui-keyboard-focus",
+      "name": "Keyboard focus traversal works",
+      "category": "accessibility",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-keyboard-focus.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [active] [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"2\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]: $ npx playwright test --headed --workers=4\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]:\n          - generic [ref=e89]: \n          - generic [ref=e91]:\n            - generic [ref=e92]: Adversarial Simulation\n            - generic [ref=e93]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e94]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e95] [cursor=pointer]:\n          - generic [ref=e96]: \n          - generic [ref=e98]:\n         ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_press_key",
+        "browser_press_key",
+        "browser_press_key",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 2533.0298509999807
+    },
+    {
+      "case_id": "ui-tablet-home",
+      "name": "Tablet homepage renders",
+      "category": "responsive",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-tablet-home.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [active] [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - generic [ref=e8]:\n        - link \"Feed\" [ref=e9] [cursor=pointer]:\n          - /url: \"#feed\"\n        - link \"Explore\" [ref=e10] [cursor=pointer]:\n          - /url: \"#explore\"\n        - link \"Tools\" [ref=e11] [cursor=pointer]:\n          - /url: \"#tools\"\n        - link \"Challenge\" [ref=e12] [cursor=pointer]:\n          - /url: \"#challenge\"\n        - link \"Digest\" [ref=e13] [cursor=pointer]:\n          - /url: \"#digest\"\n        - link \" Break it\" [ref=e14] [cursor=pointer]:\n          - /url: \"#challenge\"\n          - generic [ref=e15]: \n          - text: Break it\n      - generic [ref=e16]:\n        - button \"Toggle theme\" [ref=e17] [cursor=pointer]:\n          - generic [ref=e18]: \n        - button \"Login\" [ref=e19] [cursor=pointer]:\n          - generic [ref=e20]: \n        - text:     \n  - text: \n  - banner [ref=e22]:\n    - generic [ref=e23]:\n      - generic [ref=e24]:\n        - generic [ref=e25]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e27]\n        - paragraph [ref=e28]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e29]:\n          - generic [ref=e30]:\n            - generic [ref=e31]: \"5\"\n            - text: Articles today\n          - generic [ref=e33]:\n            - generic [ref=e34]: \"7\"\n            - text: RSS sources\n          - generic [ref=e36]:\n            - generic [ref=e37]: 24/7\n            - text: Auto-updated\n        - generic [ref=e38]:\n          - link \" Live Feed\" [ref=e39] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e40]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e41] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e42]: \n            - text: AI Lab\n      - generic [ref=e44]:\n        - generic [ref=e45]:\n          - generic [ref=e46]: playwright.config.ts\n          - generic [ref=e51]: $ npx playwright test --headed --workers=4\n        - generic [ref=e53]:\n          - generic [ref=e54]:\n            - generic [ref=e55]: AI Test Result\n            - generic [ref=e56]: PASS\n          - generic [ref=e57]:\n            - generic [ref=e62]:\n              - generic [ref=e63]: \"82\"\n              - generic [ref=e64]: Safety\n            - generic [ref=e65]:\n              - generic [ref=e66]:\n                - generic [ref=e67]: \n                - generic [ref=e68]: Prompt Injection\n                - generic [ref=e69]: Passed\n              - generic [ref=e70]:\n                - generic [ref=e71]: \n                - generic [ref=e72]: RAG Grounding\n                - generic [ref=e73]: Passed\n              - generic [ref=e74]:\n                - generic [ref=e75]: \n                - generic [ref=e76]: Hallucination\n                - generic [ref=e77]: Warning\n              - generic [ref=e78]:\n                - generic [ref=e79]: \n                - generic [ref=e80]: Toxicity\n                - generic [ref=e81]: Passed\n    - generic [ref=e86]:\n      - generic [ref=e87]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e88] [cursor=pointer]:\n          - generic [ref=e89]: \n          - generic [ref=e91]:\n            - generic [ref=e92]: Adversarial Simulation\n            - generic [ref=e93]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e94]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e95] [cursor=pointer]:\n          - generic [ref=e96]: \n          - generic [ref=e98]:\n         ",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 2401.8223349999917
+    },
+    {
+      "case_id": "ui-small-mobile-home",
+      "name": "Small mobile homepage renders",
+      "category": "responsive",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-small-mobile-home.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [active] [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - text: \n      - generic [ref=e8]:\n        - button \"Toggle theme\" [ref=e9] [cursor=pointer]:\n          - generic [ref=e10]: \n        - button \"Login\" [ref=e11] [cursor=pointer]:\n          - generic [ref=e12]: \n        - text:    \n        - button \"Menu\" [ref=e14] [cursor=pointer]:\n          - generic [ref=e15]: \n  - text: \n  - banner [ref=e16]:\n    - generic [ref=e17]:\n      - generic [ref=e18]:\n        - generic [ref=e19]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e21]\n        - paragraph [ref=e22]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e23]:\n          - generic [ref=e24]:\n            - generic [ref=e25]: \"2\"\n            - text: Articles today\n          - generic [ref=e27]:\n            - generic [ref=e28]: \"7\"\n            - text: RSS sources\n          - generic [ref=e30]:\n            - generic [ref=e31]: 24/7\n            - text: Auto-updated\n        - generic [ref=e32]:\n          - link \" Live Feed\" [ref=e33] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e34]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e35] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e36]: \n            - text: AI Lab\n      - text:    \n    - generic [ref=e38]:\n      - generic [ref=e39]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e40] [cursor=pointer]:\n          - generic [ref=e41]: \n          - generic [ref=e43]:\n            - generic [ref=e44]: Adversarial Simulation\n            - generic [ref=e45]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e46]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e47] [cursor=pointer]:\n          - generic [ref=e48]: \n          - generic [ref=e50]:\n            - generic [ref=e51]: Injection Risk Scanner\n            - generic [ref=e52]: Check if prompts are vulnerable to hidden injections.\n          - generic [ref=e53]: Scan →\n        - button \" Grounding & Retrieval QA See if RAG answers stay connected to source docs. Verify →\" [ref=e54] [cursor=pointer]:\n          - generic [ref=e55]: \n          - generic [ref=e57]:\n            - generic [ref=e58]: Grounding & Retrieval QA\n            - generic [ref=e59]: See if RAG answers stay connected to source docs.\n          - generic [ref=e60]: Verify →\n        - button \" Reliability & Fact Check Flag hallucinations and unsupported AI claims. Check →\" [ref=e61] [cursor=pointer]:\n          - generic [ref=e62]: \n          - generic [ref=e64]:\n            - generic [ref=e65]: Reliability & Fact Check\n            - generic [ref=e66]: Flag hallucinations and unsupported AI claims.\n          - generic [ref=e67]: Check →\n      - paragraph [ref=e68]:\n        - text: Explore detailed tools in the\n        - link \"AI Lab\" [ref=e69] [cursor=pointer]:\n          - /url: \"#lab\"\n        - text: below ↓\n  - generic [ref=e72]:\n    - generic [ref=e73]: LIVE\n    - button \"Scroll left\" [ref=e74] [cursor=pointer]:\n      - generic [ref=e75]: \n    - generic [ref=e77]:\n      - 'link \" Dev.to: A parent on Lemmy describes their foster children''s school: NFC hall passes tracking ba...\" [ref=e78] [cursor=pointer]':\n        - /url: https://dev.to/ashish_624379625242c5d263/a-parent-on-lemmy-describes-their-foster-childrens-school-nfc-hall-passes-tracking-ba-2271\n        - generic [ref=e79]: \n        - strong [ref=e80]: \"Dev.to:\"\n        - text:",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 2256.805448000023
+    },
+    {
+      "case_id": "ui-mobile-theme-toggle",
+      "name": "Mobile theme toggle responds",
+      "category": "responsive",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-mobile-theme-toggle.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - text: \n      - generic [ref=e8]:\n        - button \"Toggle theme\" [active] [ref=e9] [cursor=pointer]:\n          - generic [ref=e10]: \n        - button \"Login\" [ref=e11] [cursor=pointer]:\n          - generic [ref=e12]: \n        - text:    \n        - button \"Menu\" [ref=e14] [cursor=pointer]:\n          - generic [ref=e15]: \n  - text: \n  - banner [ref=e16]:\n    - generic [ref=e17]:\n      - generic [ref=e18]:\n        - generic [ref=e19]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e21]\n        - paragraph [ref=e22]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e23]:\n          - generic [ref=e24]:\n            - generic [ref=e25]: \"53\"\n            - text: Articles today\n          - generic [ref=e27]:\n            - generic [ref=e28]: \"7\"\n            - text: RSS sources\n          - generic [ref=e30]:\n            - generic [ref=e31]: 24/7\n            - text: Auto-updated\n        - generic [ref=e32]:\n          - link \" Live Feed\" [ref=e33] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e34]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e35] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e36]: \n            - text: AI Lab\n      - text:    \n    - generic [ref=e38]:\n      - generic [ref=e39]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e40] [cursor=pointer]:\n          - generic [ref=e41]: \n          - generic [ref=e43]:\n            - generic [ref=e44]: Adversarial Simulation\n            - generic [ref=e45]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e46]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e47] [cursor=pointer]:\n          - generic [ref=e48]: \n          - generic [ref=e50]:\n            - generic [ref=e51]: Injection Risk Scanner\n            - generic [ref=e52]: Check if prompts are vulnerable to hidden injections.\n          - generic [ref=e53]: Scan →\n        - button \" Grounding & Retrieval QA See if RAG answers stay connected to source docs. Verify →\" [ref=e54] [cursor=pointer]:\n          - generic [ref=e55]: \n          - generic [ref=e57]:\n            - generic [ref=e58]: Grounding & Retrieval QA\n            - generic [ref=e59]: See if RAG answers stay connected to source docs.\n          - generic [ref=e60]: Verify →\n        - button \" Reliability & Fact Check Flag hallucinations and unsupported AI claims. Check →\" [ref=e61] [cursor=pointer]:\n          - generic [ref=e62]: \n          - generic [ref=e64]:\n            - generic [ref=e65]: Reliability & Fact Check\n            - generic [ref=e66]: Flag hallucinations and unsupported AI claims.\n          - generic [ref=e67]: Check →\n      - paragraph [ref=e68]:\n        - text: Explore detailed tools in the\n        - link \"AI Lab\" [ref=e69] [cursor=pointer]:\n          - /url: \"#lab\"\n        - text: below ↓\n  - generic [ref=e72]:\n    - generic [ref=e73]: LIVE\n    - button \"Scroll left\" [ref=e74] [cursor=pointer]:\n      - generic [ref=e75]: \n    - generic [ref=e77]:\n      - 'link \" Dev.to: A parent on Lemmy describes their foster children''s school: NFC hall passes tracking ba...\" [ref=e458] [cursor=pointer]':\n        - /url: https://dev.to/ashish_624379625242c5d263/a-parent-on-lemmy-describes-their-foster-childrens-school-nfc-hall-passes-tracking-ba-2271\n        - generic [ref=e459]: \n        - strong [ref=e460]: \"Dev.to:\"\n        - t",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 3455.635405999999
+    },
+    {
+      "case_id": "ui-mobile-login-modal",
+      "name": "Mobile login modal opens",
+      "category": "authentication",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-mobile-login-modal.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - text: \n      - generic [ref=e8]:\n        - button \"Toggle theme\" [ref=e9] [cursor=pointer]:\n          - generic [ref=e10]: \n        - button \"Login\" [active] [ref=e11] [cursor=pointer]:\n          - generic [ref=e12]: \n        - text:    \n        - button \"Menu\" [ref=e14] [cursor=pointer]:\n          - generic [ref=e15]: \n  - text: \n  - banner [ref=e16]:\n    - generic [ref=e17]:\n      - generic [ref=e18]:\n        - generic [ref=e19]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e21]\n        - paragraph [ref=e22]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e23]:\n          - generic [ref=e24]:\n            - generic [ref=e25]: \"53\"\n            - text: Articles today\n          - generic [ref=e27]:\n            - generic [ref=e28]: \"7\"\n            - text: RSS sources\n          - generic [ref=e30]:\n            - generic [ref=e31]: 24/7\n            - text: Auto-updated\n        - generic [ref=e32]:\n          - link \" Live Feed\" [ref=e33] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e34]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e35] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e36]: \n            - text: AI Lab\n      - text:    \n    - generic [ref=e38]:\n      - generic [ref=e39]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e40] [cursor=pointer]:\n          - generic [ref=e41]: \n          - generic [ref=e43]:\n            - generic [ref=e44]: Adversarial Simulation\n            - generic [ref=e45]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e46]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e47] [cursor=pointer]:\n          - generic [ref=e48]: \n          - generic [ref=e50]:\n            - generic [ref=e51]: Injection Risk Scanner\n            - generic [ref=e52]: Check if prompts are vulnerable to hidden injections.\n          - generic [ref=e53]: Scan →\n        - button \" Grounding & Retrieval QA See if RAG answers stay connected to source docs. Verify →\" [ref=e54] [cursor=pointer]:\n          - generic [ref=e55]: \n          - generic [ref=e57]:\n            - generic [ref=e58]: Grounding & Retrieval QA\n            - generic [ref=e59]: See if RAG answers stay connected to source docs.\n          - generic [ref=e60]: Verify →\n        - button \" Reliability & Fact Check Flag hallucinations and unsupported AI claims. Check →\" [ref=e61] [cursor=pointer]:\n          - generic [ref=e62]: \n          - generic [ref=e64]:\n            - generic [ref=e65]: Reliability & Fact Check\n            - generic [ref=e66]: Flag hallucinations and unsupported AI claims.\n          - generic [ref=e67]: Check →\n      - paragraph [ref=e68]:\n        - text: Explore detailed tools in the\n        - link \"AI Lab\" [ref=e69] [cursor=pointer]:\n          - /url: \"#lab\"\n        - text: below ↓\n  - generic [ref=e72]:\n    - generic [ref=e73]: LIVE\n    - button \"Scroll left\" [ref=e74] [cursor=pointer]:\n      - generic [ref=e75]: \n    - generic [ref=e77]:\n      - 'link \" Dev.to: A parent on Lemmy describes their foster children''s school: NFC hall passes tracking ba...\" [ref=e458] [cursor=pointer]':\n        - /url: https://dev.to/ashish_624379625242c5d263/a-parent-on-lemmy-describes-their-foster-childrens-school-nfc-hall-passes-tracking-ba-2271\n        - generic [ref=e459]: \n        - strong [ref=e460]: \"Dev.to:\"\n        - t",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 3281.3211000000138
+    },
+    {
+      "case_id": "ui-mobile-registration-tab",
+      "name": "Mobile registration view opens",
+      "category": "authentication",
+      "passed": true,
+      "reason": "Passed MCP UI checks.",
+      "screenshot_path": "/home/runner/work/agentic-api-qa/agentic-api-qa/artifacts/ui/run-9dee2512390f/ui-mobile-registration-tab.png",
+      "screenshot_captured": true,
+      "video_path": null,
+      "video_captured": false,
+      "severity": "INFO",
+      "investigation_required": false,
+      "snapshot_excerpt": "### Page\n- Page URL: https://www.alexpavsky.com/\n- Page Title: Alex Pavlovsky — AI & QA Lab\n### Snapshot\n```yaml\n- generic [ref=e1]:\n  - navigation [ref=e2]:\n    - generic [ref=e3]:\n      - link \" alexpavlovsky\" [ref=e4] [cursor=pointer]:\n        - /url: \"#\"\n        - generic [ref=e5]: \n        - generic [ref=e7]: alexpavlovsky\n      - text: \n      - generic [ref=e8]:\n        - button \"Toggle theme\" [ref=e9] [cursor=pointer]:\n          - generic [ref=e10]: \n        - button \"Login\" [ref=e11] [cursor=pointer]:\n          - generic [ref=e12]: \n        - text:    \n        - button \"Menu\" [ref=e14] [cursor=pointer]:\n          - generic [ref=e15]: \n  - text: \n  - banner [ref=e16]:\n    - generic [ref=e17]:\n      - generic [ref=e18]:\n        - generic [ref=e19]: AI Integration & Quality Management\n        - heading \"AI Testing & Integration. Building Trust.\" [level=1] [ref=e21]\n        - paragraph [ref=e22]: Personal tech hub - exploring LLM testing, red teaming, automation, and everything where AI meets quality.\n        - generic [ref=e23]:\n          - generic [ref=e24]:\n            - generic [ref=e25]: \"53\"\n            - text: Articles today\n          - generic [ref=e27]:\n            - generic [ref=e28]: \"7\"\n            - text: RSS sources\n          - generic [ref=e30]:\n            - generic [ref=e31]: 24/7\n            - text: Auto-updated\n        - generic [ref=e32]:\n          - link \" Live Feed\" [ref=e33] [cursor=pointer]:\n            - /url: \"#feed\"\n            - generic [ref=e34]: \n            - text: Live Feed\n          - link \" AI Lab\" [ref=e35] [cursor=pointer]:\n            - /url: \"#lab\"\n            - generic [ref=e36]: \n            - text: AI Lab\n      - text:    \n    - generic [ref=e38]:\n      - generic [ref=e39]:\n        - button \" Adversarial Simulation Stress-test your AI with realistic attack scenarios. Explore →\" [ref=e40] [cursor=pointer]:\n          - generic [ref=e41]: \n          - generic [ref=e43]:\n            - generic [ref=e44]: Adversarial Simulation\n            - generic [ref=e45]: Stress-test your AI with realistic attack scenarios.\n          - generic [ref=e46]: Explore →\n        - button \" Injection Risk Scanner Check if prompts are vulnerable to hidden injections. Scan →\" [ref=e47] [cursor=pointer]:\n          - generic [ref=e48]: \n          - generic [ref=e50]:\n            - generic [ref=e51]: Injection Risk Scanner\n            - generic [ref=e52]: Check if prompts are vulnerable to hidden injections.\n          - generic [ref=e53]: Scan →\n        - button \" Grounding & Retrieval QA See if RAG answers stay connected to source docs. Verify →\" [ref=e54] [cursor=pointer]:\n          - generic [ref=e55]: \n          - generic [ref=e57]:\n            - generic [ref=e58]: Grounding & Retrieval QA\n            - generic [ref=e59]: See if RAG answers stay connected to source docs.\n          - generic [ref=e60]: Verify →\n        - button \" Reliability & Fact Check Flag hallucinations and unsupported AI claims. Check →\" [ref=e61] [cursor=pointer]:\n          - generic [ref=e62]: \n          - generic [ref=e64]:\n            - generic [ref=e65]: Reliability & Fact Check\n            - generic [ref=e66]: Flag hallucinations and unsupported AI claims.\n          - generic [ref=e67]: Check →\n      - paragraph [ref=e68]:\n        - text: Explore detailed tools in the\n        - link \"AI Lab\" [ref=e69] [cursor=pointer]:\n          - /url: \"#lab\"\n        - text: below ↓\n  - generic [ref=e72]:\n    - generic [ref=e73]: LIVE\n    - button \"Scroll left\" [ref=e74] [cursor=pointer]:\n      - generic [ref=e75]: \n    - generic [ref=e77]:\n      - 'link \" Dev.to: A parent on Lemmy describes their foster children''s school: NFC hall passes tracking ba...\" [ref=e458] [cursor=pointer]':\n        - /url: https://dev.to/ashish_624379625242c5d263/a-parent-on-lemmy-describes-their-foster-childrens-school-nfc-hall-passes-tracking-ba-2271\n        - generic [ref=e459]: \n        - strong [ref=e460]: \"Dev.to:\"\n        - text: \"A p",
+      "console_errors": [],
+      "mcp_tools": [
+        "browser_start_video",
+        "browser_resize",
+        "browser_navigate",
+        "browser_click",
+        "browser_click",
+        "browser_snapshot",
+        "browser_console_messages",
+        "browser_take_screenshot",
+        "browser_stop_video"
+      ],
+      "duration_ms": 3987.2555970000008
+    }
+  ],
+  "design_evaluation": null,
+  "candidate_findings": [],
+  "judge_decisions": [],
+  "healer_result": null,
+  "human_review": null,
+  "reviewer_scan": null,
+  "reviewer_decision": null
+}
