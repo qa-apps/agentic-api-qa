@@ -1398,9 +1398,9 @@ def reporter(state: QAState) -> dict:
     confirmed_bug_count = sum(
         item.verdict == JudgeVerdict.CONFIRMED for item in state.judge_decisions
     )
-    if any(error.blocking for error in state.pipeline_errors) or inconclusive:
+    if any(error.blocking for error in state.pipeline_errors):
         overall = OverallResult.ERROR
-    elif confirmed_bug_count:
+    elif inconclusive or confirmed_bug_count or breaches:
         overall = OverallResult.FAIL
     else:
         overall = OverallResult.PASS
