@@ -908,10 +908,15 @@ async def judge(state: QAState) -> dict:
             message="Explorer finished without producing test evidence.",
         ))
     elif state.explorer_stop_reason == "budget_exhausted":
+        # This branch only runs when Explorer already produced decisions.
+        # glm-5.3-flash often keeps going after a coherent happy path; that is
+        # a warning, not a broken pipeline. No-evidence runs hit the branch above.
         errors.append(PipelineError(
             phase=PipelinePhase.EXPLORER,
             code="EXPLORER_BUDGET_EXHAUSTED",
             message="Explorer reached its safety budget before choosing to finish.",
+            recoverable=True,
+            blocking=False,
         ))
     if not guardrail_decisions and not _has_phase_error(state, PipelinePhase.ADVERSARY):
         errors.append(PipelineError(
@@ -924,6 +929,8 @@ async def judge(state: QAState) -> dict:
             phase=PipelinePhase.ADVERSARY,
             code="ADVERSARY_BUDGET_EXHAUSTED",
             message="Adversary reached its safety budget before choosing to finish.",
+            recoverable=True,
+            blocking=False,
         ))
     decisions: list[JudgeDecision] = []
     usage = state.model_usage

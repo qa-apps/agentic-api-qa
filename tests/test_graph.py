@@ -109,7 +109,7 @@ async def test_complete_graph_emits_agentic_eci_shaped_report(monkeypatch, tmp_p
 
 
 @pytest.mark.asyncio
-async def test_budget_exhaustion_is_not_reported_as_pass(monkeypatch, tmp_path) -> None:
+async def test_budget_exhaustion_with_evidence_is_not_blocking(monkeypatch, tmp_path) -> None:
     monkeypatch.setenv("QA_REPORT_DIR", str(tmp_path / "reports"))
     install_fake_agents(monkeypatch, always_continue=True)
 
@@ -132,11 +132,12 @@ async def test_budget_exhaustion_is_not_reported_as_pass(monkeypatch, tmp_path) 
     state = await run_workflow(QAState(config=config))
 
     assert state.report is not None
-    assert state.report.run.overall_result == OverallResult.ERROR
     assert {error.code for error in state.report.pipeline_errors} == {
         "EXPLORER_BUDGET_EXHAUSTED",
         "ADVERSARY_BUDGET_EXHAUSTED",
     }
+    assert all(not error.blocking for error in state.report.pipeline_errors)
+    assert state.report.run.overall_result == OverallResult.PASS
 
 
 @pytest.mark.asyncio
