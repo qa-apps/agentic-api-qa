@@ -246,3 +246,12 @@ async def test_judge_retries_once_after_malformed_json(monkeypatch) -> None:
 
     assert result.decisions[0].verdict.value == "CONFIRMED"
     assert result.usage.total_tokens == 10
+
+
+def test_balance_error_detection() -> None:
+    from agentic_api_qa.llm import _is_balance_error
+
+    body = '{"error":{"code":"1113","message":"Insufficient balance or no resource package. Please recharge."}}'
+    assert _is_balance_error(429, body)
+    assert not _is_balance_error(500, body)
+    assert not _is_balance_error(429, "rate limit")

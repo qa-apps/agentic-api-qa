@@ -192,6 +192,45 @@ def _model_for(actor: Actor, config: AgentModelConfig) -> str:
     return config.explorer_model if actor == Actor.EXPLORER else config.adversary_model
 
 
+def _is_balance_error(status_code: int, body: str) -> bool:
+    text = (body or "").lower()
+    return status_code in {402, 429} and (
+        "insufficient balance" in text
+        or "no resource package" in text
+        or '"code":"1113"' in text
+        or '"code": 1113' in text
+    )
+
+
+def _provider_attempts(model_config: AgentModelConfig, model: str) -> list[dict[str, Any]]:
+    """Primary OpenCode/Z.AI route, then DeepSeek when the subscription is empty."""
+    load_dotenv()
+    attempts: list[dict[str, Any]] = []
+    primary = llm_api_key()
+    if primary:
+        attempts.append(
+            {
+                "name": "primary",
+                "api_key": primary,
+                "base_url": model_config.base_url,
+                "model": model,
+                "glm_extras": True,
+            }
+        )
+    deepseek = os.getenv("DEEPSEEK_API_KEY")
+    if deepseek:
+        attempts.append(
+            {
+                "name": "deepseek",
+                "api_key": deepseek,
+                "base_url": os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+                "model": os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+                "glm_extras": False,
+            }
+        )
+    return attempts
+
+
 @traceable(run_type="llm", name="zai_chat_completion")
 async def _chat_completion(
     *,
@@ -202,87 +241,101 @@ async def _chat_completion(
     response_format: dict[str, Any] | None = None,
     reasoning_effort: Literal["low", "high", "max"] | None = None,
 ) -> dict[str, Any]:
-    api_key = llm_api_key()
-    if not api_key:
+    attempts = _provider_attempts(model_config, model)
+    if not attempts:
         raise AgentLLMError("LLM_API_KEY is not configured")
 
     effort = reasoning_effort or model_config.reasoning_effort
-    payload: dict[str, Any] = {
-        "model": model,
-        "messages": messages,
-        "temperature": 1.0,
-        "max_tokens": model_config.max_tokens,
-        "thinking": {"type": "enabled"},
-        "reasoning_effort": effort,
-    }
-    if tools:
-        payload.update(
-            {
-                "tools": tools,
-                "tool_choice": "auto",
-                "parallel_tool_calls": False,
-            }
-        )
-    if response_format:
-        payload["response_format"] = response_format
-
-    endpoint = f"{model_config.base_url.rstrip('/')}/chat/completions"
-    with generation_observation(
-        model=model,
-        messages=messages,
-        tools=tools,
-        reasoning_effort=effort,
-    ) as generation:
-        try:
-            async with httpx.AsyncClient(timeout=model_config.timeout_seconds) as client:
-                response = await client.post(
-                    endpoint,
-                    headers=llm_headers(api_key, model_config.base_url),
-                    json=payload,
-                )
-            response.raise_for_status()
-        except httpx.HTTPStatusError as exc:
-            detail = exc.response.text[:500]
-            raise AgentLLMError(
-                f"Z.AI returned HTTP {exc.response.status_code}: {detail}"
-            ) from exc
-        except httpx.RequestError as exc:
-            raise AgentLLMError(f"Z.AI request failed: {type(exc).__name__}: {exc}") from exc
-
-        data = response.json()
-        try:
-            message = data["choices"][0]["message"]
-        except (KeyError, IndexError, TypeError) as exc:
-            raise AgentLLMError("Z.AI response did not contain an assistant message") from exc
-
-        # Deliberately omit provider reasoning_content from state and traces. We retain
-        # only the explicit decision, tool call, concise reflection, and token usage.
-        result = {
-            "id": data.get("id"),
-            "model": data.get("model") or model,
-            "message": {
-                "content": message.get("content"),
-                "tool_calls": message.get("tool_calls") or [],
-            },
-            "usage": data.get("usage") or {},
+    last_error: AgentLLMError | None = None
+    for attempt in attempts:
+        payload: dict[str, Any] = {
+            "model": attempt["model"],
+            "messages": messages,
+            "temperature": 1.0 if attempt["glm_extras"] else 0.2,
+            "max_tokens": model_config.max_tokens,
         }
-        usage = result["usage"]
-        generation.update(
-            model=result["model"],
-            output=result["message"],
-            usage_details={
-                "input_tokens": int(usage.get("prompt_tokens") or 0),
-                "output_tokens": int(usage.get("completion_tokens") or 0),
-                "total_tokens": int(usage.get("total_tokens") or 0),
-            },
-            metadata={
-                "provider": httpx.URL(model_config.base_url).host,
-                "provider_request_id": result["id"],
-                "reasoning_effort": effort,
-                "hidden_reasoning_recorded": False,
-            },
-        )
-        return result
+        if attempt["glm_extras"]:
+            payload["thinking"] = {"type": "enabled"}
+            payload["reasoning_effort"] = effort
+        if tools:
+            payload.update(
+                {
+                    "tools": tools,
+                    "tool_choice": "auto",
+                    "parallel_tool_calls": False,
+                }
+            )
+        if response_format:
+            payload["response_format"] = response_format
+
+        endpoint = f"{attempt['base_url'].rstrip('/')}/chat/completions"
+        with generation_observation(
+            model=attempt["model"],
+            messages=messages,
+            tools=tools,
+            reasoning_effort=effort,
+        ) as generation:
+            try:
+                async with httpx.AsyncClient(timeout=model_config.timeout_seconds) as client:
+                    response = await client.post(
+                        endpoint,
+                        headers=llm_headers(attempt["api_key"], attempt["base_url"]),
+                        json=payload,
+                    )
+                response.raise_for_status()
+            except httpx.HTTPStatusError as exc:
+                detail = exc.response.text[:500]
+                err = AgentLLMError(
+                    f"{attempt['name']} returned HTTP {exc.response.status_code}: {detail}"
+                )
+                if attempt is not attempts[-1] and _is_balance_error(
+                    exc.response.status_code, detail
+                ):
+                    last_error = err
+                    continue
+                raise err from exc
+            except httpx.RequestError as exc:
+                raise AgentLLMError(
+                    f"{attempt['name']} request failed: {type(exc).__name__}: {exc}"
+                ) from exc
+
+            data = response.json()
+            try:
+                message = data["choices"][0]["message"]
+            except (KeyError, IndexError, TypeError) as exc:
+                raise AgentLLMError(
+                    f"{attempt['name']} response did not contain an assistant message"
+                ) from exc
+
+            # Deliberately omit provider reasoning_content from state and traces. We retain
+            # only the explicit decision, tool call, concise reflection, and token usage.
+            result = {
+                "id": data.get("id"),
+                "model": data.get("model") or attempt["model"],
+                "message": {
+                    "content": message.get("content"),
+                    "tool_calls": message.get("tool_calls") or [],
+                },
+                "usage": data.get("usage") or {},
+            }
+            usage = result["usage"]
+            generation.update(
+                model=result["model"],
+                output=result["message"],
+                usage_details={
+                    "input_tokens": int(usage.get("prompt_tokens") or 0),
+                    "output_tokens": int(usage.get("completion_tokens") or 0),
+                    "total_tokens": int(usage.get("total_tokens") or 0),
+                },
+                metadata={
+                    "provider": httpx.URL(attempt["base_url"]).host,
+                    "provider_request_id": result["id"],
+                    "reasoning_effort": effort,
+                    "hidden_reasoning_recorded": False,
+                },
+            )
+            return result
+    raise last_error or AgentLLMError("LLM_API_KEY is not configured")
 
 
 def _usage(data: dict[str, Any]) -> UsageDelta:

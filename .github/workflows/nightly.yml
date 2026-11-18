@@ -99,12 +99,13 @@ jobs:
         shell: bash
         env:
           LLM_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
-          if [ -n "$LLM_API_KEY" ]; then
+          if [ -n "$LLM_API_KEY" ] || [ -n "$DEEPSEEK_API_KEY" ]; then
             echo "present=true" >> "$GITHUB_OUTPUT"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::OPENCODE_GO_API_KEY is not configured; the live scan is skipped and this run stays green."
+            echo "::notice::OPENCODE_GO_API_KEY and DEEPSEEK_API_KEY are missing; the live scan is skipped and this run stays green."
           fi
 
       - name: Setup Python
@@ -123,6 +124,7 @@ jobs:
         continue-on-error: true
         env:
           LLM_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
           LANGSMITH_TRACING: ${{ secrets.LANGSMITH_API_KEY != '' }}
         run: agentic-api-qa --output "reports/nightly-${GITHUB_RUN_ID}.json"
