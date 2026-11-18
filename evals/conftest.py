@@ -27,7 +27,7 @@ def eval_config():
 @pytest.fixture(scope="session", autouse=True)
 def require_agent_credentials():
     if not agent_api_key_available():
-        pytest.skip("ZAI_API_KEY is required to evaluate real agent decisions")
+        pytest.skip("LLM_API_KEY is required to evaluate real agent decisions")
 
 
 @pytest.fixture(scope="session")

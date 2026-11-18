@@ -8,6 +8,7 @@ from typing import Iterator, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from agentic_api_qa.config import load_run_config
 from agentic_api_qa.models import QAState, Severity
 from evals.config import DATASET_DIR, FIXTURE_DIR
 
@@ -100,4 +101,8 @@ def load_qa_state(fixture: str) -> QAState:
     path = FIXTURE_DIR / fixture
     if not path.is_file():
         raise FileNotFoundError(f"Missing QAState fixture: {path}")
-    return QAState.model_validate_json(path.read_text(encoding="utf-8"))
+    state = QAState.model_validate_json(path.read_text(encoding="utf-8"))
+    # Fixtures record a QA situation, not a provider choice: replay them on the
+    # models configured now, or they keep calling whatever they were recorded with.
+    config = state.config.model_copy(update={"models": load_run_config().models})
+    return state.model_copy(update={"config": config})

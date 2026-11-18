@@ -25,6 +25,7 @@
       "effect": "read",
       "safe_in_production": true,
       "request_schema": null,
+      "query_parameters": "none: the handler ignores the query string and always returns the whole cached feed (up to 60 articles of mixed categories), so ?category= or ?source= do not filter",
       "response_schema_hint": {"type": ["array", "object"]}
     },
     {

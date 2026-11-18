@@ -17,8 +17,9 @@ on:
           - local
         default: production
   schedule:
-    # 3:00 AM America/New_York. Both UTC slots cover daylight-saving time;
-    # the gate below starts only the matching slot.
+    # 3:00 AM America/New_York, every third day. Both UTC slots cover
+    # daylight-saving time; the gate below starts only the matching slot, and
+    # only on days where (days since epoch) % 3 == 0 — the same days as the evals.
     - cron: "0 7 * * *"
     - cron: "0 8 * * *"
 
@@ -52,6 +53,8 @@ jobs:
             "0 7 * * *|EDT"|"0 8 * * *|EST") should_run=true ;;
             *) should_run=false ;;
           esac
+          # Every third day. Plain cron */3 restarts each month (31st, then 1st).
+          if (( $(date -u +%s) / 86400 % 3 != 0 )); then should_run=false; fi
           echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
 
   scan:
@@ -66,6 +69,7 @@ jobs:
       QA_PRODUCTION_READ_ONLY: "true"
       QA_REQUIRE_MUTATION_APPROVAL: "true"
       LANGSMITH_PROJECT: agentic-api-qa
+      LLM_BASE_URL: https://opencode.ai/zen/go/v1
       # A chat turn waits on an upstream LLM, so the 10s default expires against
       # a healthy endpoint and is recorded as a failed happy path.
       API_TIMEOUT_SECONDS: "30"
@@ -94,13 +98,13 @@ jobs:
         id: creds
         shell: bash
         env:
-          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+          LLM_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
         run: |
-          if [ -n "$ZAI_API_KEY" ]; then
+          if [ -n "$LLM_API_KEY" ]; then
             echo "present=true" >> "$GITHUB_OUTPUT"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::ZAI_API_KEY is not configured; the live scan is skipped and this run stays green."
+            echo "::notice::OPENCODE_GO_API_KEY is not configured; the live scan is skipped and this run stays green."
           fi
 
       - name: Setup Python
@@ -118,7 +122,7 @@ jobs:
         if: steps.creds.outputs.present == 'true'
         continue-on-error: true
         env:
-          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+          LLM_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
           LANGSMITH_TRACING: ${{ secrets.LANGSMITH_API_KEY != '' }}
         run: agentic-api-qa --output "reports/nightly-${GITHUB_RUN_ID}.json"
