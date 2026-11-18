@@ -47,6 +47,11 @@ jobs:
       LLM_BASE_URL: https://opencode.ai/zen/go/v1
       # Agents run on glm-5.3-flash; the judge is another model family.
       QA_EVAL_JUDGE_MODEL: qwen3.8-flash
+      # High-effort qwen still needs more than the 2k/120s defaults: a replay
+      # of a 6-finding payload used ~4.8k tokens and ~100s.
+      QA_EVAL_JUDGE_MAX_TOKENS: "8000"
+      QA_EVAL_JUDGE_TIMEOUT_SECONDS: "180"
+      QA_EVAL_JUDGE_REASONING_EFFORT: "high"
       QA_EVAL_SITE_SOURCE: ${{ github.workspace }}/_source/alexpavsky
       QA_EVAL_SLACK_CHANNEL_ID: C0BPQTUS2DR
       QA_EVAL_MUTATION_SEED: ${{ inputs.mutation_seed || '1337' }}

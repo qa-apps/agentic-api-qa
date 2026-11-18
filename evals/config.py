@@ -38,8 +38,8 @@ class EvalConfig(BaseModel):
     judge_model: str = "qwen3.8-flash"
     judge_base_url: str = "https://opencode.ai/zen/go/v1"
     judge_reasoning_effort: str = "high"
-    judge_max_tokens: int = Field(default=2_000, ge=256, le=16_384)
-    judge_timeout_seconds: float = Field(default=120, gt=0, le=600)
+    judge_max_tokens: int = Field(default=8_000, ge=256, le=16_384)
+    judge_timeout_seconds: float = Field(default=180, gt=0, le=600)
     agent_input_usd_per_million: float | None = Field(default=None, ge=0)
     agent_output_usd_per_million: float | None = Field(default=None, ge=0)
     judge_input_usd_per_million: float | None = Field(default=None, ge=0)
@@ -71,8 +71,8 @@ def load_eval_config() -> EvalConfig:
         judge_model=os.getenv("QA_EVAL_JUDGE_MODEL", "qwen3.8-flash"),
         judge_base_url=os.getenv("QA_EVAL_JUDGE_BASE_URL") or llm_base_url(),
         judge_reasoning_effort=os.getenv("QA_EVAL_JUDGE_REASONING_EFFORT", "high"),
-        judge_max_tokens=int(os.getenv("QA_EVAL_JUDGE_MAX_TOKENS", "2000")),
-        judge_timeout_seconds=float(os.getenv("QA_EVAL_JUDGE_TIMEOUT_SECONDS", "120")),
+        judge_max_tokens=int(os.getenv("QA_EVAL_JUDGE_MAX_TOKENS", "8000")),
+        judge_timeout_seconds=float(os.getenv("QA_EVAL_JUDGE_TIMEOUT_SECONDS", "180")),
         agent_input_usd_per_million=_optional_float(
             os.getenv("QA_EVAL_AGENT_INPUT_USD_PER_MILLION")
         ),
