@@ -202,21 +202,76 @@ def _is_balance_error(status_code: int, body: str) -> bool:
     )
 
 
+# Prepaid OpenCode Go: each model has its own monthly dollar allowance.
+# glm-5.3-flash hitting 1113 does not mean the whole Go key is dead.
+OPENCODE_SIBLING_MODELS = (
+    "glm-5.3-flash",
+    "deepseek-v4.1-flash",
+    "qwen3.8-flash",
+)
+
+
+def _is_opencode_url(url: str) -> bool:
+    return "opencode.ai" in (url or "").lower()
+
+
+def _should_rotate_attempt(status_code: int, body: str) -> bool:
+    """Hop to the next model or provider instead of failing the whole run."""
+    if _is_balance_error(status_code, body):
+        return True
+    if status_code in {402, 429} or status_code >= 500:
+        return True
+    text = (body or "").lower()
+    if status_code in {400, 404} and any(
+        token in text
+        for token in (
+            "model_not_found",
+            "does not exist",
+            "unknown model",
+            "not a valid model",
+            "endpoint_not_configured",
+        )
+    ):
+        return True
+    return False
+
+
 def _provider_attempts(model_config: AgentModelConfig, model: str) -> list[dict[str, Any]]:
-    """Primary OpenCode/Z.AI route, then DeepSeek when the subscription is empty."""
+    """OpenCode requested model, then other Go flash models, then paid DeepSeek.
+
+    OpenCode Go is a flat subscription, so included quota is used first. Sibling
+    flash models draw from separate monthly allowances. Metered DeepSeek-direct
+    is last so a single empty GLM package does not start spending cash.
+    """
     load_dotenv()
     attempts: list[dict[str, Any]] = []
     primary = llm_api_key()
+    base_url = model_config.base_url
     if primary:
         attempts.append(
             {
                 "name": "primary",
                 "api_key": primary,
-                "base_url": model_config.base_url,
+                "base_url": base_url,
                 "model": model,
-                "glm_extras": True,
+                "glm_extras": model.startswith("glm-"),
             }
         )
+        if _is_opencode_url(base_url):
+            seen = {model}
+            for sibling in OPENCODE_SIBLING_MODELS:
+                if sibling in seen:
+                    continue
+                attempts.append(
+                    {
+                        "name": f"opencode-{sibling}",
+                        "api_key": primary,
+                        "base_url": base_url,
+                        "model": sibling,
+                        "glm_extras": sibling.startswith("glm-"),
+                    }
+                )
+                seen.add(sibling)
     deepseek = os.getenv("DEEPSEEK_API_KEY")
     if deepseek:
         attempts.append(
@@ -288,7 +343,7 @@ async def _chat_completion(
                 err = AgentLLMError(
                     f"{attempt['name']} returned HTTP {exc.response.status_code}: {detail}"
                 )
-                if attempt is not attempts[-1] and _is_balance_error(
+                if attempt is not attempts[-1] and _should_rotate_attempt(
                     exc.response.status_code, detail
                 ):
                     last_error = err
