@@ -151,7 +151,7 @@ class AgentModelConfig(QAModel):
     adversary_model: str = "glm-5.3-flash"
     ui_model: str = "glm-5.3-flash"
     design_model: str = "glm-5.3-flash"
-    judge_model: str = "glm-5.3-flash"
+    judge_model: str = "qwen3.8-flash"
     healer_model: str = "glm-5.3-flash"
     reviewer_model: str = "glm-5.3-flash"
     reasoning_effort: Literal["low", "high", "max"] = "high"

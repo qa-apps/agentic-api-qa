@@ -76,11 +76,12 @@ jobs:
       # An exhausted budget is a blocking pipeline error by design — a run that
       # was cut short must not be able to report PASS. So the ceiling has to be
       # high enough for both agents to decide to finish on their own.
-      QA_EXPLORER_ITERATIONS: "8"
+      QA_EXPLORER_ITERATIONS: "12"
       QA_ADVERSARY_ITERATIONS: "8"
-      QA_EXPLORER_TOOL_CALLS: "12"
+      QA_EXPLORER_TOOL_CALLS: "16"
       QA_ADVERSARY_TOOL_CALLS: "12"
-      QA_TOTAL_TOOL_CALLS: "24"
+      QA_TOTAL_TOOL_CALLS: "32"
+      QA_JUDGE_MODEL: qwen3.8-flash
       # The Healer opens fix PRs, so it stays in its manual-only workflow.
       QA_HEALER_ENABLED: "false"
       QA_REPORT_SERVER_ENABLED: "false"

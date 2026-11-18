@@ -40,7 +40,13 @@ _SESSION_ID = os.getenv("LLM_SESSION_ID") or f"agentic-api-qa-{os.getenv('GITHUB
 
 def llm_headers(api_key: str, base_url: str) -> dict[str, str]:
     """Auth plus, for OpenCode Go, the session id it requires to route a request."""
-    headers = {"Authorization": f"Bearer {api_key}"}
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "User-Agent": (
+            "Mozilla/5.0 (compatible; agentic-api-qa/1.0; "
+            "+https://github.com/qa-apps/agentic-api-qa)"
+        ),
+    }
     if "opencode.ai" in base_url:
         headers["x-opencode-session"] = _SESSION_ID
     return headers
@@ -83,7 +89,7 @@ def load_run_config() -> RunConfig:
             adversary_model=os.getenv("QA_ADVERSARY_MODEL", DEFAULT_AGENT_MODEL),
             ui_model=os.getenv("QA_UI_MODEL", DEFAULT_AGENT_MODEL),
             design_model=os.getenv("QA_DESIGN_MODEL", DEFAULT_AGENT_MODEL),
-            judge_model=os.getenv("QA_JUDGE_MODEL", DEFAULT_AGENT_MODEL),
+            judge_model=os.getenv("QA_JUDGE_MODEL", "qwen3.8-flash"),
             healer_model=os.getenv("QA_HEALER_MODEL", DEFAULT_AGENT_MODEL),
             reviewer_model=os.getenv("QA_REVIEWER_MODEL", DEFAULT_AGENT_MODEL),
             reasoning_effort=os.getenv("QA_AGENT_REASONING_EFFORT", "high"),

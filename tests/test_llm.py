@@ -249,9 +249,39 @@ async def test_judge_retries_once_after_malformed_json(monkeypatch) -> None:
 
 
 def test_balance_error_detection() -> None:
-    from agentic_api_qa.llm import _is_balance_error
+    from agentic_api_qa.llm import _is_balance_error, _should_rotate_attempt
 
     body = '{"error":{"code":"1113","message":"Insufficient balance or no resource package. Please recharge."}}'
     assert _is_balance_error(429, body)
     assert not _is_balance_error(500, body)
     assert not _is_balance_error(429, "rate limit")
+    assert _should_rotate_attempt(429, "rate limit")
+    assert _should_rotate_attempt(500, "upstream")
+    assert _should_rotate_attempt(404, "model_not_found")
+    assert not _should_rotate_attempt(401, "unauthorized")
+
+
+def test_provider_attempts_use_opencode_siblings_before_paid_deepseek(monkeypatch) -> None:
+    from agentic_api_qa.llm import _provider_attempts
+    from agentic_api_qa.models import AgentModelConfig
+
+    monkeypatch.setenv("LLM_API_KEY", "oc_sk_test")
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "ds_test")
+    monkeypatch.setenv("DEEPSEEK_MODEL", "deepseek-chat")
+    monkeypatch.delenv("ZAI_API_KEY", raising=False)
+
+    attempts = _provider_attempts(
+        AgentModelConfig(base_url="https://opencode.ai/zen/go/v1"),
+        "glm-5.3-flash",
+    )
+    models = [item["model"] for item in attempts]
+    names = [item["name"] for item in attempts]
+    assert models[0] == "glm-5.3-flash"
+    assert "deepseek-v4.1-flash" in models
+    assert "qwen3.8-flash" in models
+    assert models[-1] == "deepseek-chat"
+    assert names[-1] == "deepseek"
+    glm_extras = {item["model"]: item["glm_extras"] for item in attempts}
+    assert glm_extras["glm-5.3-flash"] is True
+    assert glm_extras["deepseek-v4.1-flash"] is False
+    assert glm_extras["qwen3.8-flash"] is False
