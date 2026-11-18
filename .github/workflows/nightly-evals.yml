@@ -44,6 +44,7 @@ jobs:
     timeout-minutes: 120
     env:
       LLM_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
       LLM_BASE_URL: https://opencode.ai/zen/go/v1
       # Agents run on glm-5.3-flash; the judge is another model family.
       QA_EVAL_JUDGE_MODEL: qwen3.8-flash
